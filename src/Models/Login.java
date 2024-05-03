@@ -2,13 +2,14 @@ package Models;
 
 import Database.DBConnection;
 
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class Login {
-    public static boolean authenticate(String username, String password, String role) {
+    public static boolean authenticate(String username, String password, String role) throws IOException {
         try {
             Connection conn = DBConnection.getConnection();
             String query = "SELECT * FROM login WHERE username = ? AND password = ? AND role = ?";

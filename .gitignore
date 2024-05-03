@@ -7,3 +7,5 @@
 Doctor-Appointment-System.iml
 # Compiled output
 out/
+
+resources/config.properties

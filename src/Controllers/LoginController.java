@@ -6,16 +6,23 @@ import Views.LoginForm;
 import Views.SecretaryDashboard;
 
 import javax.swing.*;
+import java.io.IOException;
 
 public class LoginController {
     private LoginForm loginForm;
 
-    public LoginController(LoginForm loginForm) {
+    public LoginController(LoginForm loginForm){
         this.loginForm = loginForm;
-        this.loginForm.initLoginButtonActionListener(e -> authenticateUser());
+        this.loginForm.initLoginButtonActionListener(e -> {
+            try {
+                authenticateUser();
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
+        });
     }
 
-    private void authenticateUser() {
+    private void authenticateUser() throws IOException {
         String username = loginForm.getUsername();
         String password = loginForm.getPassword();
         String role = loginForm.getSelectedRole();
