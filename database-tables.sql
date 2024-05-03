@@ -8,7 +8,7 @@ CREATE TABLE `doctors` (
   `first_name` VARCHAR(200) NOT NULL,
   `last_name` VARCHAR(200) NOT NULL,
   `email` VARCHAR(200) NOT NULL,
-  `tele` INT(11) NOT NULL,
+  `tele` VARCHAR(14) NOT NULL,
   `speciality` VARCHAR(200) NOT NULL,
   `registration_num` INT(15) NOT NULL,
   PRIMARY KEY (`doctor_id`)
@@ -23,7 +23,7 @@ CREATE TABLE `patients` (
   `first_name` VARCHAR(200) NOT NULL,
   `last_name` VARCHAR(200) NOT NULL,
   `email` VARCHAR(200) NOT NULL,
-  `tele` INT(11) NOT NULL,
+  `tele` VARCHAR(14) NOT NULL,
   PRIMARY KEY (`patient_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
@@ -60,12 +60,12 @@ CREATE TABLE `login` (
 -- Création de la table `secretary`
 CREATE TABLE `secretary` (
   `secretary_id` INT(11) NOT NULL AUTO_INCREMENT,
-  `login_id` INT(11) UNIQUE NOT NULL,
+  `login_id` INT(11) UNIQUE,
   `cin` VARCHAR(200) UNIQUE NOT NULL,
   `first_name` VARCHAR(200) NOT NULL,
   `last_name` VARCHAR(200) NOT NULL,
   `email` VARCHAR(200) NOT NULL,
-  `tele` INT(11) NOT NULL,
+  `tele` VARCHAR(14) NOT NULL,
   FOREIGN KEY (`login_id`) REFERENCES `login` (`login_id`),
   PRIMARY KEY (`secretary_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
@@ -76,12 +76,12 @@ CREATE TABLE `secretary` (
 -- Création de la table `admin`
 CREATE TABLE `admin` (
   `admin_id` INT(11) NOT NULL AUTO_INCREMENT,
-  `login_id` INT(11) UNIQUE NOT NULL,
+  `login_id` INT(11) UNIQUE,
   `cin` VARCHAR(200) UNIQUE NOT NULL,
   `first_name` VARCHAR(200) NOT NULL,
   `last_name` VARCHAR(200) NOT NULL,
   `email` VARCHAR(200) NOT NULL,
-  `tele` INT(11) NOT NULL,
+  `tele` VARCHAR(14) NOT NULL,
   FOREIGN KEY (`login_id`) REFERENCES `login` (`login_id`),
   PRIMARY KEY (`admin_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;

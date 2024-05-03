@@ -21,7 +21,7 @@ public class DBConnection {
             USERNAME = props.getProperty("username");
             PASSWORD = props.getProperty("password");
             Class.forName("com.mysql.cj.jdbc.Driver");
-                return DriverManager.getConnection(URL, USERNAME, PASSWORD);
+            return DriverManager.getConnection(URL, USERNAME, PASSWORD);
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
             throw new SQLException("Database driver not found");
