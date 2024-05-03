@@ -1,0 +1,9 @@
+# IntelliJ IDEA
+.idea/
+
+# Eclipse
+.project
+.classpath
+
+# Compiled output
+/out/
