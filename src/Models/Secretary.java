@@ -22,21 +22,7 @@ public class Secretary {
             preparedStatement.executeUpdate();
             preparedStatement.close();
             connection.close();
-        } catch(SQLException e){
-            e.printStackTrace();
-        }
-    }
-
-    public static void delete(int id) throws SQLException, IOException {
-        String query = "DELETE FROM secretaries where id = ?";
-        try {
-            Connection connection = DBConnection.getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement(query);
-            preparedStatement.setInt(1, id);
-            preparedStatement.executeUpdate();
-            preparedStatement.close();
-            connection.close();
-        } catch(SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
         }
     }
