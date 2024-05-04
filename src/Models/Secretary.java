@@ -8,24 +8,8 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 public class Secretary {
-    private String cin;
-    private String firstName;
-    private String lastName;
-    private String email;
-    private String phone;
-    private int login_id ;
 
-
-    public Secretary(String cin,String firstName,String lastName,String email,String phone){
-        this.cin=cin;
-        this.firstName=firstName;
-        this.lastName=lastName;
-        this.email=email;
-        this.phone=phone;
-
-    }
-
-    public void add() throws SQLException, IOException {
+    public static void add(String cin,String firstName,String lastName,String email,String phone) throws SQLException, IOException {
         String query = "INSERT INTO secretaries(cin, first_name, last_name, email, tele,login_id) VALUES (?, ?, ?, ?, ?,null)";
         try {
             Connection connection = DBConnection.getConnection();
@@ -42,4 +26,6 @@ public class Secretary {
             e.printStackTrace();
         }
     }
+
+    public
 }
