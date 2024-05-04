@@ -2,7 +2,7 @@ package Models;
 
 public class Person {
     // attributes
-    private String id;
+    private int id;
     private String cin;
     private String firstName;
     private String lastName;
@@ -10,7 +10,7 @@ public class Person {
     private String phone;
 
     // constructor
-    public Person(String id, String cin, String firstName, String lastName, String email, String phone) {
+    public Person(int id, String cin, String firstName, String lastName, String email, String phone) {
         this.id = id;
         this.cin = cin;
         this.firstName = firstName;
@@ -20,7 +20,7 @@ public class Person {
     }
 
     // getters
-    public String getID() { return this.id; }
+    public int getID() { return this.id; }
     public String getCIN() { return this.cin; }
     public String getFirstName() { return this.firstName; }
     public String getLastName() { return this.lastName; }
