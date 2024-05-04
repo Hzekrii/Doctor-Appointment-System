@@ -58,7 +58,7 @@ CREATE TABLE `login` (
 
 
 -- Création de la table `secretary`
-CREATE TABLE `secretary` (
+CREATE TABLE `secretaries` (
   `secretary_id` INT(11) NOT NULL AUTO_INCREMENT,
   `login_id` INT(11) UNIQUE,
   `cin` VARCHAR(200) UNIQUE NOT NULL,
@@ -74,7 +74,7 @@ CREATE TABLE `secretary` (
 
 
 -- Création de la table `admin`
-CREATE TABLE `admin` (
+CREATE TABLE `admins` (
   `admin_id` INT(11) NOT NULL AUTO_INCREMENT,
   `login_id` INT(11) UNIQUE,
   `cin` VARCHAR(200) UNIQUE NOT NULL,
