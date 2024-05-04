@@ -8,7 +8,6 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 public class Secretary {
-    private int id;
     private String cin;
     private String firstName;
     private String lastName;
@@ -17,8 +16,7 @@ public class Secretary {
     private int login_id ;
 
 
-    public Secretary(int id,String cin,String firstName,String lastName,String email,String phone){
-        this.id=id;
+    public Secretary(String cin,String firstName,String lastName,String email,String phone){
         this.cin=cin;
         this.firstName=firstName;
         this.lastName=lastName;
