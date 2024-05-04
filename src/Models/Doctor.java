@@ -8,19 +8,27 @@ import java.util.ArrayList;
 
 public class Doctor extends Person{
 
+    public enum DoctorSpecialty {
+        GENERAL_PRACTITIONER,
+        CARDIOLOGIST,
+        DERMATOLOGIST,
+        NEUROLOGIST,
+        ORTHOPEDIST
+    }
+
     // attributes
-    private String speciality;
+    private DoctorSpecialty speciality;
     private String registrationNum;
 
     // constructor
-    public Doctor(String id, String cin, String firstName, String lastName, String email, String phone, String speciality, String registrationNum) {
+    public Doctor(String id, String cin, String firstName, String lastName, String email, String phone, DoctorSpecialty speciality, String registrationNum) {
         super(id, cin, firstName, lastName, email, phone);
         this.speciality = speciality;
         this.registrationNum = registrationNum;
     }
 
     // getters
-    public String getSpeciality() { return this.speciality; }
+    public DoctorSpecialty getSpeciality() { return this.speciality; }
     public String getRegistrationNum() { return this.registrationNum; }
 
 
@@ -39,7 +47,7 @@ public class Doctor extends Person{
                         result.getString("last_name"),
                         result.getString("email"),
                         result.getString("tele"),
-                        result.getString("speciality"),
+                        DoctorSpecialty.valueOf(result.getString("speciality")),
                         result.getString("registration_num")
                 ));
             }
@@ -62,13 +70,13 @@ public class Doctor extends Person{
             ResultSet result = statement.executeQuery();
             if(result.next()){
                 return new Doctor(
-                        result.getString("patient_id"),
+                        result.getString("doctor_id"),
                         result.getString("cin"),
                         result.getString("first_name"),
                         result.getString("last_name"),
                         result.getString("email"),
                         result.getString("tele"),
-                        result.getString("speciality"),
+                        DoctorSpecialty.valueOf(result.getString("speciality")),
                         result.getString("registration_num")
                 );
             }
@@ -80,8 +88,8 @@ public class Doctor extends Person{
         return null;
     }
 
-    public static void create(String cin, String firstName, String lastName, String email, String phone, String speciality, String registrationNum) {
-        String query = "INSERT INTO patients(cin, first_name, last_name, email, tele, speciality, registration_num) VALUES (?, ?, ?, ?, ?, ?, ?)";
+    public static void create(String cin, String firstName, String lastName, String email, String phone, DoctorSpecialty speciality, String registrationNum) {
+        String query = "INSERT INTO doctors(cin, first_name, last_name, email, tele, speciality, registration_num) VALUES (?, ?, ?, ?, ?, ?, ?)";
         try {
             Connection connection = DBConnection.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(query);
@@ -90,7 +98,7 @@ public class Doctor extends Person{
             preparedStatement.setString(3, lastName);
             preparedStatement.setString(4, email);
             preparedStatement.setString(5, phone);
-            preparedStatement.setString(6, speciality);
+            preparedStatement.setString(6, speciality.toString());
             preparedStatement.setString(7, registrationNum);
             preparedStatement.executeUpdate();
             preparedStatement.close();
@@ -114,7 +122,7 @@ public class Doctor extends Person{
         }
     }
 
-    public static void update(String id, String cin, String firstName, String lastName, String email, String phone, String speciality, String registrationNum) {
+    public static void update(String id, String cin, String firstName, String lastName, String email, String phone, DoctorSpecialty speciality, String registrationNum) {
         String query = "UPDATE doctors SET cin = ?, first_name = ?, last_name = ?, email = ?, tele = ?, speciality = ?, registration_num = ? WHERE doctor_id = ?";
         try {
             Connection connection = DBConnection.getConnection();
@@ -124,7 +132,7 @@ public class Doctor extends Person{
             statement.setString(3, lastName);
             statement.setString(4, email);
             statement.setString(5, phone);
-            statement.setString(6, speciality);
+            statement.setString(6, speciality.toString());
             statement.setString(7, registrationNum);
             statement.setString(8, id);
             statement.executeUpdate();
