@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 public class Patient extends Person{
 
-    public Patient(String id, String cin, String firstName, String lastName, String email, String phone){
+    public Patient(int id, String cin, String firstName, String lastName, String email, String phone){
         super(id, cin, firstName, lastName, email, phone);
     }
 
@@ -20,7 +20,7 @@ public class Patient extends Person{
             ArrayList<Patient> patients = new ArrayList<>();
             while(result.next()){
                 patients.add(new Patient(
-                        result.getString("patient_id"),
+                        result.getInt("patient_id"),
                         result.getString("cin"),
                         result.getString("first_name"),
                         result.getString("last_name"),
@@ -47,7 +47,7 @@ public class Patient extends Person{
             ResultSet result = statement.executeQuery();
             if(result.next()){
                 return new Patient(
-                        result.getString("patient_id"),
+                        result.getInt("patient_id"),
                         result.getString("cin"),
                         result.getString("first_name"),
                         result.getString("last_name"),
@@ -81,12 +81,12 @@ public class Patient extends Person{
         }
     }
 
-    public static void delete(String id) {
+    public static void delete(int id) {
         String query = "DELETE FROM patients WHERE patient_id = ?";
         try {
             Connection connection = DBConnection.getConnection();
             PreparedStatement statement = connection.prepareStatement(query);
-            statement.setString(1, id);
+            statement.setInt(1, id);
             statement.executeUpdate();
             statement.close();
             connection.close();
@@ -95,7 +95,7 @@ public class Patient extends Person{
         }
     }
 
-    public static void update(String id, String cin, String firstName, String lastName, String email, String phone) {
+    public static void update(int id, String cin, String firstName, String lastName, String email, String phone) {
         String query = "UPDATE patient SET cin = ?, first_name = ?, last_name = ?, email = ?, tele = ? WHERE patient_id = ?";
         try {
             Connection connection = DBConnection.getConnection();
@@ -105,7 +105,7 @@ public class Patient extends Person{
             statement.setString(3, lastName);
             statement.setString(4, email);
             statement.setString(5, phone);
-            statement.setString(6, id);
+            statement.setInt(6, id);
             statement.executeUpdate();
             statement.close();
             connection.close();

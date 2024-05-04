@@ -21,7 +21,7 @@ public class Doctor extends Person{
     private String registrationNum;
 
     // constructor
-    public Doctor(String id, String cin, String firstName, String lastName, String email, String phone, DoctorSpecialty speciality, String registrationNum) {
+    public Doctor(int id, String cin, String firstName, String lastName, String email, String phone, DoctorSpecialty speciality, String registrationNum) {
         super(id, cin, firstName, lastName, email, phone);
         this.speciality = speciality;
         this.registrationNum = registrationNum;
@@ -41,7 +41,7 @@ public class Doctor extends Person{
             ArrayList<Doctor> doctors = new ArrayList<>();
             while(result.next()){
                 doctors.add(new Doctor(
-                        result.getString("doctor_id"),
+                        result.getInt("doctor_id"),
                         result.getString("cin"),
                         result.getString("first_name"),
                         result.getString("last_name"),
@@ -70,7 +70,7 @@ public class Doctor extends Person{
             ResultSet result = statement.executeQuery();
             if(result.next()){
                 return new Doctor(
-                        result.getString("doctor_id"),
+                        result.getInt("doctor_id"),
                         result.getString("cin"),
                         result.getString("first_name"),
                         result.getString("last_name"),
@@ -108,12 +108,12 @@ public class Doctor extends Person{
         }
     }
 
-    public static void delete(String id) {
+    public static void delete(int id) {
         String query = "DELETE FROM doctors WHERE doctor_id = ?";
         try {
             Connection connection = DBConnection.getConnection();
             PreparedStatement statement = connection.prepareStatement(query);
-            statement.setString(1, id);
+            statement.setInt(1, id);
             statement.executeUpdate();
             statement.close();
             connection.close();
@@ -122,7 +122,7 @@ public class Doctor extends Person{
         }
     }
 
-    public static void update(String id, String cin, String firstName, String lastName, String email, String phone, DoctorSpecialty speciality, String registrationNum) {
+    public static void update(int id, String cin, String firstName, String lastName, String email, String phone, DoctorSpecialty speciality, String registrationNum) {
         String query = "UPDATE doctors SET cin = ?, first_name = ?, last_name = ?, email = ?, tele = ?, speciality = ?, registration_num = ? WHERE doctor_id = ?";
         try {
             Connection connection = DBConnection.getConnection();
@@ -134,7 +134,7 @@ public class Doctor extends Person{
             statement.setString(5, phone);
             statement.setString(6, speciality.toString());
             statement.setString(7, registrationNum);
-            statement.setString(8, id);
+            statement.setInt(8, id);
             statement.executeUpdate();
             statement.close();
             connection.close();
