@@ -4,6 +4,7 @@ import Database.DBConnection;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class Patient {
@@ -58,17 +59,19 @@ public class Patient {
         }
     }
 
-    public static void get(String cin) {
+    public static ResultSet get(String cin) {
         String query = "SELECT * FROM patients WHERE cin = ?";
         try {
             Connection connection = DBConnection.getConnection();
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setString(1, cin);
-            statement.executeUpdate();
+            ResultSet result = statement.executeQuery();
             statement.close();
             connection.close();
+            return result;
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return null;
     }
 }

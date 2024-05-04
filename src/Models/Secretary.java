@@ -22,10 +22,8 @@ public class Secretary {
             preparedStatement.executeUpdate();
             preparedStatement.close();
             connection.close();
-        } catch(SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
         }
     }
-
-    public
 }
