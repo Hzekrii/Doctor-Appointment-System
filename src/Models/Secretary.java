@@ -7,7 +7,8 @@ import java.sql.*;
 
 public class Secretary {
 
-    public static ResultSet all(){
+
+    public static ResultSet all() {
         String query = "SELECT * FROM secretaries";
         try {
             Connection connection = DBConnection.getConnection();
@@ -21,7 +22,8 @@ public class Secretary {
         }
         return null;
     }
-    public static void create(String cin,String firstName,String lastName,String email,String phone) {
+
+    public static void create(String cin, String firstName, String lastName, String email, String phone) {
         String query = "INSERT INTO secretaries(cin, first_name, last_name, email, tele,login_id) VALUES (?, ?, ?, ?, ?,null)";
         try {
             Connection connection = DBConnection.getConnection();
@@ -38,6 +40,7 @@ public class Secretary {
             e.printStackTrace();
         }
     }
+
     public static void delete(int id) {
         String query = "DELETE FROM secretaries WHERE id = ?";
         try {
@@ -52,7 +55,7 @@ public class Secretary {
         }
     }
 
-    public static void update(int id,String cin,String firstName,String lastName,String email,String phone){
+    public static void update(int id, String cin, String firstName, String lastName, String email, String phone) {
         String query = "UPDATE secretaries SET cin=?,first_name = ?, last_name = ?, email = ?, tele = ? WHERE id=?";
         try {
             Connection connection = DBConnection.getConnection();
@@ -88,3 +91,4 @@ public class Secretary {
         return null;
     }
 }
+

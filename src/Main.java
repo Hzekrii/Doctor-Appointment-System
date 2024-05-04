@@ -1,5 +1,6 @@
 import Database.DBConnection;
 import Controllers.LoginController;
+import Models.Patient;
 import Views.LoginForm;
 
 import javax.swing.*;
