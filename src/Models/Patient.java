@@ -2,12 +2,89 @@ package Models;
 
 import Database.DBConnection;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
+import java.util.ArrayList;
 
 public class Patient {
+
+    // attributes
+    private String id;
+    private String cin;
+    private String firstName;
+    private String lastName;
+    private String email;
+    private String phone;
+
+    // constructor
+    public Patient(String id, String cin, String firstName, String lastName, String email, String phone) {
+        this.id = id;
+        this.cin = cin;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.phone = phone;
+    }
+
+    // getters
+    public String getID() { return this.id; }
+    public String getCIN() { return this.cin; }
+    public String getFirstName() { return this.firstName; }
+    public String getLastName() { return this.lastName; }
+    public String getEmail() { return this.email; }
+    public String getPhone() { return this.phone; }
+
+
+    public static ArrayList<Patient> all() {
+        String query = "SELECT * FROM patients";
+        try {
+            Connection connection = DBConnection.getConnection();
+            Statement statement = connection.createStatement();
+            ResultSet result = statement.executeQuery(query);
+            ArrayList<Patient> patients = new ArrayList<>();
+            while(result.next()){
+                patients.add(new Patient(
+                        result.getString("patient_id"),
+                        result.getString("cin"),
+                        result.getString("first_name"),
+                        result.getString("last_name"),
+                        result.getString("email"),
+                        result.getString("tele")
+                ));
+            }
+            statement.close();
+            connection.close();
+            return patients;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+
+    public static Patient get(String id) {
+        String query = "SELECT * FROM patients WHERE patient_id = ?";
+        try {
+            Connection connection = DBConnection.getConnection();
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setString(1, id);
+            ResultSet result = statement.executeQuery();
+            if(result.next()){
+                return new Patient(
+                        result.getString("patient_id"),
+                        result.getString("cin"),
+                        result.getString("first_name"),
+                        result.getString("last_name"),
+                        result.getString("email"),
+                        result.getString("tele")
+                );
+            }
+            statement.close();
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 
     public static void create(String cin, String firstName, String lastName, String email, String phone) {
         String query = "INSERT INTO patients(cin, first_name, last_name, email, tele) VALUES (?, ?, ?, ?, ?)";
@@ -27,12 +104,12 @@ public class Patient {
         }
     }
 
-    public static void delete(String cin) {
-        String query = "DELETE FROM patients WHERE cin = ?";
+    public static void delete(String id) {
+        String query = "DELETE FROM patients WHERE patient_id = ?";
         try {
             Connection connection = DBConnection.getConnection();
             PreparedStatement statement = connection.prepareStatement(query);
-            statement.setString(1, cin);
+            statement.setString(1, id);
             statement.executeUpdate();
             statement.close();
             connection.close();
@@ -41,37 +118,22 @@ public class Patient {
         }
     }
 
-    public static void update(String cin, String firstName, String lastName, String email, String phone) {
-        String query = "UPDATE patient SET first_name = ?, last_name = ?, email = ?, tele = ? WHERE cin = ?";
+    public static void update(String id, String cin, String firstName, String lastName, String email, String phone) {
+        String query = "UPDATE patient SET cin = ?, first_name = ?, last_name = ?, email = ?, tele = ? WHERE patient_id = ?";
         try {
             Connection connection = DBConnection.getConnection();
             PreparedStatement statement = connection.prepareStatement(query);
-            statement.setString(1, firstName);
-            statement.setString(2, lastName);
-            statement.setString(3, email);
-            statement.setString(4, phone);
-            statement.setString(5, cin);
+            statement.setString(1, cin);
+            statement.setString(2, firstName);
+            statement.setString(3, lastName);
+            statement.setString(4, email);
+            statement.setString(5, phone);
+            statement.setString(6, id);
             statement.executeUpdate();
             statement.close();
             connection.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
-    }
-
-    public static ResultSet get(String cin) {
-        String query = "SELECT * FROM patients WHERE cin = ?";
-        try {
-            Connection connection = DBConnection.getConnection();
-            PreparedStatement statement = connection.prepareStatement(query);
-            statement.setString(1, cin);
-            ResultSet result = statement.executeQuery();
-            statement.close();
-            connection.close();
-            return result;
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return null;
     }
 }
