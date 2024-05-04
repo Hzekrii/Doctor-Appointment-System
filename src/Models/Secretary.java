@@ -9,7 +9,7 @@ import java.sql.SQLException;
 
 public class Secretary {
 
-    public static void add(String cin,String firstName,String lastName,String email,String phone) throws SQLException, IOException {
+    public static void create(String cin,String firstName,String lastName,String email,String phone) throws SQLException, IOException {
         String query = "INSERT INTO secretaries(cin, first_name, last_name, email, tele,login_id) VALUES (?, ?, ?, ?, ?,null)";
         try {
             Connection connection = DBConnection.getConnection();
@@ -26,4 +26,6 @@ public class Secretary {
             e.printStackTrace();
         }
     }
+    
+
 }
