@@ -1,8 +1,10 @@
 import Database.DBConnection;
 import Controllers.LoginController;
+import Models.Doctor;
 import Models.Patient;
 import Views.LoginForm;
 
+import javax.print.Doc;
 import javax.swing.*;
 import java.sql.Connection;
 
