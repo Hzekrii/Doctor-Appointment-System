@@ -2,31 +2,13 @@ package Models;
 
 import Database.DBConnection;
 
-import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.sql.Statement;
 
 public class Patient {
-    private int id;
-    private String cin;
-    private String firstName;
-    private String lastName;
-    private String email;
-    private String phone;
 
-    public Patient(int id, String cin, String firstName, String lastName, String email, String phone) throws SQLException, IOException {
-        this.id = id;
-        this.cin = cin;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-        this.phone = phone;
-        add();
-    }
-
-    public void add() throws SQLException, IOException {
+    public static void create(String cin, String firstName, String lastName, String email, String phone) {
         String query = "INSERT INTO patients(cin, first_name, last_name, email, tele) VALUES (?, ?, ?, ?, ?)";
         try {
             Connection connection = DBConnection.getConnection();
@@ -40,6 +22,52 @@ public class Patient {
             preparedStatement.close();
             connection.close();
         } catch(SQLException e){
+            e.printStackTrace();
+        }
+    }
+
+    public static void delete(String cin) {
+        String query = "DELETE FROM patients WHERE cin = ?";
+        try {
+            Connection connection = DBConnection.getConnection();
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setString(1, cin);
+            statement.executeUpdate();
+            statement.close();
+            connection.close();
+        } catch(SQLException e){
+            e.printStackTrace();
+        }
+    }
+
+    public static void update(String cin, String firstName, String lastName, String email, String phone) {
+        String query = "UPDATE patient SET first_name = ?, last_name = ?, email = ?, tele = ? WHERE cin = ?";
+        try {
+            Connection connection = DBConnection.getConnection();
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setString(1, firstName);
+            statement.setString(2, lastName);
+            statement.setString(3, email);
+            statement.setString(4, phone);
+            statement.setString(5, cin);
+            statement.executeUpdate();
+            statement.close();
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void get(String cin) {
+        String query = "SELECT * FROM patients WHERE cin = ?";
+        try {
+            Connection connection = DBConnection.getConnection();
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setString(1, cin);
+            statement.executeUpdate();
+            statement.close();
+            connection.close();
+        } catch (SQLException e) {
             e.printStackTrace();
         }
     }
