@@ -62,13 +62,13 @@ public class Doctor extends Person{
     }
 
 
-    public static Doctor get(String id) {
+    public static Doctor get(int id) {
         String query = "SELECT * FROM doctors WHERE doctor_id = ?";
         Doctor doctor = null;
         try {
             Connection connection = DBConnection.getConnection();
             PreparedStatement statement = connection.prepareStatement(query);
-            statement.setString(1, id);
+            statement.setInt(1, id);
             ResultSet result = statement.executeQuery();
             if(result.next()){
                 doctor = new Doctor(
