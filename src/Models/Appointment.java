@@ -45,7 +45,7 @@ public class Appointment {
     public Room getRoom() { return room; }
     public AppointmentStatus getAppointmentStatus() { return appointmentStatus; }
 
-    public ArrayList<Appointment> all() {
+    public static ArrayList<Appointment> all() {
         String query = "SELECT " +
                 "appointments.appointment_id, " +
                 "appointments.doctor_id, " +
@@ -112,7 +112,7 @@ public class Appointment {
         return null;
     }
 
-    public Appointment get(int id) {
+    public static Appointment get(int id) {
         String query = "SELECT " +
                 "appointments.appointment_id, " +
                 "appointments.doctor_id, " +
