@@ -1,6 +1,11 @@
 package Models;
 
-public class Admin {
+import Database.DBConnection;
+import java.sql.*;
+import java.util.ArrayList;
+
+
+public class Admin extends Person{
 
     public Admin(int id, String cin, String firstName, String lastName, String email, String phone){
         super(id,cin,firstName,lastName,email,phone);

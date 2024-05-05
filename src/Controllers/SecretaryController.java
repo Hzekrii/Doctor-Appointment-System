@@ -2,32 +2,42 @@ package Controllers;
 
 import Models.Secretary;
 
+import javax.swing.*;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class SecretaryController {
 
-    public static ArrayList<Secretary> getAllSecretaries() {
-        try {
-            // Call the model method to retrieve all secretaries
-            return Secretary.all();
-        } catch (SQLException e) {
-            // Handle the exception (e.g., log, display error message)
-            JOptionPane.showMessageDialog(null, "Failed to retrieve secretaries from the database: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-            return null;
-            // Or return an empty list return new ArrayList<>();
-        }
+    private SecretaryController() {
+        // Private constructor to prevent instantiation
     }
 
+    public static ArrayList<Secretary> getAllSecretaries() {
+        // Call the model method to retrieve all secretaries
+        ArrayList<Secretary> secretaries = Secretary.all();
+        if (secretaries != null) {
+            return secretaries;
+        } else {
+            // Handle the case when the list is null (e.g., log, display error message)
+            JOptionPane.showMessageDialog(null, "Failed to retrieve secretaries from the database.", "Error", JOptionPane.ERROR_MESSAGE);
+            return null;
+        }
+    }
+    /*
     public static Secretary getSecretary(int id) {
         try {
             // Call the model method to retrieve a secretary by ID
-            return Secretary.get(id);
+            Secretary secretary = Secretary.get(id);
+            if (secretary != null) {
+                return secretary;
+            } else {
+                JOptionPane.showMessageDialog(null, "Failed to retrieve secretary with ID: " + id, "Error", JOptionPane.ERROR_MESSAGE);
+                return null;
+            }
         } catch (SQLException e) {
-            // Handle the exception (e.g., log, display error message)
-            JOptionPane.showMessageDialog(null, "Failed to retrieve secretaries from the database: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            // Handle the exception
+            JOptionPane.showMessageDialog(null, "Failed to retrieve secretary from the database: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             return null;
-            // Or return an empty list return new ArrayList<>();
         }
     }
 
@@ -36,10 +46,8 @@ public class SecretaryController {
             // Call the model method to create a new secretary
             Secretary.create(cin, firstName, lastName, email, phone);
         } catch (SQLException e) {
-            // Handle the exception (e.g., log, display error message)
-            JOptionPane.showMessageDialog(null, "Failed to retrieve secretaries from the database: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-            return null;
-            // Or return an empty list return new ArrayList<>();
+            // Handle the exception
+            JOptionPane.showMessageDialog(null, "Failed to create secretary: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -48,10 +56,8 @@ public class SecretaryController {
             // Call the model method to update an existing secretary
             Secretary.update(id, cin, firstName, lastName, email, phone);
         } catch (SQLException e) {
-            // Handle the exception (e.g., log, display error message)
-            JOptionPane.showMessageDialog(null, "Failed to retrieve secretaries from the database: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-            return null;
-            // Or return an empty list return new ArrayList<>();
+            // Handle the exception
+            JOptionPane.showMessageDialog(null, "Failed to update secretary: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -60,10 +66,8 @@ public class SecretaryController {
             // Call the model method to delete a secretary by ID
             Secretary.delete(id);
         } catch (SQLException e) {
-            // Handle the exception (e.g., log, display error message)
-            JOptionPane.showMessageDialog(null, "Failed to retrieve secretaries from the database: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-            return null;
-            // Or return an empty list return new ArrayList<>();
+            // Handle the exception
+            JOptionPane.showMessageDialog(null, "Failed to delete secretary: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
-    }
+    }*/
 }

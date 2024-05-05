@@ -1,4 +1,7 @@
+package Views;
+
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.util.ArrayList;
 import Models.Secretary;
@@ -32,13 +35,14 @@ public class SecretaryDashboard extends JFrame {
     }
 
     private void loadSecretaries() {
+
         ArrayList<Secretary> secretaries = SecretaryController.getAllSecretaries();
         if (secretaries != null) {
             // Create table model with column names
             DefaultTableModel model = new DefaultTableModel(new Object[]{"ID", "CIN", "First Name", "Last Name", "Email", "Phone"}, 0);
             // Populate table model with secretary data
             for (Secretary secretary : secretaries) {
-                model.addRow(new Object[]{secretary.getId(), secretary.getCin(), secretary.getFirstName(), secretary.getLastName(), secretary.getEmail(), secretary.getPhone()});
+                model.addRow(new Object[]{secretary.getID(), secretary.getCIN(), secretary.getFirstName(), secretary.getLastName(), secretary.getEmail(), secretary.getPhone()});
             }
             // Set table model to display data
             secretaryTable.setModel(model);
