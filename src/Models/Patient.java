@@ -40,13 +40,14 @@ public class Patient extends Person{
 
     public static Patient get(String id) {
         String query = "SELECT * FROM patients WHERE patient_id = ?";
+        Patient patient = null;
         try {
             Connection connection = DBConnection.getConnection();
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setString(1, id);
             ResultSet result = statement.executeQuery();
             if(result.next()){
-                return new Patient(
+                patient = new Patient(
                         result.getInt("patient_id"),
                         result.getString("cin"),
                         result.getString("first_name"),
@@ -60,7 +61,7 @@ public class Patient extends Person{
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return null;
+        return patient;
     }
 
     public static void create(String cin, String firstName, String lastName, String email, String phone) {

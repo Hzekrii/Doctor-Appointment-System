@@ -40,13 +40,14 @@ public class Secretary extends Person{
 
     public static Secretary get(int id) {
         String query = "SELECT * FROM secretaries WHERE secretary_id = ?";
+        Secretary secretary = null;
         try {
             Connection connection = DBConnection.getConnection();
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setInt(1, id);
             ResultSet result = statement.executeQuery();
             if(result.next()){
-                return new Secretary(
+                secretary = new Secretary(
                         result.getInt("secretary_id"),
                         result.getString("cin"),
                         result.getString("first_name"),
@@ -60,7 +61,7 @@ public class Secretary extends Person{
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return null;
+        return secretary;
     }
 
     public static void create(String cin, String firstName, String lastName, String email, String phone) {
