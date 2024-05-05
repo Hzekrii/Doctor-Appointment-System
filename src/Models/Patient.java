@@ -39,13 +39,13 @@ public class Patient extends Person{
     }
 
 
-    public static Patient get(String id) {
+    public static Patient get(int id) {
         String query = "SELECT * FROM patients WHERE patient_id = ?";
         Patient patient = null;
         try {
             Connection connection = DBConnection.getConnection();
             PreparedStatement statement = connection.prepareStatement(query);
-            statement.setString(1, id);
+            statement.setInt(1, id);
             ResultSet result = statement.executeQuery();
             if(result.next()){
                 patient = new Patient(
