@@ -28,6 +28,7 @@ public class Admin extends Person{
                         result.getString("tele")
                 );
             }
+            result.close();
             statement.close();
             connection.close();
         } catch (SQLException e) {

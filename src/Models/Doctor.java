@@ -51,6 +51,7 @@ public class Doctor extends Person{
                         result.getString("registration_num")
                 ));
             }
+            result.close();
             statement.close();
             connection.close();
             return doctors;
@@ -81,6 +82,7 @@ public class Doctor extends Person{
                         result.getString("registration_num")
                 );
             }
+            result.close();
             statement.close();
             connection.close();
         } catch (SQLException e) {

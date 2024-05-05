@@ -28,6 +28,7 @@ public class Patient extends Person{
                         result.getString("tele")
                 ));
             }
+            result.close();
             statement.close();
             connection.close();
             return patients;
@@ -56,6 +57,7 @@ public class Patient extends Person{
                         result.getString("tele")
                 );
             }
+            result.close();
             statement.close();
             connection.close();
         } catch (SQLException e) {

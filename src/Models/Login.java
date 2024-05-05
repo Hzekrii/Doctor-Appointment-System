@@ -18,7 +18,11 @@ public class Login {
             statement.setString(3, role);
 
             ResultSet resultSet = statement.executeQuery();
-            return resultSet.next(); // If result set has next, credentials are valid
+            boolean result = resultSet.next(); // If result set has next, credentials are valid
+            resultSet.close();
+            statement.close();
+            conn.close();
+            return result;
         } catch (SQLException e) {
             e.printStackTrace();
             return false;

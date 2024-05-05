@@ -46,7 +46,30 @@ public class Appointment {
     public AppointmentStatus getAppointmentStatus() { return appointmentStatus; }
 
     public ArrayList<Appointment> all() {
-        String query = "SELECT * FROM appointments;";
+        String query = "SELECT " +
+                "appointments.appointment_id, " +
+                "appointments.doctor_id, " +
+                "appointments.patient_id, " +
+                "appointments.appointment_date, " +
+                "appointments.appointment_time, " +
+                "appointments.appointment_status, " +
+                "appointments.appointment_room, " +
+                "doctors.cin AS doctor_cin, " +
+                "doctors.first_name AS doctor_first_name, " +
+                "doctors.last_name AS doctor_last_name, " +
+                "doctors.email AS doctor_email, " +
+                "doctors.tele AS doctor_tele, " +
+                "doctors.speciality, " +
+                "doctors.registration_num, " +
+                "patients.cin AS patient_cin, " +
+                "patients.first_name AS patient_first_name, " +
+                "patients.last_name AS patient_last_name, " +
+                "patients.email AS patient_email, " +
+                "patients.tele AS patient_tele " +
+                "FROM appointments " +
+                "JOIN doctors ON appointments.doctor_id = doctors.doctor_id " +
+                "JOIN patients ON appointments.patient_id = patients.patient_id;";
+
         try {
             Connection connection = DBConnection.getConnection();
             Statement statement = connection.createStatement();
@@ -55,14 +78,31 @@ public class Appointment {
             while(resultSet.next()){
                 appointments.add(new Appointment(
                         resultSet.getInt("appointment_id"),
-                        resultSet.getObject("patient_id", Patient.class),
-                        resultSet.getObject("doctor_id", Doctor.class),
+                        new Patient(
+                                resultSet.getInt("patient_id"),
+                                resultSet.getString("patient_cin"),
+                                resultSet.getString("patient_first_name"),
+                                resultSet.getString("patient_last_name"),
+                                resultSet.getString("patient_email"),
+                                resultSet.getString("patient_tele")
+                        ),
+                        new Doctor(
+                                resultSet.getInt("doctor_id"),
+                                resultSet.getString("doctor_cin"),
+                                resultSet.getString("doctor_first_name"),
+                                resultSet.getString("doctor_last_name"),
+                                resultSet.getString("doctor_email"),
+                                resultSet.getString("doctor_tele"),
+                                Doctor.DoctorSpecialty.valueOf(resultSet.getString("speciality")),
+                                resultSet.getString("registration_num")
+                        ),
                         resultSet.getDate("appointment_date"),
                         resultSet.getTime("appointment_time"),
                         AppointmentStatus.valueOf(resultSet.getString("appointment_status")),
                         Room.valueOf(resultSet.getString("appointment_room"))
                 ));
             }
+            resultSet.close();
             statement.close();
             connection.close();
             return appointments;
@@ -73,7 +113,30 @@ public class Appointment {
     }
 
     public Appointment get(int id) {
-        String query = "SELECT * FROM appointments WHERE appointment_id = ?;";
+        String query = "SELECT " +
+                "appointments.appointment_id, " +
+                "appointments.doctor_id, " +
+                "appointments.patient_id, " +
+                "appointments.appointment_date, " +
+                "appointments.appointment_time, " +
+                "appointments.appointment_status, " +
+                "appointments.appointment_room, " +
+                "doctors.cin AS doctor_cin, " +
+                "doctors.first_name AS doctor_first_name, " +
+                "doctors.last_name AS doctor_last_name, " +
+                "doctors.email AS doctor_email, " +
+                "doctors.tele AS doctor_tele, " +
+                "doctors.speciality, " +
+                "doctors.registration_num, " +
+                "patients.cin AS patient_cin, " +
+                "patients.first_name AS patient_first_name, " +
+                "patients.last_name AS patient_last_name, " +
+                "patients.email AS patient_email, " +
+                "patients.tele AS patient_tele " +
+                "FROM appointments " +
+                "JOIN doctors ON appointments.doctor_id = doctors.doctor_id " +
+                "JOIN patients ON appointments.patient_id = patients.patient_id;" +
+                "WHERE appointment_id = ?";
         Appointment appointment = null;
         try {
             Connection connection = DBConnection.getConnection();
@@ -83,14 +146,31 @@ public class Appointment {
             if(resultSet.next()){
                 appointment = new Appointment(
                         resultSet.getInt("appointment_id"),
-                        resultSet.getObject("patient_id", Patient.class),
-                        resultSet.getObject("doctor_id", Doctor.class),
+                        new Patient(
+                                resultSet.getInt("patient_id"),
+                                resultSet.getString("patient_cin"),
+                                resultSet.getString("patient_first_name"),
+                                resultSet.getString("patient_last_name"),
+                                resultSet.getString("patient_email"),
+                                resultSet.getString("patient_tele")
+                        ),
+                        new Doctor(
+                                resultSet.getInt("doctor_id"),
+                                resultSet.getString("doctor_cin"),
+                                resultSet.getString("doctor_first_name"),
+                                resultSet.getString("doctor_last_name"),
+                                resultSet.getString("doctor_email"),
+                                resultSet.getString("doctor_tele"),
+                                Doctor.DoctorSpecialty.valueOf(resultSet.getString("speciality")),
+                                resultSet.getString("registration_num")
+                        ),
                         resultSet.getDate("appointment_date"),
                         resultSet.getTime("appointment_time"),
                         AppointmentStatus.valueOf(resultSet.getString("appointment_status")),
                         Room.valueOf(resultSet.getString("appointment_room"))
                 );
             }
+            resultSet.close();
             preparedStatement.close();
             connection.close();
         } catch (SQLException e) {

@@ -28,6 +28,7 @@ public class Secretary extends Person{
                         result.getString("tele")
                 ));
             }
+            result.close();
             statement.close();
             connection.close();
             return secretaries;
@@ -56,6 +57,7 @@ public class Secretary extends Person{
                         result.getString("tele")
                 );
             }
+            result.close();
             statement.close();
             connection.close();
         } catch (SQLException e) {
