@@ -179,4 +179,56 @@ public class Appointment {
         return appointment;
     }
 
+    public static void create(int patient, int doctor, Date date, Time time, AppointmentStatus appointmentStatus, Room room) {
+        String query = "INSERT INTO appointments(patient_id, doctor_id, appointment_date, appointment_time, appointment_status, appointment_room) VALUES(?, ?, ?, ?, ?, ?);";
+        try {
+            Connection connection = DBConnection.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setInt(1, patient);
+            preparedStatement.setInt(2, doctor);
+            preparedStatement.setDate(3, (java.sql.Date) date);
+            preparedStatement.setTime(4, time);
+            preparedStatement.setString(5, appointmentStatus.toString());
+            preparedStatement.setString(6, room.toString());
+            preparedStatement.executeUpdate();
+            preparedStatement.close();
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void update(int id, int patient, int doctor, Date date, Time time, AppointmentStatus appointmentStatus, Room room) {
+        String query = "UPDATE appointments SET patient_id = ?, doctor_id = ?, appointment_date = ?, appointment_time = ?, appointment_status = ?, appointment_room = ? WHERE appointment_id = ?;";
+        try {
+            Connection connection = DBConnection.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setInt(1, patient);
+            preparedStatement.setInt(2, doctor);
+            preparedStatement.setDate(3, (java.sql.Date) date);
+            preparedStatement.setTime(4, time);
+            preparedStatement.setString(5, appointmentStatus.toString());
+            preparedStatement.setString(6, room.toString());
+            preparedStatement.setInt(7, id);
+            preparedStatement.executeUpdate();
+            preparedStatement.close();
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void delete(int id) {
+        String query = "DELETE FROM appointments WHERE appointment_id = ?";
+        try {
+            Connection connection = DBConnection.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setInt(1, id);
+            preparedStatement.executeUpdate();
+            preparedStatement.close();
+            connection.close();
+        } catch(SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }
