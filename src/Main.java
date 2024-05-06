@@ -1,10 +1,7 @@
 import Database.DBConnection;
 import Controllers.LoginController;
-import Models.Doctor;
-import Models.Patient;
-import Views.LoginForm;
+import Views.Login;
 
-import javax.print.Doc;
 import javax.swing.*;
 import java.sql.Connection;
 
@@ -20,7 +17,7 @@ public class Main {
                     System.out.println("Connected to the database.");
 
                     // Create the login form and controller
-                    LoginForm loginForm = new LoginForm();
+                    Login loginForm = new Login();
                     LoginController loginController = new LoginController(loginForm);
                     loginForm.setVisible(true);
                 } else {

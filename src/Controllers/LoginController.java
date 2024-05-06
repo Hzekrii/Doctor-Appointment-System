@@ -1,17 +1,16 @@
 package Controllers;
 
-import Models.Login;
 import Views.AdminDashboard;
-import Views.LoginForm;
+import Views.Login;
 import Views.SecretaryDashboard;
 
 import javax.swing.*;
 import java.io.IOException;
 
 public class LoginController {
-    private LoginForm loginForm;
+    private Login loginForm;
 
-    public LoginController(LoginForm loginForm){
+    public LoginController(Login loginForm){
         this.loginForm = loginForm;
         this.loginForm.initLoginButtonActionListener(e -> {
             try {
@@ -28,7 +27,7 @@ public class LoginController {
         String role = loginForm.getSelectedRole();
 
         // Query the database to check credentials
-        boolean isAuthenticated = Login.authenticate(username, password, role);
+        boolean isAuthenticated = Models.Login.authenticate(username, password, role);
 
         if (isAuthenticated) {
             // Redirect to Secretary or Admin dashboard based on role
