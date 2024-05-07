@@ -1,4 +1,4 @@
-package Views.Admin.component;
+package Views.Admin.components;
 
 import java.awt.*;
 

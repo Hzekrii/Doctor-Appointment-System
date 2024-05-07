@@ -1,4 +1,4 @@
-package Views.Admin.component;
+package Views.Admin.components;
 
 import Views.Admin.event.EventMenuSelected;
 import Views.Admin.model.Model_Menu;
