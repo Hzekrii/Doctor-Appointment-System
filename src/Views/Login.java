@@ -63,11 +63,11 @@ public class Login extends JFrame {
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setTitle("LOGIN");
-        setPreferredSize(new Dimension(1240, 600)); // Updated size
+        setPreferredSize(new Dimension(1120, 600)); // Updated size
         setResizable(false);
 
         jPanel1.setBackground(new Color(255, 255, 255));
-        jPanel1.setPreferredSize(new Dimension(1240, 600)); // Updated size
+        jPanel1.setPreferredSize(new Dimension(1120, 600)); // Updated size
         jPanel1.setLayout(null);
 
         Right.setBackground(new Color(0, 102, 102));
@@ -115,7 +115,7 @@ public class Login extends JFrame {
                                 .addGap(78, 78, 78))
         );
         jPanel1.add(Right);
-        Right.setBounds(0, 0, 820, 600); // Updated size
+        Right.setBounds(0, 0, 700, 600); // Updated size
 
         Left.setBackground(new Color(255, 255, 255));
 
@@ -189,7 +189,7 @@ public class Login extends JFrame {
         );
 
         jPanel1.add(Left);
-        Left.setBounds(820, 0, 500, 600); // Updated size
+        Left.setBounds(700, 0, 500, 600); // Updated size
 
         GroupLayout layout = new GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
