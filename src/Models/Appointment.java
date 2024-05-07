@@ -9,11 +9,22 @@ import java.util.Date;
 public class Appointment {
 
     public enum AppointmentStatus {
-
+        EXAMINATION_ROOM_1, //A standard room used for routine examinations and consultations.
+        EXAMINATION_ROOM_2, //A standard room used for routine examinations and consultations.
+        EXAMINATION_ROOM_3, //A standard room used for routine examinations and consultations.
+        EXAMINATION_ROOM_4, //A standard room used for routine examinations and consultations.
+        EXAMINATION_ROOM_5, //A standard room used for routine examinations and consultations.
+        CONSULTATION_ROOM_1, // A room where doctors and patients discuss medical concerns, treatment plans, and health advice.
+        CONSULTATION_ROOM_2, // A room where doctors and patients discuss medical concerns, treatment plans, and health advice.
+        CONSULTATION_ROOM_3, // A room where doctors and patients discuss medical concerns, treatment plans, and health advice.
+        CONSULTATION_ROOM_4, // A room where doctors and patients discuss medical concerns, treatment plans, and health advice.
+        CONSULTATION_ROOM_5, // A room where doctors and patients discuss medical concerns, treatment plans, and health advice.
     }
 
     public enum Room {
-
+        SCHEDULED, // The appointment has been scheduled but has not yet occurred.
+        CANCELLED, // The appointment was cancelled by either the patient or the doctor.
+        COMPLETED, //The appointment has been successfully completed.
     }
 
     // attributes
