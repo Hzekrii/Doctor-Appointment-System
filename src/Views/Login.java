@@ -228,9 +228,4 @@ public class Login extends JFrame {
         loginButton.addActionListener(listener);
     }
 
-    public static void main(String args[]) {
-        EventQueue.invokeLater(() -> {
-            new Login().setVisible(true);
-        });
-    }
 }
