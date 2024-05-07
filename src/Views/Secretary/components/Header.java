@@ -1,4 +1,4 @@
-package Views.Secretary.component;
+package Views.Secretary.components;
 
 import java.awt.*;
 

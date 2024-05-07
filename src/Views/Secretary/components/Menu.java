@@ -1,4 +1,4 @@
-package Views.Secretary.component;
+package Views.Secretary.components;
 
 import Views.Secretary.event.EventMenuSelected;
 import Views.Secretary.model.Model_Menu;
