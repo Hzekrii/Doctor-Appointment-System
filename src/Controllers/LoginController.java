@@ -4,7 +4,7 @@ import Views.AdminDashboard;
 import Views.Login;
 import Views.SecretaryDashboard;
 
-import javax.swing.*;
+import javax.swing.JOptionPane;
 import java.io.IOException;
 
 public class LoginController {
@@ -42,7 +42,7 @@ public class LoginController {
             // Close the login form
             loginForm.dispose();
         } else {
-            JOptionPane.showMessageDialog(null, "Invalid username or password");
+            JOptionPane.showMessageDialog(null, "Invalid Credentials");
         }
     }
 }

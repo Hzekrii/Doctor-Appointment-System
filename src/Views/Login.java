@@ -125,7 +125,6 @@ public class Login extends JFrame {
         roleComboBox = new JComboBox<>(roles);
         roleComboBox.setPreferredSize(new Dimension(150, 30)); // Set preferred size
         roleComboBox.setFont(new Font("Segoe UI", Font.PLAIN, 16)); // Set font
-        //roleComboBox.setBorder(BorderFactory.createLineBorder(Color.BLACK)); // Add border
         roleComboBox.setBackground(Color.white);
 
 
@@ -196,6 +195,7 @@ public class Login extends JFrame {
         getAccessibleContext().setAccessibleName("LOGIN");
 
         pack();
+        setVisible(true);
     }
 
     public String getUsername() {
@@ -215,7 +215,7 @@ public class Login extends JFrame {
     }
 
     public static void main(String args[]) {
-        java.awt.EventQueue.invokeLater(() -> {
+        EventQueue.invokeLater(() -> {
             new Login().setVisible(true);
         });
     }
