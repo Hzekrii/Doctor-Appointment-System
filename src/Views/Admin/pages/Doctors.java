@@ -79,10 +79,8 @@ public class Doctors extends JPanel {
         addDoctorButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Handle adding new patient action here
-                System.out.println("Add New Doctor");
-                // You can add your logic to open a new form or dialog for adding a new patient
-            }
+                // Handle redirecting to the add secretary form
+                showAddDoctorForm(); }
         });
 
         // Apply styling to the Add Doctor button
@@ -95,6 +93,19 @@ public class Doctors extends JPanel {
         setLayout(new BorderLayout());
         add(addDoctorButton, BorderLayout.NORTH); // Add the button to the top of the panel
         add(panel, BorderLayout.CENTER);
+    }
+
+    private void showAddDoctorForm() {
+        // Create an instance of the AddDoctorForm
+        AddNewDoctor addDoctorForm = new AddNewDoctor();
+
+        // Create a JFrame to hold the form
+        JFrame frame = new JFrame("Add New Doctor");
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        frame.getContentPane().add(addDoctorForm);
+        frame.pack();
+        frame.setLocationRelativeTo(null); // Center the frame on the screen
+        frame.setVisible(true);
     }
 
     private void setupTable() {
