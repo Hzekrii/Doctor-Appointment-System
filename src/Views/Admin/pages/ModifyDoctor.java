@@ -4,10 +4,10 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
 
-public class AddNewDoctor extends JFrame {
+public class ModifyDoctor extends JFrame {
     private JPanel Panel;
-    private JButton addDoctorButton;
-    private JLabel addDoctorTitle;
+    private JButton modifyDoctorButton;
+    private JLabel modifyDoctorTitle;
     private JLabel cinTitle;
     private JLabel firstNameTitle;
     private JLabel lastNameTitle;
@@ -23,7 +23,7 @@ public class AddNewDoctor extends JFrame {
     private JTextField specialtyField; // New JTextField for specialty
     private JTextField regNumberField; // New JTextField for registration number
 
-    public AddNewDoctor() {
+    public ModifyDoctor() {
         initComponents();
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // Set close operation
     }
@@ -31,7 +31,7 @@ public class AddNewDoctor extends JFrame {
     private void initComponents() {
         JPanel jPanel1 = new JPanel();
         Panel = new JPanel();
-        addDoctorTitle = new JLabel();
+        modifyDoctorTitle = new JLabel();
         cinTitle = new JLabel();
         firstNameTitle = new JLabel();
         lastNameTitle = new JLabel();
@@ -46,10 +46,10 @@ public class AddNewDoctor extends JFrame {
         telephoneField = new JTextField();
         specialtyField = new JTextField(); // Initialize specialty text field
         regNumberField = new JTextField(); // Initialize registration number text field
-        addDoctorButton = new JButton();
+        modifyDoctorButton = new JButton();
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setTitle("Add a New Doctor");
+        setTitle("Modify Doctor");
         setPreferredSize(new Dimension(530, 650));
         setResizable(false);
 
@@ -59,10 +59,10 @@ public class AddNewDoctor extends JFrame {
 
         Panel.setBackground(new Color(255, 255, 255));
 
-        addDoctorTitle.setFont(new Font("Segoe UI", Font.BOLD, 28));
-        addDoctorTitle.setForeground(new Color(0, 102, 102));
-        addDoctorTitle.setText("Add a New Doctor");
-        addDoctorTitle.setHorizontalAlignment(SwingConstants.CENTER);
+        modifyDoctorTitle.setFont(new Font("Segoe UI", Font.BOLD, 28));
+        modifyDoctorTitle.setForeground(new Color(0, 102, 102));
+        modifyDoctorTitle.setText("Modify Doctor");
+        modifyDoctorTitle.setHorizontalAlignment(SwingConstants.CENTER);
 
         cinTitle.setFont(new Font("Segoe UI", Font.BOLD, 14));
         cinTitle.setText("CIN");
@@ -106,10 +106,10 @@ public class AddNewDoctor extends JFrame {
         regNumberField.setFont(new Font("Segoe UI", 1, 18)); // Set font for registration number text field
         regNumberField.setForeground(new Color(102, 102, 102)); // Set text color for registration number text field
 
-        addDoctorButton.setBackground(new Color(0, 102, 102));
-        addDoctorButton.setFont(new Font("Segoe UI", Font.BOLD, 16));
-        addDoctorButton.setForeground(new Color(255, 255, 255));
-        addDoctorButton.setText("Add Doctor");
+        modifyDoctorButton.setBackground(new Color(0, 102, 102));
+        modifyDoctorButton.setFont(new Font("Segoe UI", Font.BOLD, 16));
+        modifyDoctorButton.setForeground(new Color(255, 255, 255));
+        modifyDoctorButton.setText("Modify Doctor");
 
         GroupLayout PanelLayout = new GroupLayout(Panel);
         Panel.setLayout(PanelLayout);
@@ -118,7 +118,7 @@ public class AddNewDoctor extends JFrame {
                         .addGroup(PanelLayout.createSequentialGroup()
                                 .addGap(30, 30, 30)
                                 .addGroup(PanelLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                                        .addComponent(addDoctorTitle)
+                                        .addComponent(modifyDoctorTitle)
                                         .addGroup(PanelLayout.createSequentialGroup()
                                                 .addGroup(PanelLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
                                                         .addComponent(cinTitle)
@@ -139,14 +139,14 @@ public class AddNewDoctor extends JFrame {
                                                         .addComponent(regNumberField, GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)) // Add registration number text field
                                                 .addGap(30, 30, 30))
                                         .addGroup(GroupLayout.Alignment.TRAILING, PanelLayout.createSequentialGroup()
-                                                .addComponent(addDoctorButton, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                                                .addComponent(modifyDoctorButton, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                                                 .addGap(30, 30, 30))))
         );
         PanelLayout.setVerticalGroup(
                 PanelLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
                         .addGroup(PanelLayout.createSequentialGroup()
                                 .addGap(51, 51, 51)
-                                .addComponent(addDoctorTitle)
+                                .addComponent(modifyDoctorTitle)
                                 .addGap(40, 40, 40)
                                 .addGroup(PanelLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
                                         .addComponent(cinTitle)
@@ -176,7 +176,7 @@ public class AddNewDoctor extends JFrame {
                                         .addComponent(regNumberTitle) // Add registration number label
                                         .addComponent(regNumberField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)) // Add registration number text field
                                 .addGap(26, 26, 26)
-                                .addComponent(addDoctorButton, GroupLayout.PREFERRED_SIZE, 36, GroupLayout.PREFERRED_SIZE)
+                                .addComponent(modifyDoctorButton, GroupLayout.PREFERRED_SIZE, 36, GroupLayout.PREFERRED_SIZE)
                                 .addContainerGap(42, Short.MAX_VALUE))
         );
 
@@ -198,7 +198,7 @@ public class AddNewDoctor extends JFrame {
                                 .addGap(0, 0, Short.MAX_VALUE))
         );
 
-        getAccessibleContext().setAccessibleName("ADDDOCTOR");
+        getAccessibleContext().setAccessibleName("MODIFYDOCTOR");
 
         pack();
         setVisible(true);
@@ -232,7 +232,8 @@ public class AddNewDoctor extends JFrame {
         return regNumberField.getText();
     }
 
-    public void initAddDoctorButtonActionListener(ActionListener listener) {
-        addDoctorButton.addActionListener(listener);
+    public void initModifyDoctorButtonActionListener(ActionListener listener) {
+        modifyDoctorButton.addActionListener(listener);
     }
+
 }
