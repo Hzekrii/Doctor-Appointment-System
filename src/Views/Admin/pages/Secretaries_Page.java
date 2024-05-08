@@ -1,10 +1,14 @@
 package Views.Admin.pages;
 
+import Controllers.SecretaryController;
+import Models.Secretary;
+
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 public class Secretaries_Page extends JPanel {
     private final Icon updateIcon = new ImageIcon(getClass().getResource("/assets/icons/edit.png"));
@@ -128,9 +132,10 @@ public class Secretaries_Page extends JPanel {
     }
 
     private void populateTable() {
-        table.addRow(new Object[]{"123456", "Mike", "Bhand", "mikebhand@gmail.com", "+1234567890",""});
-        table.addRow(new Object[]{"789012", "Andrew", "Strauss", "andrewstrauss@gmail.com", "+0987654321",""});
-        // Add more rows as needed
+        ArrayList<Secretary> secretaries = SecretaryController.getAllSecretaries();
+        for(Secretary s : secretaries){
+            table.addRow(new Object[]{s.getCIN(), s.getFirstName(), s.getLastName(), s.getEmail(), s.getPhone(),""});
+        }
     }
 
     // ActionRenderer class for rendering update and delete icons in the Actions column
