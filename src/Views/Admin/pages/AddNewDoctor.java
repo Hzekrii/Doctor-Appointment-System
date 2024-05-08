@@ -5,7 +5,7 @@ import java.awt.*;
 import java.awt.event.ActionListener;
 
 public class AddNewDoctor extends JFrame {
-    private JPanel Panel;
+    private JPanel panel;
     private JButton addDoctorButton;
     private JLabel addDoctorTitle;
     private JLabel cinTitle;
@@ -13,39 +13,41 @@ public class AddNewDoctor extends JFrame {
     private JLabel lastNameTitle;
     private JLabel emailTitle;
     private JLabel telephoneTitle;
-    private JLabel specialtyTitle; // New JLabel for specialty
-    private JLabel regNumberTitle; // New JLabel for registration number
+    private JLabel specialtyTitle;
+    private JLabel regNumberTitle;
     private JTextField cinField;
     private JTextField firstNameField;
     private JTextField lastNameField;
     private JTextField emailField;
     private JTextField telephoneField;
-    private JTextField specialtyField; // New JTextField for specialty
-    private JTextField regNumberField; // New JTextField for registration number
+    private JComboBox<String> specialtyComboBox;
+    private JTextField regNumberField;
+
+    private String[] specialties = {"specialty1", "specialty2"};
 
     public AddNewDoctor() {
         initComponents();
-        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // Set close operation
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     }
 
     private void initComponents() {
         JPanel jPanel1 = new JPanel();
-        Panel = new JPanel();
+        panel = new JPanel();
         addDoctorTitle = new JLabel();
         cinTitle = new JLabel();
         firstNameTitle = new JLabel();
         lastNameTitle = new JLabel();
         emailTitle = new JLabel();
         telephoneTitle = new JLabel();
-        specialtyTitle = new JLabel(); // Initialize specialty label
-        regNumberTitle = new JLabel(); // Initialize registration number label
+        specialtyTitle = new JLabel();
+        regNumberTitle = new JLabel();
         cinField = new JTextField();
         firstNameField = new JTextField();
         lastNameField = new JTextField();
         emailField = new JTextField();
         telephoneField = new JTextField();
-        specialtyField = new JTextField(); // Initialize specialty text field
-        regNumberField = new JTextField(); // Initialize registration number text field
+        specialtyComboBox = new JComboBox<>(specialties);
+        regNumberField = new JTextField();
         addDoctorButton = new JButton();
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -57,7 +59,7 @@ public class AddNewDoctor extends JFrame {
         jPanel1.setPreferredSize(new Dimension(530, 650));
         jPanel1.setLayout(null);
 
-        Panel.setBackground(new Color(255, 255, 255));
+        panel.setBackground(new Color(255, 255, 255));
 
         addDoctorTitle.setFont(new Font("Segoe UI", Font.BOLD, 28));
         addDoctorTitle.setForeground(new Color(0, 102, 102));
@@ -94,94 +96,95 @@ public class AddNewDoctor extends JFrame {
         telephoneField.setFont(new Font("Segoe UI", 1, 18));
         telephoneField.setForeground(new Color(102, 102, 102));
 
-        specialtyTitle.setFont(new Font("Segoe UI", Font.BOLD, 14)); // Set font for specialty label
-        specialtyTitle.setText("Specialty"); // Set text for specialty label
+        specialtyTitle.setFont(new Font("Segoe UI", Font.BOLD, 14));
+        specialtyTitle.setText("Specialty");
 
-        specialtyField.setFont(new Font("Segoe UI", 1, 18)); // Set font for specialty text field
-        specialtyField.setForeground(new Color(102, 102, 102)); // Set text color for specialty text field
+        specialtyComboBox.setPreferredSize(new Dimension(150, 30));
+        specialtyComboBox.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+        specialtyComboBox.setBackground(Color.white);
 
-        regNumberTitle.setFont(new Font("Segoe UI", Font.BOLD, 14)); // Set font for registration number label
-        regNumberTitle.setText("Registration Number"); // Set text for registration number label
+        regNumberTitle.setFont(new Font("Segoe UI", Font.BOLD, 14));
+        regNumberTitle.setText("Registration Number");
 
-        regNumberField.setFont(new Font("Segoe UI", 1, 18)); // Set font for registration number text field
-        regNumberField.setForeground(new Color(102, 102, 102)); // Set text color for registration number text field
+        regNumberField.setFont(new Font("Segoe UI", 1, 18));
+        regNumberField.setForeground(new Color(102, 102, 102));
 
         addDoctorButton.setBackground(new Color(0, 102, 102));
         addDoctorButton.setFont(new Font("Segoe UI", Font.BOLD, 16));
         addDoctorButton.setForeground(new Color(255, 255, 255));
         addDoctorButton.setText("Add Doctor");
 
-        GroupLayout PanelLayout = new GroupLayout(Panel);
-        Panel.setLayout(PanelLayout);
-        PanelLayout.setHorizontalGroup(
-                PanelLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                        .addGroup(PanelLayout.createSequentialGroup()
+        GroupLayout panelLayout = new GroupLayout(panel);
+        panel.setLayout(panelLayout);
+        panelLayout.setHorizontalGroup(
+                panelLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                        .addGroup(panelLayout.createSequentialGroup()
                                 .addGap(30, 30, 30)
-                                .addGroup(PanelLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                                .addGroup(panelLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
                                         .addComponent(addDoctorTitle)
-                                        .addGroup(PanelLayout.createSequentialGroup()
-                                                .addGroup(PanelLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                                        .addGroup(panelLayout.createSequentialGroup()
+                                                .addGroup(panelLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
                                                         .addComponent(cinTitle)
                                                         .addComponent(firstNameTitle)
                                                         .addComponent(lastNameTitle)
                                                         .addComponent(emailTitle)
                                                         .addComponent(telephoneTitle)
-                                                        .addComponent(specialtyTitle) // Add specialty label
-                                                        .addComponent(regNumberTitle)) // Add registration number label
+                                                        .addComponent(specialtyTitle)
+                                                        .addComponent(regNumberTitle))
                                                 .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-                                                .addGroup(PanelLayout.createParallelGroup(GroupLayout.Alignment.LEADING, false)
+                                                .addGroup(panelLayout.createParallelGroup(GroupLayout.Alignment.LEADING, false)
                                                         .addComponent(cinField)
                                                         .addComponent(firstNameField)
                                                         .addComponent(lastNameField)
                                                         .addComponent(emailField)
                                                         .addComponent(telephoneField, GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
-                                                        .addComponent(specialtyField, GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE) // Add specialty text field
-                                                        .addComponent(regNumberField, GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)) // Add registration number text field
+                                                        .addComponent(specialtyComboBox, 0, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                        .addComponent(regNumberField, GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE))
                                                 .addGap(30, 30, 30))
-                                        .addGroup(GroupLayout.Alignment.TRAILING, PanelLayout.createSequentialGroup()
+                                        .addGroup(GroupLayout.Alignment.TRAILING, panelLayout.createSequentialGroup()
                                                 .addComponent(addDoctorButton, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                                                 .addGap(30, 30, 30))))
         );
-        PanelLayout.setVerticalGroup(
-                PanelLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                        .addGroup(PanelLayout.createSequentialGroup()
+        panelLayout.setVerticalGroup(
+                panelLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                        .addGroup(panelLayout.createSequentialGroup()
                                 .addGap(51, 51, 51)
                                 .addComponent(addDoctorTitle)
                                 .addGap(40, 40, 40)
-                                .addGroup(PanelLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                                .addGroup(panelLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
                                         .addComponent(cinTitle)
                                         .addComponent(cinField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(PanelLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                                .addGroup(panelLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
                                         .addComponent(firstNameTitle)
                                         .addComponent(firstNameField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(PanelLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                                .addGroup(panelLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
                                         .addComponent(lastNameTitle)
                                         .addComponent(lastNameField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(PanelLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                                .addGroup(panelLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
                                         .addComponent(emailTitle)
                                         .addComponent(emailField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(PanelLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                                .addGroup(panelLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
                                         .addComponent(telephoneTitle)
                                         .addComponent(telephoneField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(PanelLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                                        .addComponent(specialtyTitle) // Add specialty label
-                                        .addComponent(specialtyField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)) // Add specialty text field
+                                .addGroup(panelLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                                        .addComponent(specialtyTitle)
+                                        .addComponent(specialtyComboBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(PanelLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                                        .addComponent(regNumberTitle) // Add registration number label
-                                        .addComponent(regNumberField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)) // Add registration number text field
+                                .addGroup(panelLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                                        .addComponent(regNumberTitle)
+                                        .addComponent(regNumberField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
                                 .addGap(26, 26, 26)
                                 .addComponent(addDoctorButton, GroupLayout.PREFERRED_SIZE, 36, GroupLayout.PREFERRED_SIZE)
                                 .addContainerGap(42, Short.MAX_VALUE))
         );
 
-        jPanel1.add(Panel);
-        Panel.setBounds(0, 0, 500, 600);
+        jPanel1.add(panel);
+        panel.setBounds(0, 0, 500, 600);
 
         GroupLayout layout = new GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -225,7 +228,7 @@ public class AddNewDoctor extends JFrame {
     }
 
     public String getSpecialty() {
-        return specialtyField.getText();
+        return (String) specialtyComboBox.getSelectedItem();
     }
 
     public String getRegistrationNumber() {
@@ -235,4 +238,5 @@ public class AddNewDoctor extends JFrame {
     public void initAddDoctorButtonActionListener(ActionListener listener) {
         addDoctorButton.addActionListener(listener);
     }
+
 }
