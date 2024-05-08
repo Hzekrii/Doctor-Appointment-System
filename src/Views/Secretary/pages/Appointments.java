@@ -1,5 +1,8 @@
 package Views.Secretary.pages;
 
+import Controllers.AppointmentController;
+import Models.Appointment;
+import Models.Patient;
 import Views.Secretary.model.StatusType;
 
 import javax.swing.*;
@@ -7,6 +10,7 @@ import javax.swing.table.DefaultTableCellRenderer;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 public class Appointments extends JPanel {
     private final Icon updateIcon = new ImageIcon(getClass().getResource("/assets/icons/edit.png"));
@@ -122,9 +126,10 @@ public class Appointments extends JPanel {
     }
 
     private void populateTable() {
-        table.addRow(new Object[]{"Mike Bhand", "Mike Bhand", "25 Apr,2018", "09:22","Room1", StatusType.PENDING,""});
-        table.addRow(new Object[]{"Andrew Strauss", "Andrew Strauss", "25 Apr,2018", "13:31","Room2", StatusType.APPROVED,""});
-        // Add more rows as needed
+        ArrayList<Appointment> appointments = AppointmentController.getAppointments();
+        for(Appointment a : appointments) {
+        table.addRow(new Object[]{a.getDoctor().getFirstName()+a.getDoctor().getLastName(), a.getPatient().getFirstName()+a.getPatient().getLastName(), a.getDate(), a.getTime(),a.getRoom(), a.getAppointmentStatus(),""});
+        }
     }
 
     // ActionRenderer class for rendering update and delete icons in the Actions column
@@ -156,14 +161,24 @@ public class Appointments extends JPanel {
             });
 
             deleteButton.addActionListener(e -> {
-                // Handle delete action here
-                int selectedRow = table.getSelectedRow();
-                if (selectedRow != -1) {
-                    System.out.println("Delete button clicked at row: " + selectedRow);
-                } else {
-                    System.out.println("No row selected for delete");
+                // Display confirmation dialog
+                int confirmDialogResult = JOptionPane.showConfirmDialog(null, "Are you sure you want to delete the appointment?", "Confirmation", JOptionPane.YES_NO_OPTION);
+                if (confirmDialogResult == JOptionPane.YES_OPTION) {
+                    // User clicked Yes, proceed with deletion
+                    int selectedRow = table.getSelectedRow();
+                    if (selectedRow != -1) {
+                        // Get the value of the "cin" column for the selected row
+                        Patient patient = (Patient) table.getValueAt(selectedRow, 1); // Replace cinColumnIndex with the actual index of the "cin" column
+                        System.out.println("Delete button clicked for appointment with cin: " + patient);
+                        // Call the deleteAppointment method from the controller, passing the cin
+                        // Example: AppointmentController.deleteAppointment(cin);
+                    } else {
+                        System.out.println("No row selected for delete");
+                    }
                 }
             });
+
+
         }
 
         @Override
