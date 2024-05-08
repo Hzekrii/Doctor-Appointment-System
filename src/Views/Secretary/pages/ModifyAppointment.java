@@ -223,5 +223,5 @@ public class ModifyAppointment extends JFrame {
     public void initModifyAppointmentButtonActionListener(ActionListener listener) {
         modifyAppointmentButton.addActionListener(listener);
     }
-    
+
 }

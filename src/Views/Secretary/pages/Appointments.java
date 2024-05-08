@@ -102,13 +102,13 @@ public class Appointments extends JPanel {
     }
 
     private void showAddAppointmentForm() {
-        // Create an instance of the AddPatientForm
-        AddNewPatient addPatientForm = new AddNewPatient();
+        // Create an instance of the AddAppointmentForm
+        AddNewAppointment addAppointmentForm = new AddNewAppointment();
 
         // Create a JFrame to hold the form
-        JFrame frame = new JFrame("Add New Patient");
+        JFrame frame = new JFrame("Add New Appointment");
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        frame.getContentPane().add(addPatientForm);
+        frame.getContentPane().add(addAppointmentForm);
         frame.pack();
         frame.setLocationRelativeTo(null); // Center the frame on the screen
         frame.setVisible(true);
