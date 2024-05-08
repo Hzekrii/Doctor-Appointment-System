@@ -79,9 +79,8 @@ public class Patients extends JPanel {
         addPatientButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Handle adding new patient action here
-                System.out.println("Add New Patient");
-                // You can add your logic to open a new form or dialog for adding a new patient
+                // Handle redirecting to the add patient form
+                showAddPatientForm();
             }
         });
 
@@ -95,6 +94,19 @@ public class Patients extends JPanel {
         setLayout(new BorderLayout());
         add(addPatientButton, BorderLayout.NORTH); // Add the button to the top of the panel
         add(panel, BorderLayout.CENTER);
+    }
+
+    private void showAddPatientForm() {
+        // Create an instance of the AddPatientForm
+        AddNewPatient addPatientForm = new AddNewPatient();
+
+        // Create a JFrame to hold the form
+        JFrame frame = new JFrame("Add New Patient");
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        frame.getContentPane().add(addPatientForm);
+        frame.pack();
+        frame.setLocationRelativeTo(null); // Center the frame on the screen
+        frame.setVisible(true);
     }
 
     private void setupTable() {
@@ -180,6 +192,8 @@ public class Patients extends JPanel {
             panel.add(deleteButton);
             return panel;
         }
+
+
     }
 
 

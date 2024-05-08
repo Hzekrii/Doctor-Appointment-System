@@ -112,6 +112,7 @@ public class SecretaryDashboard extends JFrame {
         if(JOptionPane.showConfirmDialog(null, "Are you sure you want to logout ?", "Logout", JOptionPane.YES_NO_OPTION) == 0){
             new LoginController(new Login());
             dispose();
+            System.out.println("dwdw");
         }
     }
 
