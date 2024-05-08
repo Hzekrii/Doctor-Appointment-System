@@ -1,8 +1,13 @@
 package Views.Admin.pages;
 
+import Controllers.SecretaryController;
+import Views.AdminDashboard;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class AddNewSecretary extends JFrame {
     private JPanel Panel;
@@ -19,9 +24,12 @@ public class AddNewSecretary extends JFrame {
     private JTextField emailField;
     private JTextField telephoneField;
 
-    public AddNewSecretary() {
+    private Secretaries secretaries;
+
+    public AddNewSecretary(Secretaries s) {
         initComponents();
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // Set close operation
+        secretaries = s;
     }
 
     private void initComponents() {
@@ -90,6 +98,14 @@ public class AddNewSecretary extends JFrame {
         addSecretaryButton.setFont(new Font("Segoe UI", Font.BOLD, 16));
         addSecretaryButton.setForeground(new Color(255, 255, 255));
         addSecretaryButton.setText("Add Secretary");
+        addSecretaryButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                SecretaryController.createSecretary(getCIN(), getFirstName(), getLastName(), getEmail(), getTelephone());
+                secretaries.refreshTable();
+                dispose();
+            }
+        });
 
         GroupLayout PanelLayout = new GroupLayout(Panel);
         Panel.setLayout(PanelLayout);

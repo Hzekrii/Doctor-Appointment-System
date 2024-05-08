@@ -14,7 +14,7 @@ import javax.swing.*;
 public class AdminDashboard extends JFrame {
 
     private Dashboard_Page home;
-    private Secretaries form1;
+    private Secretaries secretariesPage;
     private Doctors form2;
     private Patients form3;
     private Appointments form4;
@@ -23,7 +23,7 @@ public class AdminDashboard extends JFrame {
         initComponents();
         setBackground(new Color(0, 0, 0, 0));
         home = new Dashboard_Page();
-        form1 = new Secretaries();
+        secretariesPage = new Secretaries();
         form2 = new Doctors();
         form3 = new Patients();
         form4 = new Appointments();
@@ -34,7 +34,7 @@ public class AdminDashboard extends JFrame {
                 if (index == 0) {
                     setForm(home);
                 } else if (index == 1) {
-                    setForm(form1);
+                    setForm(secretariesPage);
                 } else if (index == 2) {
                     setForm(form2);
                 } else if (index == 3) {
