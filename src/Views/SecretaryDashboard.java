@@ -1,5 +1,6 @@
 package Views;
 
+import Controllers.LoginController;
 import Views.Secretary.event.EventMenuSelected;
 import Views.Secretary.pages.Patients;
 import Views.Secretary.pages.Appointments;
@@ -108,8 +109,10 @@ public class SecretaryDashboard extends JFrame {
 
 
     private void handleLogout() {
-        System.out.println("Logout");
-
+        if(JOptionPane.showConfirmDialog(null, "Are you sure you want to logout ?", "Logout", JOptionPane.YES_NO_OPTION) == 0){
+            new LoginController(new Login());
+            dispose();
+        }
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

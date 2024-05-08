@@ -1,5 +1,6 @@
 package Views;
 
+import Controllers.LoginController;
 import Views.Admin.event.EventMenuSelected;
 import Views.Admin.pages.Doctors;
 import Views.Admin.pages.Dashboard_Page;
@@ -118,8 +119,10 @@ public class AdminDashboard extends JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void handleLogout() {
-        System.out.println("Logout");
-
+        if(JOptionPane.showConfirmDialog(null, "Are you sure you want to logout ?", "Logout", JOptionPane.YES_NO_OPTION) == 0){
+            new LoginController(new Login());
+            dispose();
+        }
     }
 
 
