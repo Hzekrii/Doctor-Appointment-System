@@ -4,7 +4,7 @@ import Controllers.LoginController;
 import Views.Admin.event.EventMenuSelected;
 import Views.Admin.pages.Doctors;
 import Views.Admin.pages.Dashboard_Page;
-import Views.Admin.pages.Secretaries_Page;
+import Views.Admin.pages.Secretaries;
 import Views.Secretary.pages.Appointments;
 import Views.Secretary.pages.Patients;
 
@@ -14,7 +14,7 @@ import javax.swing.*;
 public class AdminDashboard extends JFrame {
 
     private Dashboard_Page home;
-    private Secretaries_Page form1;
+    private Secretaries form1;
     private Doctors form2;
     private Patients form3;
     private Appointments form4;
@@ -23,7 +23,7 @@ public class AdminDashboard extends JFrame {
         initComponents();
         setBackground(new Color(0, 0, 0, 0));
         home = new Dashboard_Page();
-        form1 = new Secretaries_Page();
+        form1 = new Secretaries();
         form2 = new Doctors();
         form3 = new Patients();
         form4 = new Appointments();

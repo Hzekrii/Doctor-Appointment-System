@@ -2,6 +2,7 @@ package Views.Admin.pages;
 
 import Controllers.SecretaryController;
 import Models.Secretary;
+import Views.Admin.pages.AddNewSecretary;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -10,12 +11,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
-public class Secretaries_Page extends JPanel {
+public class Secretaries extends JPanel {
     private final Icon updateIcon = new ImageIcon(getClass().getResource("/assets/icons/edit.png"));
     private final Icon deleteIcon = new ImageIcon(getClass().getResource("/assets/icons/delete.png"));
-    private final JButton addSecretaryButton = new JButton("Add New Secretary"); // New button for adding a new patient
+    private final JButton addSecretaryButton = new JButton("Add New Secretary"); // New button for adding a new secretary
 
-    public Secretaries_Page() {
+    public Secretaries() {
         initComponents();
         setupTable();
         populateTable();
@@ -83,9 +84,8 @@ public class Secretaries_Page extends JPanel {
         addSecretaryButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Handle adding new patient action here
-                System.out.println("Add New Secretary");
-                // You can add your logic to open a new form or dialog for adding a new patient
+                // Handle redirecting to the add secretary form
+                showAddSecretaryForm();
             }
         });
 
@@ -101,6 +101,19 @@ public class Secretaries_Page extends JPanel {
         add(panel, BorderLayout.CENTER);
     }
 
+    private void showAddSecretaryForm() {
+        // Create an instance of the AddSecretaryForm
+        AddNewSecretary addSecretaryForm = new AddNewSecretary();
+
+        // Create a JFrame to hold the form
+        JFrame frame = new JFrame("Add New Secretary");
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        frame.getContentPane().add(addSecretaryForm);
+        frame.pack();
+        frame.setLocationRelativeTo(null); // Center the frame on the screen
+        frame.setVisible(true);
+    }
+    
     private void setupTable() {
         table.setModel(new javax.swing.table.DefaultTableModel(
                 new Object [][] {
