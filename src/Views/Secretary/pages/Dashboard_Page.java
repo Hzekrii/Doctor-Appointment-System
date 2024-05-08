@@ -58,4 +58,5 @@ public class Dashboard_Page extends javax.swing.JPanel {
     private Views.Secretary.components.Card card2;
     private javax.swing.JLayeredPane panel;
     // End of variables declaration//GEN-END:variables
+
 }
