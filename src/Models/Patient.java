@@ -84,12 +84,12 @@ public class Patient extends Person{
         }
     }
 
-    public static void delete(int id) {
-        String query = "DELETE FROM patients WHERE patient_id = ?";
+    public static void delete(String cin) {
+        String query = "DELETE FROM patients WHERE cin = ?";
         try {
             Connection connection = DBConnection.getConnection();
             PreparedStatement statement = connection.prepareStatement(query);
-            statement.setInt(1, id);
+            statement.setString(1, cin);
             statement.executeUpdate();
             statement.close();
             connection.close();
@@ -98,17 +98,16 @@ public class Patient extends Person{
         }
     }
 
-    public static void update(int id, String cin, String firstName, String lastName, String email, String phone) {
-        String query = "UPDATE patient SET cin = ?, first_name = ?, last_name = ?, email = ?, tele = ? WHERE patient_id = ?";
+    public static void update(String cin, String firstName, String lastName, String email, String phone) {
+        String query = "UPDATE patients SET first_name = ?, last_name = ?, email = ?, tele = ? WHERE cin = ?";
         try {
             Connection connection = DBConnection.getConnection();
             PreparedStatement statement = connection.prepareStatement(query);
-            statement.setString(1, cin);
-            statement.setString(2, firstName);
-            statement.setString(3, lastName);
-            statement.setString(4, email);
-            statement.setString(5, phone);
-            statement.setInt(6, id);
+            statement.setString(1, firstName);
+            statement.setString(2, lastName);
+            statement.setString(3, email);
+            statement.setString(4, phone);
+            statement.setString(5, cin);
             statement.executeUpdate();
             statement.close();
             connection.close();
