@@ -1,9 +1,9 @@
 package Views.Secretary.pages;
 
 import Controllers.PatientController;
-import Controllers.SecretaryController;
 import Models.Patient;
-import Models.Secretary;
+import enums.ActionButtonType;
+import utils.XMLExportImport;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -17,6 +17,8 @@ public class Patients extends JPanel {
     private final Icon updateIcon = new ImageIcon(getClass().getResource("/assets/icons/edit.png"));
     private final Icon deleteIcon = new ImageIcon(getClass().getResource("/assets/icons/delete.png"));
     private final JButton addPatientButton = new JButton("Add New Patient"); // New button for adding a new patient
+    private final JButton exportToXMLButton = new JButton("Export table to and XML file");
+    private final JButton importToXMLButton = new JButton("Import an XML file.");
 
     public Patients() {
         initComponents();
@@ -91,6 +93,14 @@ public class Patients extends JPanel {
             }
         });
 
+        exportToXMLButton.addActionListener(e -> {
+            XMLExportImport.exportToXml(table, "patients", "patient");
+        });
+
+        importToXMLButton.addActionListener(e -> {
+
+        });
+
         // Apply styling to the Add Patient button
         addPatientButton.setBackground(new Color(19, 164, 164)); // Set background color
         addPatientButton.setForeground(Color.WHITE); // Set text color
@@ -98,8 +108,27 @@ public class Patients extends JPanel {
         addPatientButton.setFont(new Font("SansSerif", Font.BOLD, 14)); // Set font and size
         addPatientButton.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20)); // Set padding
 
+        exportToXMLButton.setBackground(new Color(19, 164, 164)); // Set background color
+        exportToXMLButton.setForeground(Color.WHITE); // Set text color
+        exportToXMLButton.setFocusPainted(false); // Remove focus border
+        exportToXMLButton.setFont(new Font("SansSerif", Font.BOLD, 14)); // Set font and size
+        exportToXMLButton.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20)); // Set padding
+
+        importToXMLButton.setBackground(new Color(19, 164, 164)); // Set background color
+        importToXMLButton.setForeground(Color.WHITE); // Set text color
+        importToXMLButton.setFocusPainted(false); // Remove focus border
+        importToXMLButton.setFont(new Font("SansSerif", Font.BOLD, 14)); // Set font and size
+        importToXMLButton.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20)); // Set padding
+
+        JPanel buttonsContainer = new JPanel();
+        buttonsContainer.setLayout(new FlowLayout());
+        buttonsContainer.add(addPatientButton);
+        buttonsContainer.add(exportToXMLButton);
+        buttonsContainer.add(importToXMLButton);
+
         setLayout(new BorderLayout());
-        add(addPatientButton, BorderLayout.NORTH); // Add the button to the top of the panel
+        //add(addPatientButton, BorderLayout.NORTH); // Add the button to the top of the panel
+        add(buttonsContainer, BorderLayout.NORTH);
         add(panel, BorderLayout.CENTER);
     }
 
@@ -122,14 +151,14 @@ public class Patients extends JPanel {
 
                 },
                 new String [] {
-                        "CIN", "First Name", "Last Name", "Email", "Telephone", "Actions"
+                        "CIN", "First Name", "Last Name", "Email", "Telephone", "Update", "Delete"
                 }
         ) {
             Class[] types = new Class [] {
-                    String.class, String.class, String.class, String.class, String.class, String.class, Icon.class
+                    String.class, String.class, String.class, String.class, String.class, String.class, Icon.class, Icon.class
             };
             boolean[] canEdit = new boolean [] {
-                    false, false, false, false, false, false
+                    false, false, false, false, false, true, true
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -142,7 +171,10 @@ public class Patients extends JPanel {
         });
 
         // Set custom renderer for the actions column
-        table.getColumnModel().getColumn(5).setCellRenderer(new ActionRenderer());
+        table.getColumnModel().getColumn(5).setCellRenderer(new ActionRenderer(updateIcon));
+        table.getColumnModel().getColumn(5).setCellEditor(new ButtonEditor(new JCheckBox(), updateIcon, ActionButtonType.UPDATE, this));
+        table.getColumnModel().getColumn(6).setCellRenderer(new ActionRenderer(deleteIcon));
+        table.getColumnModel().getColumn(6).setCellEditor(new ButtonEditor(new JCheckBox(), deleteIcon, ActionButtonType.DELETE, this));
         spTable.setViewportView(table);
     }
 
@@ -160,56 +192,80 @@ public class Patients extends JPanel {
 
     // ActionRenderer class for rendering update and delete icons in the Actions column
     class ActionRenderer extends DefaultTableCellRenderer {
-        private final JButton updateButton = new JButton(updateIcon);
-        private final JButton deleteButton = new JButton(deleteIcon);
+        private final JButton actionBtn;
 
-        public ActionRenderer() {
+        public ActionRenderer(Icon icon) {
             // Set preferred size for buttons
-            updateButton.setPreferredSize(new Dimension(40, 40));
-            deleteButton.setPreferredSize(new Dimension(40, 40));
+            actionBtn = new JButton(icon);
+            actionBtn.setPreferredSize(new Dimension(40, 40));
 
             // Set background color for buttons
-            updateButton.setBackground(Color.WHITE); // Set your desired background color
-            deleteButton.setBackground(Color.WHITE); // Set your desired background color
+            actionBtn.setBackground(Color.WHITE); // Set your desired background color
 
             // Remove border around icons
-            updateButton.setBorder(null);
-            deleteButton.setBorder(null);
-
-            updateButton.addActionListener(e -> {
-                // Handle update action here
-                int selectedRow = table.getSelectedRow();
-                if (selectedRow != -1) {
-                    System.out.println("Update button clicked at row: " + selectedRow);
-                } else {
-                    System.out.println("No row selected for update");
-                }
-            });
-
-            deleteButton.addActionListener(e -> {
-                // Handle delete action here
-                int selectedRow = table.getSelectedRow();
-                if (selectedRow != -1) {
-                    System.out.println("Delete button clicked at row: " + selectedRow);
-                } else {
-                    System.out.println("No row selected for delete");
-                }
-            });
+            actionBtn.setBorder(null);
         }
 
         @Override
         public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
             JPanel panel = new JPanel(new FlowLayout(FlowLayout.CENTER, 5, 0));
             panel.setBackground(Color.WHITE); // Set your desired background color for the panel
-            panel.add(updateButton);
-            panel.add(deleteButton);
+            panel.add(actionBtn);
             return panel;
         }
-
-
     }
 
 
+    class ButtonEditor extends DefaultCellEditor {
+        private JButton actionBtn;
+        private boolean isPushed;
+
+        public ButtonEditor(JCheckBox checkBox, Icon icon, ActionButtonType actionButtonType, Patients p) {
+            super(checkBox);
+            actionBtn = new JButton(icon);
+            actionBtn.addActionListener(e -> {
+                // Handle update action here
+                int selectedRow = table.getSelectedRow();
+                if(selectedRow != -1){
+                    String cin = table.getValueAt(selectedRow, 0).toString();
+                    if(actionButtonType.equals(ActionButtonType.DELETE)){
+                        if(JOptionPane.showConfirmDialog(null, "Are you sure you want to delete this patient?", "Delete", JOptionPane.YES_NO_OPTION) == 0){
+                            PatientController.deletePatient(cin);
+                            refreshTable();
+                        }
+                    } else if(actionButtonType.equals(ActionButtonType.UPDATE)) {
+                        new ModifyPatient(
+                                p,
+                                table.getValueAt(selectedRow, 0).toString(),
+                                table.getValueAt(selectedRow, 1).toString(),
+                                table.getValueAt(selectedRow, 2).toString(),
+                                table.getValueAt(selectedRow, 3).toString(),
+                                table.getValueAt(selectedRow, 4).toString()
+                        );
+                    }
+                }
+            });
+        }
+
+        public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row, int column) {
+            if (isSelected) {
+                actionBtn.setBackground(table.getSelectionBackground());
+            } else {
+                actionBtn.setBackground(Color.white);
+            }
+            isPushed = true;
+            return actionBtn;
+        }
+
+        public boolean stopCellEditing() {
+            isPushed = false;
+            return super.stopCellEditing();
+        }
+
+        protected void fireEditingStopped() {
+            super.fireEditingStopped();
+        }
+    }
 
     private JPanel panel;
     private Views.Secretary.swing.PanelBorder panelBorder1;
