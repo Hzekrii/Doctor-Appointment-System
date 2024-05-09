@@ -30,8 +30,8 @@ public class SecretaryController {
         }
     }
 
-    public static void updateSecretary(int id, String cin, String firstName, String lastName, String email, String phone) {
-        Secretary.update(id, cin, firstName, lastName, email, phone);
+    public static void updateSecretary(String cin, String firstName, String lastName, String email, String phone) {
+        Secretary.update(cin, firstName, lastName, email, phone);
     }
 
     public static void deleteSecretary(String cin) {

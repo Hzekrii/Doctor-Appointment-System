@@ -99,17 +99,16 @@ public class Secretary extends Person{
         }
     }
 
-    public static void update(int id, String cin, String firstName, String lastName, String email, String phone) {
-        String query = "UPDATE secretaries SET cin=?,first_name = ?, last_name = ?, email = ?, tele = ? WHERE secretary_id=?";
+    public static void update(String cin, String firstName, String lastName, String email, String phone) {
+        String query = "UPDATE secretaries SET first_name = ?, last_name = ?, email = ?, tele = ? WHERE cin=?";
         try {
             Connection connection = DBConnection.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(query);
-            preparedStatement.setString(1, cin);
-            preparedStatement.setString(2, firstName);
-            preparedStatement.setString(3, lastName);
-            preparedStatement.setString(4, email);
-            preparedStatement.setString(5, phone);
-            preparedStatement.setInt(6, id);
+            preparedStatement.setString(1, firstName);
+            preparedStatement.setString(2, lastName);
+            preparedStatement.setString(3, email);
+            preparedStatement.setString(4, phone);
+            preparedStatement.setString(5, cin);
             preparedStatement.executeUpdate();
             preparedStatement.close();
             connection.close();

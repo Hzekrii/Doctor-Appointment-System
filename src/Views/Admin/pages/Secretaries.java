@@ -142,9 +142,9 @@ public class Secretaries extends JPanel {
 
         // Set custom renderer for the actions column
         table.getColumnModel().getColumn(5).setCellRenderer(new ActionRenderer(updateIcon));
-        table.getColumnModel().getColumn(5).setCellEditor(new ButtonEditor(new JCheckBox(), updateIcon, ActionButtonType.UPDATE));
+        table.getColumnModel().getColumn(5).setCellEditor(new ButtonEditor(new JCheckBox(), updateIcon, ActionButtonType.UPDATE, this));
         table.getColumnModel().getColumn(6).setCellRenderer(new ActionRenderer(deleteIcon));
-        table.getColumnModel().getColumn(6).setCellEditor(new ButtonEditor(new JCheckBox(), deleteIcon, ActionButtonType.DELETE));
+        table.getColumnModel().getColumn(6).setCellEditor(new ButtonEditor(new JCheckBox(), deleteIcon, ActionButtonType.DELETE, this));
         spTable.setViewportView(table);
     }
 
@@ -190,7 +190,7 @@ public class Secretaries extends JPanel {
         private JButton actionBtn;
         private boolean isPushed;
 
-        public ButtonEditor(JCheckBox checkBox, Icon icon, ActionButtonType actionButtonType) {
+        public ButtonEditor(JCheckBox checkBox, Icon icon, ActionButtonType actionButtonType, Secretaries s) {
             super(checkBox);
             actionBtn = new JButton(icon);
             actionBtn.addActionListener(e -> {
@@ -203,16 +203,17 @@ public class Secretaries extends JPanel {
                             SecretaryController.deleteSecretary(cin);
                             refreshTable();
                         }
+                    } else if(actionButtonType.equals(ActionButtonType.UPDATE)) {
+                        new ModifySecretary(
+                                s,
+                                table.getValueAt(selectedRow, 0).toString(),
+                                table.getValueAt(selectedRow, 1).toString(),
+                                table.getValueAt(selectedRow, 2).toString(),
+                                table.getValueAt(selectedRow, 3).toString(),
+                                table.getValueAt(selectedRow, 4).toString()
+                        );
                     }
-                } else {
-                    System.out.println("ksdl");
                 }
-
-//                if (selectedRow != -1) {
-//                    System.out.println("Update button clicked at row: " + selectedRow);
-//                } else {
-//                    System.out.println("No row selected for update");
-//                }
             });
         }
 
