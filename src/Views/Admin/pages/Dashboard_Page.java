@@ -1,5 +1,9 @@
 package Views.Admin.pages;
 
+import Controllers.AppointmentController;
+import Controllers.DoctorController;
+import Controllers.PatientController;
+import Controllers.SecretaryController;
 import Views.Admin.model.Model_Card;
 
 import javax.swing.ImageIcon;
@@ -8,10 +12,10 @@ public class Dashboard_Page extends javax.swing.JPanel {
 
     public Dashboard_Page() {
         initComponents();
-        card1.setData(new Model_Card(new ImageIcon(getClass().getResource("/assets/icons/2_admin.png")), "Total Secretaries", "1", ""));
-        card2.setData(new Model_Card(new ImageIcon(getClass().getResource("/assets/icons/3_admin.png")), "Total Doctors", "3", ""));
-        card3.setData(new Model_Card(new ImageIcon(getClass().getResource("/assets/icons/2_secretary.png")), "Total Patients", "100", ""));
-        card4.setData(new Model_Card(new ImageIcon(getClass().getResource("/assets/icons/3_secretary.png")), "Total Appointmnets", "15", ""));
+        card1.setData(new Model_Card(new ImageIcon(getClass().getResource("/assets/icons/2_admin.png")), "Total Secretaries", String.valueOf(SecretaryController.getAllSecretaries().size()), ""));
+        card2.setData(new Model_Card(new ImageIcon(getClass().getResource("/assets/icons/3_admin.png")), "Total Doctors", String.valueOf(DoctorController.getDoctors().size()), ""));
+        card3.setData(new Model_Card(new ImageIcon(getClass().getResource("/assets/icons/2_secretary.png")), "Total Patients", String.valueOf(PatientController.getPatients().size()), ""));
+        card4.setData(new Model_Card(new ImageIcon(getClass().getResource("/assets/icons/3_secretary.png")), "Total Appointmnets", String.valueOf(AppointmentController.getAppointments().size()), ""));
     }
 
     @SuppressWarnings("unchecked")
