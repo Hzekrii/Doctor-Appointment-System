@@ -40,8 +40,8 @@ CREATE TABLE `appointments` (
   `appointment_status` VARCHAR(200) NOT NULL,
   `appointment_room` VARCHAR(200) NOT NULL,
   PRIMARY KEY (`appointment_id`),
-  CONSTRAINT `fk_appointments_patient_id` FOREIGN KEY (`patient_id`) REFERENCES `patients` (`patient_id`),
-  CONSTRAINT `fk_appointments_doctor_id` FOREIGN KEY (`doctor_id`) REFERENCES `doctors` (`doctor_id`)
+  CONSTRAINT `fk_appointments_patient_id` FOREIGN KEY (`patient_id`) REFERENCES `patients` (`patient_id`) ON UPDATE CASCADE ON DELETE CASCADE,
+  CONSTRAINT `fk_appointments_doctor_id` FOREIGN KEY (`doctor_id`) REFERENCES `doctors` (`doctor_id`) ON UPDATE CASCADE ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 
@@ -66,7 +66,7 @@ CREATE TABLE `secretaries` (
   `last_name` VARCHAR(200) NOT NULL,
   `email` VARCHAR(200) NOT NULL,
   `tele` VARCHAR(14) NOT NULL,
-  FOREIGN KEY (`login_id`) REFERENCES `login` (`login_id`),
+  FOREIGN KEY (`login_id`) REFERENCES `login` (`login_id`) ON UPDATE CASCADE ON DELETE CASCADE,
   PRIMARY KEY (`secretary_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
@@ -82,6 +82,10 @@ CREATE TABLE `admins` (
   `last_name` VARCHAR(200) NOT NULL,
   `email` VARCHAR(200) NOT NULL,
   `tele` VARCHAR(14) NOT NULL,
-  FOREIGN KEY (`login_id`) REFERENCES `login` (`login_id`),
+  FOREIGN KEY (`login_id`) REFERENCES `login` (`login_id`) ON UPDATE CASCADE ON DELETE CASCADE,
   PRIMARY KEY (`admin_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+
+INSERT INTO `login` (`username`, `password`, `role`)
+VALUES ('admin', 'admin', 'admin');
