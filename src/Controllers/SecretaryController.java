@@ -36,6 +36,10 @@ public class SecretaryController {
 
     public static void deleteSecretary(String cin) {
         // Call the model method to delete a secretary by CIN
-            Secretary.delete(cin);
+        int login_id = Secretary.getLoginID(cin);
+        Secretary.delete(cin);
+        if(login_id != 0){
+            LoginController.deleteLoginCredentials(login_id);
+        }
     }
 }

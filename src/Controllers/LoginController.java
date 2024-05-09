@@ -1,5 +1,6 @@
 package Controllers;
 
+import Models.Secretary;
 import Views.AdminDashboard;
 import Views.Login;
 import Views.SecretaryDashboard;
@@ -48,5 +49,9 @@ public class LoginController {
 
     public static Integer cerateCredentials(String username, String password, String role){
         return Models.Login.create(username, password, role);
+    }
+
+    public static void deleteLoginCredentials(int id){
+        Models.Login.delete(id);
     }
 }

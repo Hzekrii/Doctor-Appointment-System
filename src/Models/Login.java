@@ -5,6 +5,7 @@ import Database.DBConnection;
 import java.sql.*;
 
 public class Login {
+
     public static boolean authenticate(String username, String password, String role) {
         try {
             Connection conn = DBConnection.getConnection();
@@ -50,5 +51,20 @@ public class Login {
             e.printStackTrace();
         }
         return id;
+    }
+
+    public static void delete(int id){
+        String query = "DELETE FROM login WHERE login_id = ?";
+        try {
+            Connection connection = DBConnection.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setInt(1, id);
+            preparedStatement.executeUpdate();
+            preparedStatement.close();
+            preparedStatement.close();
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }

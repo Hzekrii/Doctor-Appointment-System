@@ -131,5 +131,25 @@ public class Secretary extends Person{
             e.printStackTrace();
         }
     }
+
+    public static int getLoginID(String cin){
+        String query = "SELECT login_id FROM secretaries WHERE cin = ?";
+        int login_id = 0;
+        try {
+            Connection connection = DBConnection.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setString(1, cin);
+            ResultSet resultset = preparedStatement.executeQuery();
+            if(resultset.next()){
+                login_id = resultset.getInt("login_id");
+            }
+            resultset.close();
+            preparedStatement.close();
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return login_id;
+    }
 }
 
