@@ -1,6 +1,8 @@
 package utils;
 
+import Controllers.DoctorController;
 import Controllers.PatientController;
+import Models.Doctor;
 import Views.Secretary.pages.Patients;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -120,14 +122,28 @@ public class XMLExportImport {
             Node node = nodelist.item(i);
             if(node.getNodeType() == Node.ELEMENT_NODE){
                 Element element = (Element) node;
-                System.out.println(element.getElementsByTagName("first_name").item(0).getTextContent());
-                PatientController.createPatient(
-                        element.getElementsByTagName("cin").item(0).getTextContent(),
-                        element.getElementsByTagName("first_name").item(0).getTextContent(),
-                        element.getElementsByTagName("last_name").item(0).getTextContent(),
-                        element.getElementsByTagName("email").item(0).getTextContent(),
-                        element.getElementsByTagName("telephone").item(0).getTextContent()
-                );
+                switch(whichController){
+                    case "patient":
+                        PatientController.createPatient(
+                                element.getElementsByTagName("cin").item(0).getTextContent(),
+                                element.getElementsByTagName("first_name").item(0).getTextContent(),
+                                element.getElementsByTagName("last_name").item(0).getTextContent(),
+                                element.getElementsByTagName("email").item(0).getTextContent(),
+                                element.getElementsByTagName("telephone").item(0).getTextContent()
+                        );
+                        break;
+                    case "doctor":
+                        DoctorController.createDoctor(
+                                element.getElementsByTagName("cin").item(0).getTextContent(),
+                                element.getElementsByTagName("first_name").item(0).getTextContent(),
+                                element.getElementsByTagName("last_name").item(0).getTextContent(),
+                                element.getElementsByTagName("email").item(0).getTextContent(),
+                                element.getElementsByTagName("telephone").item(0).getTextContent(),
+                                Doctor.DoctorSpecialty.valueOf(element.getElementsByTagName("speciality").item(0).getTextContent()),
+                                Integer.parseInt(element.getElementsByTagName("registration_num").item(0).getTextContent())
+                        );
+                        break;
+                }
             }
         }
     }

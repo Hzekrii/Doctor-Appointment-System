@@ -128,7 +128,6 @@ public class Patients extends JPanel {
         buttonsContainer.add(importToXMLButton);
 
         setLayout(new BorderLayout());
-        //add(addPatientButton, BorderLayout.NORTH); // Add the button to the top of the panel
         add(buttonsContainer, BorderLayout.NORTH);
         add(panel, BorderLayout.CENTER);
     }
