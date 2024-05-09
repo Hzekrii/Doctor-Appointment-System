@@ -16,12 +16,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Date;
 import java.sql.Time;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Date;
 
 public class AddNewAppointment extends JFrame {
     private JComboBox<String> doctorComboBox;
@@ -29,8 +24,7 @@ public class AddNewAppointment extends JFrame {
     private JSpinner timeSpinner; // Replace JTextField with JSpinner for time input
     private JComboBox<String> patientComboBox;
     private JComboBox<Appointment.Room> roomComboBox;
-    private JTextField dateField;
-    private JTextField timeField;
+
 
     private JPanel Panel;
     private JButton addAppointmentButton;
@@ -52,8 +46,6 @@ public class AddNewAppointment extends JFrame {
         doctors= DoctorController.getDoctors();
         doctorNames=new String[doctors.size()];
         patientNames= new String[patients.size()];
-        initComponents();
-        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // Set close operation
         initAddAppointmentButtonActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -70,6 +62,8 @@ public class AddNewAppointment extends JFrame {
                 // Optionally, you can perform additional actions after creating the appointment
             }
         });
+        initComponents();
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // Set close operation
     }
 
     private void initComponents() {
@@ -171,8 +165,6 @@ public class AddNewAppointment extends JFrame {
                                                 .addGroup(PanelLayout.createParallelGroup(GroupLayout.Alignment.LEADING, false)
                                                         .addComponent(doctorComboBox)
                                                         .addComponent(patientComboBox)
-                                                        .addComponent(dateField)
-                                                        .addComponent(timeField)
                                                         .addComponent(roomComboBox, 0, 300, Short.MAX_VALUE))
                                                 .addGap(30, 30, 30))
                                         .addGroup(GroupLayout.Alignment.TRAILING, PanelLayout.createSequentialGroup()
