@@ -34,8 +34,8 @@ public class SecretaryController {
         Secretary.update(id, cin, firstName, lastName, email, phone);
     }
 
-    public static void deleteSecretary(int id) {
-        // Call the model method to delete a secretary by ID
-            Secretary.delete(id);
+    public static void deleteSecretary(String cin) {
+        // Call the model method to delete a secretary by CIN
+            Secretary.delete(cin);
     }
 }

@@ -85,12 +85,12 @@ public class Secretary extends Person{
         }
     }
 
-    public static void delete(int id) {
-        String query = "DELETE FROM secretaries WHERE secretary_id = ?";
+    public static void delete(String cin) {
+        String query = "DELETE FROM secretaries WHERE cin = ?";
         try {
             Connection connection = DBConnection.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(query);
-            preparedStatement.setInt(1, id);
+            preparedStatement.setString(1, cin);
             preparedStatement.executeUpdate();
             preparedStatement.close();
             connection.close();

@@ -195,7 +195,24 @@ public class Secretaries extends JPanel {
             actionBtn = new JButton(icon);
             actionBtn.addActionListener(e -> {
                 // Handle update action here
-                System.out.println("it worked !");
+                int selectedRow = table.getSelectedRow();
+                if(selectedRow != -1){
+                    String cin = table.getValueAt(selectedRow, 0).toString();
+                    if(actionButtonType.equals(ActionButtonType.DELETE)){
+                        if(JOptionPane.showConfirmDialog(null, "Are you sure you want to logout ?", "Logout", JOptionPane.YES_NO_OPTION) == 0){
+                            SecretaryController.deleteSecretary(cin);
+                            refreshTable();
+                        }
+                    }
+                } else {
+                    System.out.println("ksdl");
+                }
+
+//                if (selectedRow != -1) {
+//                    System.out.println("Update button clicked at row: " + selectedRow);
+//                } else {
+//                    System.out.println("No row selected for update");
+//                }
             });
         }
 
