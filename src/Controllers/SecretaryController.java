@@ -23,7 +23,11 @@ public class SecretaryController {
     }
 
     public static void createSecretary(String cin, String firstName, String lastName, String email, String phone) {
-            Secretary.create(cin, firstName, lastName, email, phone);
+        Secretary.create(cin, firstName, lastName, email, phone);
+        Integer id = LoginController.cerateCredentials(lastName, cin, "Secretary");
+        if(id != null) {
+            Secretary.addLoginID(id, cin);
+        }
     }
 
     public static void updateSecretary(int id, String cin, String firstName, String lastName, String email, String phone) {

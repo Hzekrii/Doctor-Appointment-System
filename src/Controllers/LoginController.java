@@ -45,4 +45,8 @@ public class LoginController {
             JOptionPane.showMessageDialog(null, "Invalid Credentials");
         }
     }
+
+    public static Integer cerateCredentials(String username, String password, String role){
+        return Models.Login.create(username, password, role);
+    }
 }

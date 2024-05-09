@@ -2,10 +2,7 @@ package Models;
 
 import Database.DBConnection;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 
 public class Login {
     public static boolean authenticate(String username, String password, String role) {
@@ -29,4 +26,29 @@ public class Login {
         }
     }
 
+    public static Integer create(String username, String password, String role){
+        String query1 = "INSERT INTO login(username, password, role) VALUES (?, ?, ?);";
+        String query2 = "SELECT MAX(login_id) FROM login;";
+        Integer id = null;
+        try {
+            Connection connection = DBConnection.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(query1);
+            preparedStatement.setString(1, username);
+            preparedStatement.setString(2, password);
+            preparedStatement.setString(3, role);
+            preparedStatement.executeUpdate();
+            preparedStatement.close();
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery(query2);
+            if(resultSet.next()) {
+                id = resultSet.getInt("MAX(login_id)");
+            }
+            resultSet.close();
+            statement.close();
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return id;
+    }
 }

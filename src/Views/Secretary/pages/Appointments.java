@@ -161,9 +161,34 @@ public class Appointments extends JPanel {
             updateButton.setBorder(null);
             deleteButton.setBorder(null);
 
-            // Set focusable property to false
-            updateButton.setFocusable(false);
-            deleteButton.setFocusable(false);
+            updateButton.addActionListener(e -> {
+                // Handle update action here
+                int selectedRow = table.getSelectedRow();
+                if (selectedRow != -1) {
+                    System.out.println("Update button clicked at row: " + selectedRow);
+                } else {
+                    System.out.println("No row selected for update");
+                }
+            });
+
+            deleteButton.addActionListener(e -> {
+                // Display confirmation dialog
+                int confirmDialogResult = JOptionPane.showConfirmDialog(null, "Are you sure you want to delete the appointment?", "Confirmation", JOptionPane.YES_NO_OPTION);
+                if (confirmDialogResult == JOptionPane.YES_OPTION) {
+                    // User clicked Yes, proceed with deletion
+                    int selectedRow = table.getSelectedRow();
+                    if (selectedRow != -1) {
+                        // Get the value of the "cin" column for the selected row
+                        Patient patient = (Patient) table.getValueAt(selectedRow, 1); // Replace cinColumnIndex with the actual index of the "cin" column
+                        System.out.println("Delete button clicked for appointment with cin: " + patient);
+                        // Call the deleteAppointment method from the controller, passing the cin
+                        // Example: AppointmentController.deleteAppointment(cin);
+                    } else {
+                        System.out.println("No row selected for delete");
+                    }
+                }
+            });
+
 
         }
 
@@ -173,41 +198,6 @@ public class Appointments extends JPanel {
             panel.setBackground(Color.WHITE); // Set your desired background color for the panel
             panel.add(updateButton);
             panel.add(deleteButton);
-
-            // Disable buttons if no row is selected
-            if (table.getSelectedRow() == -1) {
-                updateButton.setEnabled(false);
-                deleteButton.setEnabled(false);
-            } else {
-                updateButton.setEnabled(true);
-                deleteButton.setEnabled(true);
-            }
-
-            deleteButton.addActionListener(e -> {
-                int confirmDialogResult = JOptionPane.showConfirmDialog(null, "Are you sure you want to delete the appointment?", "Confirmation", JOptionPane.YES_NO_OPTION);
-                if (confirmDialogResult == JOptionPane.YES_OPTION) {
-                    int selectedRow = table.getSelectedRow();
-                    if (selectedRow != -1) {
-                        Patient patient = (Patient) table.getValueAt(selectedRow, 1);
-                        System.out.println("Delete button clicked for appointment: " + patient);
-                        // Call the deleteAppointment method from the controller, passing the appointment
-                        // Example: AppointmentController.deleteAppointment(appointment);
-                    } else {
-                        System.out.println("No row selected for delete");
-                    }
-                }
-            });
-
-            updateButton.addActionListener(e -> {
-                int selectedRow = table.getSelectedRow();
-                if (selectedRow != -1) {
-                    System.out.println("Update button clicked for appointment at row: " + selectedRow);
-                } else {
-                    System.out.println("No row selected for update");
-                }
-            });
-
-
             return panel;
         }
     }

@@ -14,19 +14,19 @@ import javax.swing.*;
 public class AdminDashboard extends JFrame {
 
     private Dashboard_Page home;
-    private Secretaries form1;
-    private Doctors form2;
-    private Patients form3;
-    private Appointments form4;
+    private Secretaries secretariesPage;
+    private Doctors doctorsPage;
+    private Patients patientsPage;
+    private Appointments appointmentsPage;
 
     public AdminDashboard() {
         initComponents();
         setBackground(new Color(0, 0, 0, 0));
         home = new Dashboard_Page();
-        form1 = new Secretaries();
-        form2 = new Doctors();
-        form3 = new Patients();
-        form4 = new Appointments();
+        secretariesPage = new Secretaries();
+        doctorsPage = new Doctors();
+        patientsPage = new Patients();
+        appointmentsPage = new Appointments();
         menu.initMoving(AdminDashboard.this);
         menu.addEventMenuSelected(new EventMenuSelected() {
             @Override
@@ -34,13 +34,13 @@ public class AdminDashboard extends JFrame {
                 if (index == 0) {
                     setForm(home);
                 } else if (index == 1) {
-                    setForm(form1);
+                    setForm(secretariesPage);
                 } else if (index == 2) {
-                    setForm(form2);
+                    setForm(doctorsPage);
                 } else if (index == 3) {
-                    setForm(form3);
+                    setForm(patientsPage);
                 }else if (index == 4) {
-                    setForm(form4);
+                    setForm(appointmentsPage);
                 } else if (index == 5) {
                     handleLogout();
                 }

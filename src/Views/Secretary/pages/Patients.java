@@ -1,10 +1,17 @@
 package Views.Secretary.pages;
 
+import Controllers.PatientController;
+import Controllers.SecretaryController;
+import Models.Patient;
+import Models.Secretary;
+
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 public class Patients extends JPanel {
     private final Icon updateIcon = new ImageIcon(getClass().getResource("/assets/icons/edit.png"));
@@ -140,9 +147,15 @@ public class Patients extends JPanel {
     }
 
     private void populateTable() {
-        table.addRow(new Object[]{"123456", "Mike", "Bhand", "mikebhand@gmail.com", "+1234567890",""});
-        table.addRow(new Object[]{"789012", "Andrew", "Strauss", "andrewstrauss@gmail.com", "+0987654321",""});
-        // Add more rows as needed
+        ArrayList<Patient> patients = PatientController.getPatients();
+        for(Patient p : patients){
+            table.addRow(new Object[]{p.getCIN(), p.getFirstName(), p.getLastName(), p.getEmail(), p.getPhone(),""});
+        }
+    }
+
+    public void refreshTable() {
+        ((DefaultTableModel)(table.getModel())).setRowCount(0);
+        populateTable();
     }
 
     // ActionRenderer class for rendering update and delete icons in the Actions column

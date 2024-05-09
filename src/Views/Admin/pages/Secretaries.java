@@ -3,9 +3,11 @@ package Views.Admin.pages;
 import Controllers.SecretaryController;
 import Models.Secretary;
 import Views.Admin.pages.AddNewSecretary;
+import Views.AdminDashboard;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -103,7 +105,7 @@ public class Secretaries extends JPanel {
 
     private void showAddSecretaryForm() {
         // Create an instance of the AddSecretaryForm
-        AddNewSecretary addSecretaryForm = new AddNewSecretary();
+        AddNewSecretary addSecretaryForm = new AddNewSecretary(this);
 
         // Create a JFrame to hold the form
         JFrame frame = new JFrame("Add New Secretary");
@@ -144,11 +146,16 @@ public class Secretaries extends JPanel {
         spTable.setViewportView(table);
     }
 
-    private void populateTable() {
+    public void populateTable() {
         ArrayList<Secretary> secretaries = SecretaryController.getAllSecretaries();
         for(Secretary s : secretaries){
             table.addRow(new Object[]{s.getCIN(), s.getFirstName(), s.getLastName(), s.getEmail(), s.getPhone(),""});
         }
+    }
+
+    public void refreshTable() {
+        ((DefaultTableModel)(table.getModel())).setRowCount(0);
+        populateTable();
     }
 
     // ActionRenderer class for rendering update and delete icons in the Actions column

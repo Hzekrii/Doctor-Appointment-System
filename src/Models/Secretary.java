@@ -5,6 +5,7 @@ import Database.DBConnection;
 import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 public class Secretary extends Person{
 
@@ -117,7 +118,19 @@ public class Secretary extends Person{
         }
     }
 
-
-
+    public static void addLoginID(Integer id, String cin) {
+        String query = "UPDATE secretaries SET login_id = ? WHERE cin = ?";
+        try {
+            Connection connection = DBConnection.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setInt(1, id.intValue());
+            preparedStatement.setString(2, cin);
+            preparedStatement.executeUpdate();
+            preparedStatement.close();
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }
 
