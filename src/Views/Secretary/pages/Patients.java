@@ -1,12 +1,9 @@
 package Views.Secretary.pages;
 
 import Controllers.PatientController;
-import Controllers.SecretaryController;
 import Models.Patient;
-import Models.Secretary;
-import Views.Admin.pages.ModifySecretary;
-import Views.Admin.pages.Secretaries;
 import enums.ActionButtonType;
+import utils.XMLExportImport;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -20,6 +17,8 @@ public class Patients extends JPanel {
     private final Icon updateIcon = new ImageIcon(getClass().getResource("/assets/icons/edit.png"));
     private final Icon deleteIcon = new ImageIcon(getClass().getResource("/assets/icons/delete.png"));
     private final JButton addPatientButton = new JButton("Add New Patient"); // New button for adding a new patient
+    private final JButton exportToXMLButton = new JButton("Export table to and XML file");
+    private final JButton importToXMLButton = new JButton("Import an XML file.");
 
     public Patients() {
         initComponents();
@@ -94,6 +93,14 @@ public class Patients extends JPanel {
             }
         });
 
+        exportToXMLButton.addActionListener(e -> {
+            XMLExportImport.exportToXml(table, "patients", "patient");
+        });
+
+        importToXMLButton.addActionListener(e -> {
+
+        });
+
         // Apply styling to the Add Patient button
         addPatientButton.setBackground(new Color(19, 164, 164)); // Set background color
         addPatientButton.setForeground(Color.WHITE); // Set text color
@@ -101,8 +108,27 @@ public class Patients extends JPanel {
         addPatientButton.setFont(new Font("SansSerif", Font.BOLD, 14)); // Set font and size
         addPatientButton.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20)); // Set padding
 
+        exportToXMLButton.setBackground(new Color(19, 164, 164)); // Set background color
+        exportToXMLButton.setForeground(Color.WHITE); // Set text color
+        exportToXMLButton.setFocusPainted(false); // Remove focus border
+        exportToXMLButton.setFont(new Font("SansSerif", Font.BOLD, 14)); // Set font and size
+        exportToXMLButton.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20)); // Set padding
+
+        importToXMLButton.setBackground(new Color(19, 164, 164)); // Set background color
+        importToXMLButton.setForeground(Color.WHITE); // Set text color
+        importToXMLButton.setFocusPainted(false); // Remove focus border
+        importToXMLButton.setFont(new Font("SansSerif", Font.BOLD, 14)); // Set font and size
+        importToXMLButton.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20)); // Set padding
+
+        JPanel buttonsContainer = new JPanel();
+        buttonsContainer.setLayout(new FlowLayout());
+        buttonsContainer.add(addPatientButton);
+        buttonsContainer.add(exportToXMLButton);
+        buttonsContainer.add(importToXMLButton);
+
         setLayout(new BorderLayout());
-        add(addPatientButton, BorderLayout.NORTH); // Add the button to the top of the panel
+        //add(addPatientButton, BorderLayout.NORTH); // Add the button to the top of the panel
+        add(buttonsContainer, BorderLayout.NORTH);
         add(panel, BorderLayout.CENTER);
     }
 
