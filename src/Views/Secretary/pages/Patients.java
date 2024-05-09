@@ -105,7 +105,7 @@ public class Patients extends JPanel {
 
     private void showAddPatientForm() {
         // Create an instance of the AddPatientForm
-        AddNewPatient addPatientForm = new AddNewPatient();
+        AddNewPatient addPatientForm = new AddNewPatient(this);
 
         // Create a JFrame to hold the form
         JFrame frame = new JFrame("Add New Patient");

@@ -1,8 +1,13 @@
 package Views.Secretary.pages;
 
+import Controllers.PatientController;
+import Controllers.SecretaryController;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class AddNewPatient extends JFrame {
     private JPanel Panel;
@@ -19,9 +24,12 @@ public class AddNewPatient extends JFrame {
     private JTextField emailField;
     private JTextField telephoneField;
 
-    public AddNewPatient() {
+    private Patients patients_page;
+
+    public AddNewPatient(Patients p) {
         initComponents();
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // Set close operation
+        patients_page = p;
     }
 
     private void initComponents() {
@@ -90,6 +98,12 @@ public class AddNewPatient extends JFrame {
         addPatientButton.setFont(new Font("Segoe UI", Font.BOLD, 16));
         addPatientButton.setForeground(new Color(255, 255, 255));
         addPatientButton.setText("Add Patient");
+
+        addPatientButton.addActionListener(e -> {
+            PatientController.createPatient(getCIN(), getFirstName(), getLastName(), getEmail(), getTelephone());
+            patients_page.refreshTable();
+            dispose();
+        });
 
         GroupLayout PanelLayout = new GroupLayout(Panel);
         Panel.setLayout(PanelLayout);
@@ -192,7 +206,4 @@ public class AddNewPatient extends JFrame {
         return telephoneField.getText();
     }
 
-    public void initAddPatientButtonActionListener(ActionListener listener) {
-        addPatientButton.addActionListener(listener);
-    }
 }

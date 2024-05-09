@@ -98,13 +98,11 @@ public class AddNewSecretary extends JFrame {
         addSecretaryButton.setFont(new Font("Segoe UI", Font.BOLD, 16));
         addSecretaryButton.setForeground(new Color(255, 255, 255));
         addSecretaryButton.setText("Add Secretary");
-        addSecretaryButton.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                SecretaryController.createSecretary(getCIN(), getFirstName(), getLastName(), getEmail(), getTelephone());
+
+        addSecretaryButton.addActionListener(e -> {
+            SecretaryController.createSecretary(getCIN(), getFirstName(), getLastName(), getEmail(), getTelephone());
                 secretaries.refreshTable();
                 dispose();
-            }
         });
 
         GroupLayout PanelLayout = new GroupLayout(Panel);
@@ -206,9 +204,5 @@ public class AddNewSecretary extends JFrame {
 
     public String getTelephone() {
         return telephoneField.getText();
-    }
-
-    public void initAddSecretaryButtonActionListener(ActionListener listener) {
-        addSecretaryButton.addActionListener(listener);
     }
 }
