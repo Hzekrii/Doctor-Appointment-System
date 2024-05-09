@@ -132,6 +132,5 @@ public class Secretary extends Person{
             e.printStackTrace();
         }
     }
-
 }
 

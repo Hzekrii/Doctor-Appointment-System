@@ -15,18 +15,18 @@ public class AdminDashboard extends JFrame {
 
     private Dashboard_Page home;
     private Secretaries secretariesPage;
-    private Doctors form2;
-    private Patients form3;
-    private Appointments form4;
+    private Doctors doctorsPage;
+    private Patients patientsPage;
+    private Appointments appointmentsPage;
 
     public AdminDashboard() {
         initComponents();
         setBackground(new Color(0, 0, 0, 0));
         home = new Dashboard_Page();
         secretariesPage = new Secretaries();
-        form2 = new Doctors();
-        form3 = new Patients();
-        form4 = new Appointments();
+        doctorsPage = new Doctors();
+        patientsPage = new Patients();
+        appointmentsPage = new Appointments();
         menu.initMoving(AdminDashboard.this);
         menu.addEventMenuSelected(new EventMenuSelected() {
             @Override
@@ -36,11 +36,11 @@ public class AdminDashboard extends JFrame {
                 } else if (index == 1) {
                     setForm(secretariesPage);
                 } else if (index == 2) {
-                    setForm(form2);
+                    setForm(doctorsPage);
                 } else if (index == 3) {
-                    setForm(form3);
+                    setForm(patientsPage);
                 }else if (index == 4) {
-                    setForm(form4);
+                    setForm(appointmentsPage);
                 } else if (index == 5) {
                     handleLogout();
                 }
