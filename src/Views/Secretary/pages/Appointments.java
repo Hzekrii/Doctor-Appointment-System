@@ -139,7 +139,7 @@ public class Appointments extends JPanel {
     private void populateTable() {
         ArrayList<Appointment> appointments = AppointmentController.getAppointments();
         for(Appointment a : appointments) {
-        table.addRow(new Object[]{a.getDoctor().getFirstName()+a.getDoctor().getLastName(), a.getPatient().getFirstName()+a.getPatient().getLastName(), a.getDate(), a.getTime(),a.getRoom(), a.getAppointmentStatus(),""});
+        table.addRow(new Object[]{a.getDoctor().getFirstName()+ " " +a.getDoctor().getLastName(), a.getPatient().getFirstName()+ " " +a.getPatient().getLastName(), a.getDate(), a.getTime(),a.getRoom(), a.getAppointmentStatus(),""});
         }
     }
 

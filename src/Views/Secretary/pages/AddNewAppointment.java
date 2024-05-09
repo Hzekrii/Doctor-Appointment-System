@@ -1,14 +1,17 @@
 package Views.Secretary.pages;
 
+import com.toedter.calendar.JDateChooser;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
+import java.util.Date;
 
 public class AddNewAppointment extends JFrame {
     private JComboBox<String> doctorComboBox;
     private JComboBox<String> appointmentComboBox;
     private JComboBox<String> roomComboBox;
-    private JTextField dateField;
+    private JDateChooser dateChooser;
     private JTextField timeField;
 
     private JPanel Panel;
@@ -41,7 +44,7 @@ public class AddNewAppointment extends JFrame {
         doctorComboBox = new JComboBox<>(doctors);
         appointmentComboBox = new JComboBox<>(patients);
         roomComboBox = new JComboBox<>(rooms);
-        dateField = new JTextField();
+        dateChooser = new JDateChooser();
         timeField = new JTextField();
         addAppointmentButton = new JButton();
 
@@ -78,7 +81,8 @@ public class AddNewAppointment extends JFrame {
         dateLabel.setFont(new Font("Segoe UI", Font.BOLD, 14));
         dateLabel.setText("Date");
 
-        dateField.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+        // Set up date chooser format
+        dateChooser.setDateFormatString("yyyy-MM-dd");
 
         timeLabel.setFont(new Font("Segoe UI", Font.BOLD, 14));
         timeLabel.setText("Time");
@@ -116,7 +120,7 @@ public class AddNewAppointment extends JFrame {
                                                 .addGroup(PanelLayout.createParallelGroup(GroupLayout.Alignment.LEADING, false)
                                                         .addComponent(doctorComboBox)
                                                         .addComponent(appointmentComboBox)
-                                                        .addComponent(dateField)
+                                                        .addComponent(dateChooser, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE) // Use dateChooser
                                                         .addComponent(timeField)
                                                         .addComponent(roomComboBox, 0, 300, Short.MAX_VALUE))
                                                 .addGap(30, 30, 30))
@@ -140,7 +144,7 @@ public class AddNewAppointment extends JFrame {
                                 .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(PanelLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
                                         .addComponent(dateLabel)
-                                        .addComponent(dateField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(dateChooser, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)) // Use dateChooser
                                 .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(PanelLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
                                         .addComponent(timeLabel)
@@ -186,8 +190,8 @@ public class AddNewAppointment extends JFrame {
         return (String) appointmentComboBox.getSelectedItem();
     }
 
-    public String getDate() {
-        return dateField.getText();
+    public Date getDate() {
+        return dateChooser.getDate();
     }
 
     public String getTime() {
