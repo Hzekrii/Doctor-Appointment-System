@@ -1,5 +1,7 @@
 package Views.Secretary.pages;
 
+import Controllers.AppointmentController;
+import Controllers.PatientController;
 import Views.Secretary.model.Model_Card;
 
 import javax.swing.*;
@@ -8,8 +10,8 @@ public class Dashboard_Page extends javax.swing.JPanel {
 
     public Dashboard_Page() {
         initComponents();
-        card1.setData(new Model_Card(new ImageIcon(getClass().getResource("/assets/icons/2_secretary.png")), "Total Patients", "100", ""));
-        card2.setData(new Model_Card(new ImageIcon(getClass().getResource("/assets/icons/3_secretary.png")), "Total Appointments", "15", ""));
+        card1.setData(new Model_Card(new ImageIcon(getClass().getResource("/assets/icons/2_secretary.png")), "Total Patients", String.valueOf(PatientController.getPatients().size()), ""));
+        card2.setData(new Model_Card(new ImageIcon(getClass().getResource("/assets/icons/3_secretary.png")), "Total Appointments", String.valueOf(AppointmentController.getAppointments().size()), ""));
     }
 
     @SuppressWarnings("unchecked")
