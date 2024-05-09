@@ -1,16 +1,19 @@
 package Views.Secretary.pages;
 
+import com.toedter.calendar.JDateChooser;
+
 import javax.swing.*;
+import javax.swing.SpinnerDateModel;
 import java.awt.*;
 import java.awt.event.ActionListener;
+import java.util.Date;
 
 public class ModifyAppointment extends JFrame {
     private JComboBox<String> doctorComboBox;
     private JComboBox<String> appointmentComboBox;
-    private JComboBox<String> statusComboBox;
     private JComboBox<String> roomComboBox;
-    private JTextField dateField;
-    private JTextField timeField;
+    private JDateChooser dateChooser;
+    private JSpinner timeSpinner; // Replace JTextField with JSpinner for time input
 
     private JPanel Panel;
     private JButton modifyAppointmentButton;
@@ -19,12 +22,10 @@ public class ModifyAppointment extends JFrame {
     private JLabel patientLabel;
     private JLabel dateLabel;
     private JLabel timeLabel;
-    private JLabel statusLabel;
     private JLabel roomLabel;
 
     private String[] patients = {"patient1", "patient2"};
     private String[] doctors = {"doctor1", "doctor2"};
-    private String[] statusValues = {"CANCELLED", "COMPLETED"};
     private String[] rooms = {"room1", "room2"};
 
     public ModifyAppointment() {
@@ -40,15 +41,18 @@ public class ModifyAppointment extends JFrame {
         patientLabel = new JLabel();
         dateLabel = new JLabel();
         timeLabel = new JLabel();
-        statusLabel = new JLabel();
         roomLabel = new JLabel();
         doctorComboBox = new JComboBox<>(doctors);
         appointmentComboBox = new JComboBox<>(patients);
-        statusComboBox = new JComboBox<>(statusValues);
         roomComboBox = new JComboBox<>(rooms);
-        dateField = new JTextField();
-        timeField = new JTextField();
+        dateChooser = new JDateChooser();
+        timeSpinner = new JSpinner(new SpinnerDateModel()); // Initialize the time spinner
         modifyAppointmentButton = new JButton();
+
+        // Set preferred height for date chooser and time spinner
+        dateChooser.setPreferredSize(new Dimension(150, 30)); // Set the preferred size for dateChooser
+        timeSpinner.setPreferredSize(new Dimension(150, 30)); // Set the preferred size for timeSpinner
+
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setTitle("Modify Appointment");
@@ -69,40 +73,21 @@ public class ModifyAppointment extends JFrame {
         doctorLabel.setFont(new Font("Segoe UI", Font.BOLD, 14));
         doctorLabel.setText("Doctor");
 
-        doctorComboBox.setPreferredSize(new Dimension(150, 30));
-        doctorComboBox.setFont(new Font("Segoe UI", Font.PLAIN, 14));
-        doctorComboBox.setBackground(Color.white);
-
         patientLabel.setFont(new Font("Segoe UI", Font.BOLD, 14));
-        patientLabel.setText("Patient");
-
-        appointmentComboBox.setPreferredSize(new Dimension(150, 30));
-        appointmentComboBox.setFont(new Font("Segoe UI", Font.PLAIN, 14));
-        appointmentComboBox.setBackground(Color.white);
+        patientLabel.setText("Parient");
 
         dateLabel.setFont(new Font("Segoe UI", Font.BOLD, 14));
         dateLabel.setText("Date");
 
-        dateField.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+        // Set up time spinner format
+        JSpinner.DateEditor timeEditor = new JSpinner.DateEditor(timeSpinner, "HH:mm");
+        timeSpinner.setEditor(timeEditor);
 
         timeLabel.setFont(new Font("Segoe UI", Font.BOLD, 14));
         timeLabel.setText("Time");
 
-        timeField.setFont(new Font("Segoe UI", Font.PLAIN, 14));
-
-        statusLabel.setFont(new Font("Segoe UI", Font.BOLD, 14));
-        statusLabel.setText("Status");
-
-        statusComboBox.setPreferredSize(new Dimension(150, 30));
-        statusComboBox.setFont(new Font("Segoe UI", Font.PLAIN, 14));
-        statusComboBox.setBackground(Color.white);
-
         roomLabel.setFont(new Font("Segoe UI", Font.BOLD, 14));
         roomLabel.setText("Room");
-
-        roomComboBox.setPreferredSize(new Dimension(150, 30));
-        roomComboBox.setFont(new Font("Segoe UI", Font.PLAIN, 14));
-        roomComboBox.setBackground(Color.white);
 
         modifyAppointmentButton.setBackground(new Color(0, 102, 102));
         modifyAppointmentButton.setFont(new Font("Segoe UI", Font.BOLD, 16));
@@ -123,15 +108,13 @@ public class ModifyAppointment extends JFrame {
                                                         .addComponent(patientLabel)
                                                         .addComponent(dateLabel)
                                                         .addComponent(timeLabel)
-                                                        .addComponent(statusLabel)
                                                         .addComponent(roomLabel))
                                                 .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
                                                 .addGroup(PanelLayout.createParallelGroup(GroupLayout.Alignment.LEADING, false)
                                                         .addComponent(doctorComboBox)
                                                         .addComponent(appointmentComboBox)
-                                                        .addComponent(dateField)
-                                                        .addComponent(timeField)
-                                                        .addComponent(statusComboBox)
+                                                        .addComponent(dateChooser, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE) // Use dateChooser
+                                                        .addComponent(timeSpinner) // Use timeSpinner
                                                         .addComponent(roomComboBox, 0, 300, Short.MAX_VALUE))
                                                 .addGap(30, 30, 30))
                                         .addGroup(GroupLayout.Alignment.TRAILING, PanelLayout.createSequentialGroup()
@@ -154,15 +137,11 @@ public class ModifyAppointment extends JFrame {
                                 .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(PanelLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
                                         .addComponent(dateLabel)
-                                        .addComponent(dateField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(dateChooser, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)) // Use dateChooser
                                 .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(PanelLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
                                         .addComponent(timeLabel)
-                                        .addComponent(timeField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(PanelLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                                        .addComponent(statusLabel)
-                                        .addComponent(statusComboBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(timeSpinner, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)) // Use timeSpinner
                                 .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(PanelLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
                                         .addComponent(roomLabel)
@@ -204,16 +183,12 @@ public class ModifyAppointment extends JFrame {
         return (String) appointmentComboBox.getSelectedItem();
     }
 
-    public String getDate() {
-        return dateField.getText();
+    public Date getDate() {
+        return dateChooser.getDate();
     }
 
-    public String getTime() {
-        return timeField.getText();
-    }
-
-    public String getStatus() {
-        return (String) statusComboBox.getSelectedItem();
+    public Date getTime() {
+        return (Date) timeSpinner.getValue();
     }
 
     public String getRoom() {

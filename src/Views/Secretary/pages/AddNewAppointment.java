@@ -49,6 +49,10 @@ public class AddNewAppointment extends JFrame {
         timeSpinner = new JSpinner(new SpinnerDateModel()); // Initialize the time spinner
         addAppointmentButton = new JButton();
 
+        // Set preferred height for date chooser and time spinner
+        dateChooser.setPreferredSize(new Dimension(150, 30)); // Set the preferred size for dateChooser
+        timeSpinner.setPreferredSize(new Dimension(150, 30)); // Set the preferred size for timeSpinner
+
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setTitle("Add a New Appointment");
         setPreferredSize(new Dimension(470, 650));
@@ -67,6 +71,12 @@ public class AddNewAppointment extends JFrame {
 
         doctorLabel.setFont(new Font("Segoe UI", Font.BOLD, 14));
         doctorLabel.setText("Doctor");
+
+        patientLabel.setFont(new Font("Segoe UI", Font.BOLD, 14));
+        patientLabel.setText("Parient");
+
+        dateLabel.setFont(new Font("Segoe UI", Font.BOLD, 14));
+        dateLabel.setText("Date");
 
         // Set up time spinner format
         JSpinner.DateEditor timeEditor = new JSpinner.DateEditor(timeSpinner, "HH:mm");
