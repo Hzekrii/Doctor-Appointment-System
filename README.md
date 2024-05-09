@@ -34,6 +34,19 @@ This project is a Hospital Appointment System implemented in Java using the Swin
 
 **Step 8:** **Build and Run the Application** by Navigate to the src/Main directory in IntelliJ IDEA.
 
+# Screenshots
+<div style="display: flex;justify-content: center;align-items: center;flex-direction: column;">
+        <img src="./Screenshots/1.png" style="max-height: 300px;margin: 10px">
+        <img src="./Screenshots/2.png" style="max-height: 300px;margin: 10px">
+        <img src="./Screenshots/3.png" style="max-height: 300px;margin: 10px">
+        <div >
+            <img src="./Screenshots/4.png" style="max-height: 300px;margin: 10px">
+            <img src="./Screenshots/5.png" style="max-height: 300px;margin: 10px">
+        </div>
+        <img src="./Screenshots/6.png" style="max-height: 300px;margin: 10px">
+        <img src="./Screenshots/7.png" style="max-height: 300px;margin: 10px">
+      </div>
+
 # Libraries used in this project
 
 **JDBC Library:** https://dev.mysql.com/downloads/connector/j/
