@@ -98,7 +98,8 @@ public class Patients extends JPanel {
         });
 
         importToXMLButton.addActionListener(e -> {
-
+            XMLExportImport.importXMLFile("patient");
+            refreshTable();
         });
 
         // Apply styling to the Add Patient button
@@ -135,14 +136,6 @@ public class Patients extends JPanel {
     private void showAddPatientForm() {
         // Create an instance of the AddPatientForm
         AddNewPatient addPatientForm = new AddNewPatient(this);
-
-        // Create a JFrame to hold the form
-        JFrame frame = new JFrame("Add New Patient");
-        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        frame.getContentPane().add(addPatientForm);
-        frame.pack();
-        frame.setLocationRelativeTo(null); // Center the frame on the screen
-        frame.setVisible(true);
     }
 
     private void setupTable() {
@@ -155,7 +148,7 @@ public class Patients extends JPanel {
                 }
         ) {
             Class[] types = new Class [] {
-                    String.class, String.class, String.class, String.class, String.class, String.class, Icon.class, Icon.class
+                    String.class, String.class, String.class, String.class, String.class, Icon.class, Icon.class
             };
             boolean[] canEdit = new boolean [] {
                     false, false, false, false, false, true, true
@@ -258,8 +251,10 @@ public class Patients extends JPanel {
         }
 
         public boolean stopCellEditing() {
-            isPushed = false;
-            return super.stopCellEditing();
+            System.out.println("Stop cell editing..."); // Add this line
+//            isPushed = false;
+//            return super.stopCellEditing();
+            return true;
         }
 
         protected void fireEditingStopped() {
