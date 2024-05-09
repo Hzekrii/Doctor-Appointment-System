@@ -1,9 +1,13 @@
 package Views.Secretary.pages;
 
 import Controllers.AppointmentController;
+import Controllers.DoctorController;
+import Controllers.PatientController;
 import Models.Appointment;
+import Models.Doctor;
 import Models.Patient;
-import Views.Secretary.model.StatusType;
+
+import enums.ActionButtonType;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -11,14 +15,22 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Time;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class Appointments extends JPanel {
     private final Icon updateIcon = new ImageIcon(getClass().getResource("/assets/icons/edit.png"));
     private final Icon deleteIcon = new ImageIcon(getClass().getResource("/assets/icons/delete.png"));
     private final JButton addAppointmentButton = new JButton("Add New Appointment"); // New button for adding a new patient
+    private ArrayList<Patient> patients;
+    private ArrayList<Doctor> doctors;
 
     public Appointments() {
+        doctors= DoctorController.getDoctors();
+        patients= PatientController.getPatients();
         initComponents();
         setupTable();
         populateTable();
@@ -114,33 +126,46 @@ public class Appointments extends JPanel {
         frame.setLocationRelativeTo(null); // Center the frame on the screen
         frame.setVisible(true);
     }
-
     private void setupTable() {
         table.setModel(new javax.swing.table.DefaultTableModel(
                 new Object [][] {
 
                 },
                 new String [] {
-                        "Doctor", "Patient", "Date", "Time", "Room", "Status", "Actions"
+                        "ID","Doctor", "Patient", "Date", "Time", "Room", "Status", "Update","Delete"
                 }
         ) {
-            boolean[] canEdit = new boolean [] {
-                    false, false, false, false, false,false,false
+            Class[] types = new Class [] {
+                    Integer.class,String.class, String.class, String.class, String.class, String.class, String.class, Icon.class, Icon.class
             };
+            boolean[] canEdit = new boolean [] {
+                    false,false, false, false, false, false,false,true,true
+            };
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
             }
         });
+
+        // Set the width of the ID column to 0, so it's effectively hidden
+        table.getColumnModel().getColumn(0).setMinWidth(0);
+        table.getColumnModel().getColumn(0).setMaxWidth(0);
+        table.getColumnModel().getColumn(0).setWidth(0);
         // Set custom renderer for the actions column
-        table.getColumnModel().getColumn(6).setCellRenderer(new ActionRenderer());
+        table.getColumnModel().getColumn(7).setCellRenderer(new Appointments.ActionRenderer(updateIcon));
+        table.getColumnModel().getColumn(7).setCellEditor(new Appointments.ButtonEditor(new JCheckBox(), updateIcon, ActionButtonType.UPDATE, this));
+        table.getColumnModel().getColumn(8).setCellRenderer(new Appointments.ActionRenderer(deleteIcon));
+        table.getColumnModel().getColumn(8).setCellEditor(new Appointments.ButtonEditor(new JCheckBox(), deleteIcon, ActionButtonType.DELETE, this));
         spTable.setViewportView(table);
     }
 
     private void populateTable() {
         ArrayList<Appointment> appointments = AppointmentController.getAppointments();
         for(Appointment a : appointments) {
-        table.addRow(new Object[]{a.getDoctor().getFirstName()+" "+a.getDoctor().getLastName(), a.getPatient().getFirstName()+" "+a.getPatient().getLastName(), a.getDate(), a.getTime(),a.getRoom(), a.getAppointmentStatus(),""});
+            table.addRow(new Object[]{a.getId(),a.getDoctor().getFirstName()+" "+a.getDoctor().getLastName(), a.getPatient().getFirstName()+" "+a.getPatient().getLastName(), a.getDate(), a.getTime(),a.getRoom(), a.getAppointmentStatus(),""});
         }
     }
     public void refreshTable() {
@@ -150,64 +175,159 @@ public class Appointments extends JPanel {
 
     // ActionRenderer class for rendering update and delete icons in the Actions column
     class ActionRenderer extends DefaultTableCellRenderer {
-        private final JButton updateButton = new JButton(updateIcon);
-        private final JButton deleteButton = new JButton(deleteIcon);
+        private final JButton actionBtn;
 
-        public ActionRenderer() {
-            // Set preferred size for buttons
-            updateButton.setPreferredSize(new Dimension(40, 40));
-            deleteButton.setPreferredSize(new Dimension(40, 40));
+
+        public ActionRenderer(Icon icon) {
+            actionBtn = new JButton(icon);
+            actionBtn.setPreferredSize(new Dimension(40, 40));
 
             // Set background color for buttons
-            updateButton.setBackground(Color.WHITE); // Set your desired background color
-            deleteButton.setBackground(Color.WHITE); // Set your desired background color
+            actionBtn.setBackground(Color.WHITE); // Set your desired background color
 
             // Remove border around icons
-            updateButton.setBorder(null);
-            deleteButton.setBorder(null);
-
-            updateButton.addActionListener(e -> {
-                // Handle update action here
-                int selectedRow = table.getSelectedRow();
-                if (selectedRow != -1) {
-                    System.out.println("Update button clicked at row: " + selectedRow);
-                } else {
-                    System.out.println("No row selected for update");
-                }
-            });
-
-            deleteButton.addActionListener(e -> {
-                // Display confirmation dialog
-                int confirmDialogResult = JOptionPane.showConfirmDialog(null, "Are you sure you want to delete the appointment?", "Confirmation", JOptionPane.YES_NO_OPTION);
-                if (confirmDialogResult == JOptionPane.YES_OPTION) {
-                    // User clicked Yes, proceed with deletion
-                    int selectedRow = table.getSelectedRow();
-                    if (selectedRow != -1) {
-                        // Get the value of the "cin" column for the selected row
-                        Patient patient = (Patient) table.getValueAt(selectedRow, 1); // Replace cinColumnIndex with the actual index of the "cin" column
-                        System.out.println("Delete button clicked for appointment with cin: " + patient);
-                        // Call the deleteAppointment method from the controller, passing the cin
-                        // Example: AppointmentController.deleteAppointment(cin);
-                    } else {
-                        System.out.println("No row selected for delete");
-                    }
-                }
-            });
-
-
+            actionBtn.setBorder(null);
         }
 
         @Override
         public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
             JPanel panel = new JPanel(new FlowLayout(FlowLayout.CENTER, 5, 0));
             panel.setBackground(Color.WHITE); // Set your desired background color for the panel
-            panel.add(updateButton);
-            panel.add(deleteButton);
+            panel.add(actionBtn);
             return panel;
+        }
+    }
+    class ButtonEditor extends DefaultCellEditor {
+        private JButton actionBtn;
+        private boolean isPushed;
+
+        public ButtonEditor(JCheckBox checkBox, Icon icon, ActionButtonType actionButtonType, Appointments a) {
+            super(checkBox);
+            actionBtn = new JButton(icon);
+            actionBtn.addActionListener(e -> {
+                // Handle update action here
+                int selectedRow = table.getSelectedRow();
+                if(selectedRow != -1){
+                    String cin = table.getValueAt(selectedRow, 0).toString();
+                    if(actionButtonType.equals(ActionButtonType.DELETE)){
+                        if(JOptionPane.showConfirmDialog(null, "Are you sure you want to delete this Appointment ?", "Delete", JOptionPane.YES_NO_OPTION) == 0){
+                            AppointmentController.deleteAppointment(getId(table.getValueAt(selectedRow,0)));
+                            refreshTable();
+                        }
+                    } else if(actionButtonType.equals(ActionButtonType.UPDATE)) {
+                        new ModifyAppointment(
+                                a,
+                                getId(table.getValueAt(selectedRow,0)),
+                                getDoctor(table.getValueAt(selectedRow, 1)),
+                                getPatient(table.getValueAt(selectedRow, 2)),
+                                getDate(table.getValueAt(selectedRow, 3)),
+                                getTime(table.getValueAt(selectedRow, 4)),
+                                getRoom(table.getValueAt(selectedRow, 5)),
+                                getStatus(table.getValueAt(selectedRow, 6))
+                        );
+                    }
+                }
+            });
+        }
+
+        public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row, int column) {
+            if (isSelected) {
+                actionBtn.setBackground(table.getSelectionBackground());
+            } else {
+                actionBtn.setBackground(Color.white);
+            }
+            isPushed = true;
+            return actionBtn;
+        }
+
+        public boolean stopCellEditing() {
+            isPushed = false;
+            return super.stopCellEditing();
+        }
+
+        protected void fireEditingStopped() {
+            super.fireEditingStopped();
+        }
+    }
+
+    private Doctor getDoctor(Object selectedItem) {
+        String doctor= (String) selectedItem;
+        for (Doctor d : doctors) {
+            String fullName = d.getFirstName() + " " + d.getLastName();
+            if (fullName.equals(doctor)) {
+                return d;
+            }
+        }
+        return null;
+    }
+
+    private Patient getPatient(Object selectedItem) {
+        String patient= (String) selectedItem;
+        for(Patient p: patients){
+            String fullName=p.getFirstName()+" "+p.getLastName();
+            if(fullName.equals(patient)){
+                return p;
+            }
+        }
+        return null;
+    }
+
+    private Date getDate(Object selectedDate) {
+        if (selectedDate instanceof java.sql.Date) {
+            return (java.sql.Date) selectedDate;
+        } else {
+            try {
+                String dateString = (String) selectedDate;
+                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+                return formatter.parse(dateString);
+            } catch (ParseException e) {
+                e.printStackTrace();
+                return null;
+            }
         }
     }
 
 
+    private Time getTime(Object selectedTime) {
+        if (selectedTime instanceof java.sql.Time) {
+            return (java.sql.Time) selectedTime;
+        } else {
+            try {
+                String timeString = (String) selectedTime;
+                SimpleDateFormat formatter = new SimpleDateFormat("HH:mm:ss");
+                return new Time(formatter.parse(timeString).getTime());
+            } catch (ParseException e) {
+                e.printStackTrace();
+                return null;
+            }
+        }
+    }
+
+    private Appointment.Room getRoom(Object selectedItem) {
+        if (selectedItem != null) {
+            String selectedRoomName = selectedItem.toString();
+            for (Appointment.Room r : Appointment.Room.values()) {
+                if (r.name().equalsIgnoreCase(selectedRoomName)) {
+                    return r;
+                }
+            }
+        }
+        return null;
+    }
+    private Appointment.AppointmentStatus getStatus(Object selectedItem) {
+        if (selectedItem != null) {
+            String selectedStatus = selectedItem.toString();
+            for (Appointment.AppointmentStatus s : Appointment.AppointmentStatus.values()) {
+                if (s.name().equalsIgnoreCase(selectedStatus)) {
+                    return s;
+                }
+            }
+        }
+        return null;
+    }
+    private int getId(Object selectedItem) {
+       return (int) selectedItem;
+    }
 
     private JPanel panel;
     private Views.Secretary.swing.PanelBorder panelBorder1;

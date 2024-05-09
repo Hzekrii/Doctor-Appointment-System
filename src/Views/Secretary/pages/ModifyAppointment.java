@@ -1,17 +1,26 @@
 package Views.Secretary.pages;
 
+import Controllers.AppointmentController;
+import Controllers.DoctorController;
+import Controllers.PatientController;
+import Models.Appointment;
+import Models.Doctor;
+import Models.Patient;
 import com.toedter.calendar.JDateChooser;
 
 import javax.swing.*;
 import javax.swing.SpinnerDateModel;
 import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Time;
+import java.util.ArrayList;
 import java.util.Date;
 
 public class ModifyAppointment extends JFrame {
     private JComboBox<String> doctorComboBox;
     private JComboBox<String> patientComboBox;
-    private JComboBox<String> roomComboBox;
+    private JComboBox<Appointment.Room> roomComboBox;
     private JDateChooser dateChooser;
     private JSpinner timeSpinner; // Replace JTextField with JSpinner for time input
 
@@ -24,13 +33,68 @@ public class ModifyAppointment extends JFrame {
     private JLabel timeLabel;
     private JLabel roomLabel;
 
-    private String[] patients = {"patient1", "patient2"};
-    private String[] doctors = {"doctor1", "doctor2"};
-    private String[] rooms = {"room1", "room2"};
+    private ArrayList<Patient> patients;
+    private ArrayList<Doctor> doctors;
+    private String[] doctorNames;
+    private String[] patientNames;
+    private Appointment.Room[] rooms;
+    private Appointments appointments;
+    private int id;
 
-    public ModifyAppointment() {
+    public ModifyAppointment(Appointments a,int id,Doctor d,Patient p,Date date,Time time,Appointment.Room room,Appointment.AppointmentStatus status) {
+        rooms= Appointment.Room.values();
+        patients= PatientController.getPatients();
+        doctors= DoctorController.getDoctors();
+        doctorNames=new String[doctors.size()];
+        patientNames= new String[patients.size()];
         initComponents();
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // Set close operation
+        for (int i = 0; i < doctorNames.length; i++) {
+            if (doctorNames[i].equals(d.getFirstName() + " " + d.getLastName())) {
+                doctorComboBox.setSelectedIndex(i);
+                break;
+            }
+        }
+
+        for (int i = 0; i < patientNames.length; i++) {
+            if (patientNames[i].equals(p.getFirstName() + " " + p.getLastName())) {
+                patientComboBox.setSelectedIndex(i);
+                break;
+            }
+        }
+        for (int i = 0; i < rooms.length; i++) {
+            if (rooms[i].name().equalsIgnoreCase(room.name())) {
+                roomComboBox.setSelectedIndex(i);
+                break;
+            }
+        }
+        dateChooser.setDate(date);
+        timeSpinner.setValue(time);
+
+        this.id=id;
+        appointments=a;
+        initModifyAppointmentButtonActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Get data from user input fields
+                int doctor_id =getDoctor();
+                int patient_id=getPatient();
+                Date date = getDate();
+                Time time = getTime();
+                Appointment.Room room = getRoom();
+                if(doctor_id != -1 && patient_id!= -1 && date != null && time != null && room != null){
+                    // Call the appointmentController to create an appointment
+                    AppointmentController.updateAppointment(id,getPatient(), getDoctor(), getDate(), getTime(), status ,getRoom());
+                    appointments.refreshTable();
+                    dispose();
+                }else{
+                    System.out.println("Error In Input Fields");
+                }
+
+            }
+        });
+
+
     }
 
     private void initComponents() {
@@ -42,8 +106,19 @@ public class ModifyAppointment extends JFrame {
         dateLabel = new JLabel();
         timeLabel = new JLabel();
         roomLabel = new JLabel();
-        doctorComboBox = new JComboBox<>(doctors);
-        patientComboBox = new JComboBox<>(patients);
+        int index=0;
+        for(Patient patient: patients){
+            String fullName= patient.getFirstName()+" "+patient.getLastName();
+            patientNames[index++]=fullName;
+        }
+        index=0;
+        for(Doctor doctor: doctors){
+            String fullName= doctor.getFirstName()+" "+doctor.getLastName();
+            doctorNames[index++]=fullName;
+        }
+
+        doctorComboBox = new JComboBox<>(doctorNames);
+        patientComboBox = new JComboBox<>(patientNames);
         roomComboBox = new JComboBox<>(rooms);
         dateChooser = new JDateChooser();
         timeSpinner = new JSpinner(new SpinnerDateModel()); // Initialize the time spinner
@@ -187,25 +262,53 @@ public class ModifyAppointment extends JFrame {
         setVisible(true);
     }
 
-    public String getDoctor() {
-        return (String) doctorComboBox.getSelectedItem();
+    public int getDoctor() {
+        String doctor= (String) doctorComboBox.getSelectedItem();
+        for (Doctor d : doctors) {
+            String fullName = d.getFirstName() + " " + d.getLastName();
+            if (fullName.equals(doctor)) {
+                return d.getID();
+            }
+        }
+        System.out.println("doctor selected :"+doctor);
+        return -1;
     }
 
-    public String getAppointment() {
-        return (String) patientComboBox.getSelectedItem();
+    public int getPatient() {
+        String patient= (String) patientComboBox.getSelectedItem();
+        for(Patient p: patients){
+            String fullName=p.getFirstName()+" "+p.getLastName();
+            if(fullName.equals(patient)){
+                return p.getID();
+            }
+        }
+        System.out.println("patient selected :"+patient +";"+patients.get(0).getFirstName()+" "+patients.get(0).getLastName());
+
+        return -1;
     }
 
     public Date getDate() {
         return dateChooser.getDate();
     }
 
-    public Date getTime() {
-        return (Date) timeSpinner.getValue();
+    public Time getTime() {
+        Date selectedTime = (Date) timeSpinner.getValue();
+        return new Time(selectedTime.getTime());
     }
 
-    public String getRoom() {
-        return (String) roomComboBox.getSelectedItem();
+    public Appointment.Room getRoom() {
+        Object selectedItem = roomComboBox.getSelectedItem();
+        if (selectedItem != null) {
+            String selectedRoomName = selectedItem.toString();
+            for (Appointment.Room r : Appointment.Room.values()) {
+                if (r.name().equalsIgnoreCase(selectedRoomName)) {
+                    return r;
+                }
+            }
+        }
+        return null;
     }
+
 
     public void initModifyAppointmentButtonActionListener(ActionListener listener) {
         modifyAppointmentButton.addActionListener(listener);
