@@ -105,7 +105,7 @@ public class Appointment {
                                 resultSet.getString("doctor_email"),
                                 resultSet.getString("doctor_tele"),
                                 Doctor.DoctorSpecialty.valueOf(resultSet.getString("speciality")),
-                                resultSet.getString("registration_num")
+                                resultSet.getInt("registration_num")
                         ),
                         resultSet.getDate("appointment_date"),
                         resultSet.getTime("appointment_time"),
@@ -173,7 +173,7 @@ public class Appointment {
                                 resultSet.getString("doctor_email"),
                                 resultSet.getString("doctor_tele"),
                                 Doctor.DoctorSpecialty.valueOf(resultSet.getString("speciality")),
-                                resultSet.getString("registration_num")
+                                resultSet.getInt("registration_num")
                         ),
                         resultSet.getDate("appointment_date"),
                         resultSet.getTime("appointment_time"),

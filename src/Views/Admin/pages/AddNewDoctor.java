@@ -268,9 +268,10 @@ public class AddNewDoctor extends JFrame {
         return null;
     }
 
-    public String getRegistrationNumber() {
-        return regNumberField.getText();
+    public int getRegistrationNumber() {
+        return Integer.parseInt(regNumberField.getText());
     }
+
 
     public void initAddDoctorButtonActionListener(ActionListener listener) {
         addDoctorButton.addActionListener(listener);

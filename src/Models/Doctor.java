@@ -18,10 +18,10 @@ public class Doctor extends Person{
 
     // attributes
     private DoctorSpecialty speciality;
-    private String registrationNum;
+    private int registrationNum;
 
     // constructor
-    public Doctor(int id, String cin, String firstName, String lastName, String email, String phone, DoctorSpecialty speciality, String registrationNum) {
+    public Doctor(int id, String cin, String firstName, String lastName, String email, String phone, DoctorSpecialty speciality, int registrationNum) {
         super(id, cin, firstName, lastName, email, phone);
         this.speciality = speciality;
         this.registrationNum = registrationNum;
@@ -29,7 +29,7 @@ public class Doctor extends Person{
 
     // getters
     public DoctorSpecialty getSpeciality() { return this.speciality; }
-    public String getRegistrationNum() { return this.registrationNum; }
+    public int getRegistrationNum() { return this.registrationNum; }
 
 
     public static ArrayList<Doctor> all() {
@@ -48,7 +48,7 @@ public class Doctor extends Person{
                         result.getString("email"),
                         result.getString("tele"),
                         DoctorSpecialty.valueOf(result.getString("speciality")),
-                        result.getString("registration_num")
+                        result.getInt("registration_num")
                 ));
             }
             result.close();
@@ -79,7 +79,7 @@ public class Doctor extends Person{
                         result.getString("email"),
                         result.getString("tele"),
                         DoctorSpecialty.valueOf(result.getString("speciality")),
-                        result.getString("registration_num")
+                        result.getInt("registration_num")
                 );
             }
             result.close();
@@ -91,7 +91,7 @@ public class Doctor extends Person{
         return doctor;
     }
 
-    public static void create(String cin, String firstName, String lastName, String email, String phone, DoctorSpecialty speciality, String registrationNum) {
+    public static void create(String cin, String firstName, String lastName, String email, String phone, DoctorSpecialty speciality, int registrationNum) {
         String query = "INSERT INTO doctors(cin, first_name, last_name, email, tele, speciality, registration_num) VALUES (?, ?, ?, ?, ?, ?, ?)";
         try {
             Connection connection = DBConnection.getConnection();
@@ -102,7 +102,7 @@ public class Doctor extends Person{
             preparedStatement.setString(4, email);
             preparedStatement.setString(5, phone);
             preparedStatement.setString(6, speciality.toString());
-            preparedStatement.setString(7, registrationNum);
+            preparedStatement.setInt(7, registrationNum);
             preparedStatement.executeUpdate();
             preparedStatement.close();
             connection.close();
@@ -125,7 +125,7 @@ public class Doctor extends Person{
         }
     }
 
-    public static void update(int id, String cin, String firstName, String lastName, String email, String phone, DoctorSpecialty speciality, String registrationNum) {
+    public static void update(int id, String cin, String firstName, String lastName, String email, String phone, DoctorSpecialty speciality, int registrationNum) {
         String query = "UPDATE doctors SET cin = ?, first_name = ?, last_name = ?, email = ?, tele = ?, speciality = ?, registration_num = ? WHERE doctor_id = ?";
         try {
             Connection connection = DBConnection.getConnection();
@@ -136,7 +136,7 @@ public class Doctor extends Person{
             statement.setString(4, email);
             statement.setString(5, phone);
             statement.setString(6, speciality.toString());
-            statement.setString(7, registrationNum);
+            statement.setInt(7, registrationNum);
             statement.setInt(8, id);
             statement.executeUpdate();
             statement.close();

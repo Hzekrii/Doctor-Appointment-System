@@ -1,7 +1,12 @@
 package Views.Admin.pages;
 
+import Controllers.DoctorController;
+import Models.Appointment;
+import Models.Doctor;
+
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class ModifyDoctor extends JFrame {
@@ -20,14 +25,47 @@ public class ModifyDoctor extends JFrame {
     private JTextField lastNameField;
     private JTextField emailField;
     private JTextField telephoneField;
-    private JComboBox<String> specialtyComboBox; // New JComboBox for specialty
+    private JComboBox<Doctor.DoctorSpecialty> specialtyComboBox; // New JComboBox for specialty
     private JTextField regNumberField; // New JTextField for registration number
+    private Doctor.DoctorSpecialty[] specialties ;
+    private Doctors doctors;
+    private int id;
 
-    private String[] specialties = {"specialty1", "specialty2"};
 
-    public ModifyDoctor() {
+    public ModifyDoctor(Doctors d, int id,String cin, String firstName, String lastName, String email, String phone,Doctor.DoctorSpecialty speciality,String registration_num) {
+        specialties=Doctor.DoctorSpecialty.values();
         initComponents();
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // Set close operation
+        cinField.setText(cin);
+        firstNameField.setText(firstName);
+        lastNameField.setText(lastName);
+        emailField.setText(email);
+        telephoneField.setText(phone);
+        regNumberField.setText(registration_num);
+        for (int i = 0; i < specialties.length; i++) {
+            if (specialties[i].name().equalsIgnoreCase(speciality.name())) {
+                specialtyComboBox.setSelectedIndex(i);
+                break;
+            }
+        }
+        this.id=id;
+        doctors=d;
+
+        initModifyDoctorButtonActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Get data from user input fields
+                Doctor.DoctorSpecialty specialty=getSpecialty();
+                if(specialty != null){
+                    DoctorController.updateDoctor(id,getCIN(),getFirstName(),getLastName(),getEmail(),getTelephone(),getSpecialty(),getRegistrationNumber());
+                    doctors.refreshTable();
+                    dispose();
+                }else{
+                    System.out.println("Error In Input Fields");
+                }
+            }
+        });
+
     }
 
     private void initComponents() {
@@ -227,12 +265,20 @@ public class ModifyDoctor extends JFrame {
         return telephoneField.getText();
     }
 
-    public String getSpecialty() {
-        return (String) specialtyComboBox.getSelectedItem();
+    public Doctor.DoctorSpecialty getSpecialty() {
+        Object selectedItem = specialtyComboBox.getSelectedItem();
+        if (selectedItem != null) {
+            String selectedSpecialityName = selectedItem.toString();
+            for (Doctor.DoctorSpecialty s : Doctor.DoctorSpecialty.values()) {
+                if (s.name().equalsIgnoreCase(selectedSpecialityName)) {
+                    return s;
+                }
+            }
+        }
+        return null;
     }
-
-    public String getRegistrationNumber() {
-        return regNumberField.getText();
+    public int getRegistrationNumber() {
+        return Integer.parseInt(regNumberField.getText());
     }
 
     public void initModifyDoctorButtonActionListener(ActionListener listener) {

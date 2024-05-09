@@ -177,7 +177,6 @@ public class Appointments extends JPanel {
     class ActionRenderer extends DefaultTableCellRenderer {
         private final JButton actionBtn;
 
-
         public ActionRenderer(Icon icon) {
             actionBtn = new JButton(icon);
             actionBtn.setPreferredSize(new Dimension(40, 40));
