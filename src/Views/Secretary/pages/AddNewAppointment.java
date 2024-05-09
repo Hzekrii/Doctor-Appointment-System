@@ -3,6 +3,7 @@ package Views.Secretary.pages;
 import com.toedter.calendar.JDateChooser;
 
 import javax.swing.*;
+import javax.swing.SpinnerDateModel;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.util.Date;
@@ -12,7 +13,7 @@ public class AddNewAppointment extends JFrame {
     private JComboBox<String> appointmentComboBox;
     private JComboBox<String> roomComboBox;
     private JDateChooser dateChooser;
-    private JTextField timeField;
+    private JSpinner timeSpinner; // Replace JTextField with JSpinner for time input
 
     private JPanel Panel;
     private JButton addAppointmentButton;
@@ -45,7 +46,7 @@ public class AddNewAppointment extends JFrame {
         appointmentComboBox = new JComboBox<>(patients);
         roomComboBox = new JComboBox<>(rooms);
         dateChooser = new JDateChooser();
-        timeField = new JTextField();
+        timeSpinner = new JSpinner(new SpinnerDateModel()); // Initialize the time spinner
         addAppointmentButton = new JButton();
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -67,34 +68,15 @@ public class AddNewAppointment extends JFrame {
         doctorLabel.setFont(new Font("Segoe UI", Font.BOLD, 14));
         doctorLabel.setText("Doctor");
 
-        doctorComboBox.setPreferredSize(new Dimension(150, 30));
-        doctorComboBox.setFont(new Font("Segoe UI", Font.PLAIN, 14));
-        doctorComboBox.setBackground(Color.white);
-
-        patientLabel.setFont(new Font("Segoe UI", Font.BOLD, 14));
-        patientLabel.setText("Patient");
-
-        appointmentComboBox.setPreferredSize(new Dimension(150, 30));
-        appointmentComboBox.setFont(new Font("Segoe UI", Font.PLAIN, 14));
-        appointmentComboBox.setBackground(Color.white);
-
-        dateLabel.setFont(new Font("Segoe UI", Font.BOLD, 14));
-        dateLabel.setText("Date");
-
-        // Set up date chooser format
-        dateChooser.setDateFormatString("yyyy-MM-dd");
+        // Set up time spinner format
+        JSpinner.DateEditor timeEditor = new JSpinner.DateEditor(timeSpinner, "HH:mm");
+        timeSpinner.setEditor(timeEditor);
 
         timeLabel.setFont(new Font("Segoe UI", Font.BOLD, 14));
         timeLabel.setText("Time");
 
-        timeField.setFont(new Font("Segoe UI", Font.PLAIN, 14));
-
         roomLabel.setFont(new Font("Segoe UI", Font.BOLD, 14));
         roomLabel.setText("Room");
-
-        roomComboBox.setPreferredSize(new Dimension(150, 30));
-        roomComboBox.setFont(new Font("Segoe UI", Font.PLAIN, 14));
-        roomComboBox.setBackground(Color.white);
 
         addAppointmentButton.setBackground(new Color(0, 102, 102));
         addAppointmentButton.setFont(new Font("Segoe UI", Font.BOLD, 16));
@@ -121,7 +103,7 @@ public class AddNewAppointment extends JFrame {
                                                         .addComponent(doctorComboBox)
                                                         .addComponent(appointmentComboBox)
                                                         .addComponent(dateChooser, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE) // Use dateChooser
-                                                        .addComponent(timeField)
+                                                        .addComponent(timeSpinner) // Use timeSpinner
                                                         .addComponent(roomComboBox, 0, 300, Short.MAX_VALUE))
                                                 .addGap(30, 30, 30))
                                         .addGroup(GroupLayout.Alignment.TRAILING, PanelLayout.createSequentialGroup()
@@ -148,7 +130,7 @@ public class AddNewAppointment extends JFrame {
                                 .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(PanelLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
                                         .addComponent(timeLabel)
-                                        .addComponent(timeField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(timeSpinner, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)) // Use timeSpinner
                                 .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(PanelLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
                                         .addComponent(roomLabel)
@@ -194,8 +176,8 @@ public class AddNewAppointment extends JFrame {
         return dateChooser.getDate();
     }
 
-    public String getTime() {
-        return timeField.getText();
+    public Date getTime() {
+        return (Date) timeSpinner.getValue();
     }
 
     public String getRoom() {
