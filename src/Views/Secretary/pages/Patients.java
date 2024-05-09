@@ -203,7 +203,7 @@ public class Patients extends JPanel {
                 if(selectedRow != -1){
                     String cin = table.getValueAt(selectedRow, 0).toString();
                     if(actionButtonType.equals(ActionButtonType.DELETE)){
-                        if(JOptionPane.showConfirmDialog(null, "Are you sure you want to logout ?", "Logout", JOptionPane.YES_NO_OPTION) == 0){
+                        if(JOptionPane.showConfirmDialog(null, "Are you sure you want to delete this patient?", "Delete", JOptionPane.YES_NO_OPTION) == 0){
                             PatientController.deletePatient(cin);
                             refreshTable();
                         }
