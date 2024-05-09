@@ -28,9 +28,14 @@ This project is a Hospital Appointment System implemented in Java using the Swin
 
 **Step 5**: **Add JCalendar Library** by Navigate to the JCalendar JAR file (You can find it on dist/lib directory or download it from official website) and add it to the project.
 
-**Step 6:** **Database Configuration** by Create a new database named "hospital_appointment_system" and Import the provided SQL schema (hospital_appointment_system.sql) into the database.
+**Step 6:** **Database Configuration** by Create a new database named "hospital_appointment_system" and Import the provided SQL schema (database-tables.sql) into the database.
 
 **Step 7:** **Update Database Connection Settings** by add the resources/config.properties file to the project and Modify the database connection properties (USERNAME, PASSWORD) to match your MySQL server configuration.
 
 **Step 8:** **Build and Run the Application** by Navigate to the src/Main directory in IntelliJ IDEA.
 
+# Libraries used in this project
+
+**JDBC Library:** https://dev.mysql.com/downloads/connector/j/
+
+**JCalendar Library:** https://toedter.com/jcalendar/
