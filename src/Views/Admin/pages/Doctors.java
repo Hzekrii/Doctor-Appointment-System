@@ -1,10 +1,17 @@
 package Views.Admin.pages;
 
+import Controllers.AppointmentController;
+import Controllers.DoctorController;
+import Models.Appointment;
+import Models.Doctor;
+
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 public class Doctors extends JPanel {
     private final Icon updateIcon = new ImageIcon(getClass().getResource("/assets/icons/edit.png"));
@@ -97,7 +104,7 @@ public class Doctors extends JPanel {
 
     private void showAddDoctorForm() {
         // Create an instance of the AddDoctorForm
-        AddNewDoctor addDoctorForm = new AddNewDoctor();
+        AddNewDoctor addDoctorForm = new AddNewDoctor(this);
 
         // Create a JFrame to hold the form
         JFrame frame = new JFrame("Add New Doctor");
@@ -114,7 +121,7 @@ public class Doctors extends JPanel {
 
                 },
                 new String [] {
-                        "CIN", "First Name", "Last Name", "Email", "Telephone", "Speciality", "Registration Number", "Actions"
+                        "CIN", "First Name", "Last Name", "Email", "Telephone", "Speciality", "Registration Num", "Actions"
                 }
         ) {
             Class[] types = new Class [] {
@@ -139,8 +146,14 @@ public class Doctors extends JPanel {
     }
 
     private void populateTable() {
-        table.addRow(new Object[]{"123456", "Mike", "Bhand", "mikebhand@gmail.com", "+1234567890", "Pediatrician", "REG12345", ""});
-        table.addRow(new Object[]{"789012", "Andrew", "Strauss", "andrewstrauss@gmail.com", "+0987654321", "Cardiologist", "REG67890", ""}); // Add more rows as needed
+        ArrayList<Doctor> doctors = DoctorController.getDoctors();
+        for(Doctor d : doctors) {
+            table.addRow(new Object[]{d.getCIN(),d.getFirstName(),d.getLastName(),d.getEmail(),d.getPhone(),d.getSpeciality(),d.getRegistrationNum(),""});
+        }
+    }
+    public void refreshTable() {
+        ((DefaultTableModel)(table.getModel())).setRowCount(0);
+        populateTable();
     }
 
     // ActionRenderer class for rendering update and delete icons in the Actions column

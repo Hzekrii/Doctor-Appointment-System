@@ -16,7 +16,7 @@ import java.util.ArrayList;
 public class Appointments extends JPanel {
     private final Icon updateIcon = new ImageIcon(getClass().getResource("/assets/icons/edit.png"));
     private final Icon deleteIcon = new ImageIcon(getClass().getResource("/assets/icons/delete.png"));
-    private final JButton addPatientButton = new JButton("Add New Appointment"); // New button for adding a new patient
+    private final JButton addAppointmentButton = new JButton("Add New Appointment"); // New button for adding a new patient
 
     public Appointments() {
         initComponents();
@@ -83,7 +83,7 @@ public class Appointments extends JPanel {
         );
 
         // Add action listener to the Add Patient button
-        addPatientButton.addActionListener(new ActionListener() {
+        addAppointmentButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // Handle redirecting to the add patient form
@@ -91,14 +91,14 @@ public class Appointments extends JPanel {
         });
 
         // Apply styling to the Add Patient button
-        addPatientButton.setBackground(new Color(19, 164, 164)); // Set background color
-        addPatientButton.setForeground(Color.WHITE); // Set text color
-        addPatientButton.setFocusPainted(false); // Remove focus border
-        addPatientButton.setFont(new Font("SansSerif", Font.BOLD, 14)); // Set font and size
-        addPatientButton.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20)); // Set padding
+        addAppointmentButton.setBackground(new Color(19, 164, 164)); // Set background color
+        addAppointmentButton.setForeground(Color.WHITE); // Set text color
+        addAppointmentButton.setFocusPainted(false); // Remove focus border
+        addAppointmentButton.setFont(new Font("SansSerif", Font.BOLD, 14)); // Set font and size
+        addAppointmentButton.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20)); // Set padding
 
         setLayout(new BorderLayout());
-        add(addPatientButton, BorderLayout.NORTH); // Add the button to the top of the panel
+        add(addAppointmentButton, BorderLayout.NORTH); // Add the button to the top of the panel
         add(panel, BorderLayout.CENTER);
     }
 

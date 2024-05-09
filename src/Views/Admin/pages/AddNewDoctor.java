@@ -1,8 +1,16 @@
 package Views.Admin.pages;
 
+import Controllers.AppointmentController;
+import Controllers.DoctorController;
+import Models.Appointment;
+import Models.Doctor;
+
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Time;
+import java.util.Date;
 
 public class AddNewDoctor extends JFrame {
     private JPanel panel;
@@ -20,14 +28,34 @@ public class AddNewDoctor extends JFrame {
     private JTextField lastNameField;
     private JTextField emailField;
     private JTextField telephoneField;
-    private JComboBox<String> specialtyComboBox;
+    private JComboBox<Doctor.DoctorSpecialty> specialtyComboBox;
     private JTextField regNumberField;
+    private Doctor.DoctorSpecialty[] specialties;
 
-    private String[] specialties = {"specialty1", "specialty2"};
+    private Doctors doctors;
 
-    public AddNewDoctor() {
+
+
+    public AddNewDoctor(Doctors d) {
+        specialties=Doctor.DoctorSpecialty.values();
         initComponents();
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        doctors=d;
+        initAddDoctorButtonActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Get data from user input fields
+                Doctor.DoctorSpecialty specialty=getSpecialty();
+                if(specialty != null){
+                    DoctorController.createDoctor(getCIN(),getFirstName(),getLastName(),getEmail(),getTelephone(),getSpecialty(),getRegistrationNumber());
+                    doctors.refreshTable();
+                    dispose();
+                }else{
+                    System.out.println("Error In Input Fields");
+                }
+            }
+        });
+
     }
 
     private void initComponents() {
@@ -227,8 +255,17 @@ public class AddNewDoctor extends JFrame {
         return telephoneField.getText();
     }
 
-    public String getSpecialty() {
-        return (String) specialtyComboBox.getSelectedItem();
+    public Doctor.DoctorSpecialty getSpecialty() {
+        Object selectedItem=specialtyComboBox.getSelectedItem();
+        if (selectedItem != null) {
+            String selectedDoctorSpec = selectedItem.toString();
+            for (Doctor.DoctorSpecialty s : Doctor.DoctorSpecialty.values()) {
+                if (s.name().equalsIgnoreCase(selectedDoctorSpec)) {
+                    return s;
+                }
+            }
+        }
+        return null;
     }
 
     public String getRegistrationNumber() {

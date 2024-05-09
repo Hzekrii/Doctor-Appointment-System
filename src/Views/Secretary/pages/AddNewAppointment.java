@@ -64,10 +64,9 @@ public class AddNewAppointment extends JFrame {
                     appointments.refreshTable();
                     dispose();
                 }else{
-                    System.out.println("patient_id :"+patient_id+" doctor_id :"+doctor_id+" date:"+date+" time:"+time+" room:"+room);
+                    System.out.println("Error In Input Fields");
                 }
 
-                // Optionally, you can perform additional actions after creating the appointment
             }
         });
     }
