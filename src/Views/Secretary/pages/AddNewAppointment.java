@@ -138,6 +138,18 @@ public class AddNewAppointment extends JFrame {
         roomLabel.setFont(new Font("Segoe UI", Font.BOLD, 14));
         roomLabel.setText("Room");
 
+        doctorComboBox.setPreferredSize(new Dimension(150, 30));
+        doctorComboBox.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+        doctorComboBox.setBackground(Color.white);
+
+        patientComboBox.setPreferredSize(new Dimension(150, 30));
+        patientComboBox.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+        patientComboBox.setBackground(Color.white);
+
+        roomComboBox.setPreferredSize(new Dimension(150, 30));
+        roomComboBox.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+        roomComboBox.setBackground(Color.white);
+
         addAppointmentButton.setBackground(new Color(0, 102, 102));
         addAppointmentButton.setFont(new Font("Segoe UI", Font.BOLD, 16));
         addAppointmentButton.setForeground(new Color(255, 255, 255));
