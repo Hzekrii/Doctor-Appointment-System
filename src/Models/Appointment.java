@@ -197,7 +197,7 @@ public class Appointment {
             PreparedStatement preparedStatement = connection.prepareStatement(query);
             preparedStatement.setInt(1, patient);
             preparedStatement.setInt(2, doctor);
-            preparedStatement.setDate(3, (java.sql.Date) date);
+            preparedStatement.setDate(3, new java.sql.Date(date.getTime())); // Convert java.util.Date to java.sql.Date
             preparedStatement.setTime(4, time);
             preparedStatement.setString(5, appointmentStatus.toString());
             preparedStatement.setString(6, room.toString());
@@ -208,6 +208,7 @@ public class Appointment {
             e.printStackTrace();
         }
     }
+
 
     public static void update(int id, int patient, int doctor, Date date, Time time, AppointmentStatus appointmentStatus, Room room) {
         String query = "UPDATE appointments SET patient_id = ?, doctor_id = ?, appointment_date = ?, appointment_time = ?, appointment_status = ?, appointment_room = ? WHERE appointment_id = ?;";

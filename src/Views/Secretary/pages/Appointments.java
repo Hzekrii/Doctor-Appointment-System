@@ -7,6 +7,7 @@ import Views.Secretary.model.StatusType;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -103,7 +104,7 @@ public class Appointments extends JPanel {
 
     private void showAddAppointmentForm() {
         // Create an instance of the AddAppointmentForm
-        AddNewAppointment addAppointmentForm = new AddNewAppointment();
+        AddNewAppointment addAppointmentForm = new AddNewAppointment(this);
 
         // Create a JFrame to hold the form
         JFrame frame = new JFrame("Add New Appointment");
@@ -141,6 +142,10 @@ public class Appointments extends JPanel {
         for(Appointment a : appointments) {
         table.addRow(new Object[]{a.getDoctor().getFirstName()+" "+a.getDoctor().getLastName(), a.getPatient().getFirstName()+" "+a.getPatient().getLastName(), a.getDate(), a.getTime(),a.getRoom(), a.getAppointmentStatus(),""});
         }
+    }
+    public void refreshTable() {
+        ((DefaultTableModel)(table.getModel())).setRowCount(0);
+        populateTable();
     }
 
     // ActionRenderer class for rendering update and delete icons in the Actions column

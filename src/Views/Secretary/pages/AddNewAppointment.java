@@ -1,30 +1,28 @@
 package Views.Secretary.pages;
 
-import com.toedter.calendar.JDateChooser;
-
 import Controllers.AppointmentController;
 import Controllers.DoctorController;
 import Controllers.PatientController;
 import Models.Appointment;
 import Models.Doctor;
 import Models.Patient;
+import com.toedter.calendar.JDateChooser;
 
 import javax.swing.*;
 import javax.swing.SpinnerDateModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Date;
 import java.sql.Time;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class AddNewAppointment extends JFrame {
     private JComboBox<String> doctorComboBox;
-    private JDateChooser dateChooser;
-    private JSpinner timeSpinner; // Replace JTextField with JSpinner for time input
     private JComboBox<String> patientComboBox;
     private JComboBox<Appointment.Room> roomComboBox;
-
+    private JDateChooser dateChooser;
+    private JSpinner timeSpinner; // Replace JTextField with JSpinner for time input
 
     private JPanel Panel;
     private JButton addAppointmentButton;
@@ -34,18 +32,23 @@ public class AddNewAppointment extends JFrame {
     private JLabel dateLabel;
     private JLabel timeLabel;
     private JLabel roomLabel;
+
     private ArrayList<Patient> patients;
     private ArrayList<Doctor> doctors;
     private String[] doctorNames;
     private String[] patientNames;
     private Appointment.Room[] rooms;
+    private Appointments appointments;
 
-    public AddNewAppointment() {
+    public AddNewAppointment(Appointments a) {
         rooms= Appointment.Room.values();
         patients= PatientController.getPatients();
         doctors= DoctorController.getDoctors();
         doctorNames=new String[doctors.size()];
         patientNames= new String[patients.size()];
+        initComponents();
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // Set close operation
+        appointments=a;
         initAddAppointmentButtonActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -55,15 +58,18 @@ public class AddNewAppointment extends JFrame {
                 Date date = getDate();
                 Time time = getTime();
                 Appointment.Room room = getRoom();
-
+                if(doctor_id != -1 && patient_id!= -1 && date != null && time != null && room != null){
                 // Call the appointmentController to create an appointment
-                AppointmentController.createAppointment(patient_id, doctor_id, date, time, Appointment.AppointmentStatus.SCHEDULED ,room);
+                    AppointmentController.createAppointment(getPatient(), getDoctor(), getDate(), getTime(), Appointment.AppointmentStatus.SCHEDULED ,getRoom());
+                    appointments.refreshTable();
+                    dispose();
+                }else{
+                    System.out.println("patient_id :"+patient_id+" doctor_id :"+doctor_id+" date:"+date+" time:"+time+" room:"+room);
+                }
 
                 // Optionally, you can perform additional actions after creating the appointment
             }
         });
-        initComponents();
-        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // Set close operation
     }
 
     private void initComponents() {
@@ -75,18 +81,18 @@ public class AddNewAppointment extends JFrame {
         dateLabel = new JLabel();
         timeLabel = new JLabel();
         roomLabel = new JLabel();
+
         int index=0;
         for(Patient patient: patients){
-           String fullName= patient.getFirstName()+" "+patient.getLastName();
-           patientNames[index++]=fullName;
+            String fullName= patient.getFirstName()+" "+patient.getLastName();
+            patientNames[index++]=fullName;
         }
         index=0;
         for(Doctor doctor: doctors){
             String fullName= doctor.getFirstName()+" "+doctor.getLastName();
             doctorNames[index++]=fullName;
         }
-       // doctorNames = addDefaultDoctorOption(doctorNames);
-       // patientNames = addDefaultPatientOption(patientNames);
+
         doctorComboBox = new JComboBox<>(doctorNames);
         patientComboBox = new JComboBox<>(patientNames);
         roomComboBox = new JComboBox<>(rooms);
@@ -117,16 +123,8 @@ public class AddNewAppointment extends JFrame {
         doctorLabel.setFont(new Font("Segoe UI", Font.BOLD, 14));
         doctorLabel.setText("Doctor");
 
-        doctorComboBox.setPreferredSize(new Dimension(150, 30));
-        doctorComboBox.setFont(new Font("Segoe UI", Font.PLAIN, 14));
-        doctorComboBox.setBackground(Color.white);
-
         patientLabel.setFont(new Font("Segoe UI", Font.BOLD, 14));
-        patientLabel.setText("Patient");
-
-        patientComboBox.setPreferredSize(new Dimension(150, 30));
-        patientComboBox.setFont(new Font("Segoe UI", Font.PLAIN, 14));
-        patientComboBox.setBackground(Color.white);
+        patientLabel.setText("Parient");
 
         dateLabel.setFont(new Font("Segoe UI", Font.BOLD, 14));
         dateLabel.setText("Date");
@@ -165,6 +163,8 @@ public class AddNewAppointment extends JFrame {
                                                 .addGroup(PanelLayout.createParallelGroup(GroupLayout.Alignment.LEADING, false)
                                                         .addComponent(doctorComboBox)
                                                         .addComponent(patientComboBox)
+                                                        .addComponent(dateChooser, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE) // Use dateChooser
+                                                        .addComponent(timeSpinner) // Use timeSpinner
                                                         .addComponent(roomComboBox, 0, 300, Short.MAX_VALUE))
                                                 .addGap(30, 30, 30))
                                         .addGroup(GroupLayout.Alignment.TRAILING, PanelLayout.createSequentialGroup()
@@ -221,59 +221,32 @@ public class AddNewAppointment extends JFrame {
 
         getAccessibleContext().setAccessibleName("ADDAPPOINTMENT");
 
-        // Set default selected items in doctorComboBox , patientComboBox and roomComboBox
-        doctorComboBox.setSelectedIndex(0);
-        patientComboBox.setSelectedIndex(0);
-        roomComboBox.setSelectedIndex(0);
-
         pack();
         setVisible(true);
     }
 
-    // Method to add a default "Select" option to the beginning of the array
-    private String[] addDefaultOption(String[] array, String defaultOption) {
-        String[] arrayWithDefault = new String[array.length + 1];
-        arrayWithDefault[0] = defaultOption; // Default option
-        System.arraycopy(array, 0, arrayWithDefault, 1, array.length);
-        return arrayWithDefault;
-    }
-
-  /*  // Method to add a default "Select Doctor" option to the beginning of the doctor names array
-    private String[] addDefaultDoctorOption(String[] array) {
-        return addDefaultOption(array, "...");
-    }
-
-    // Method to add a default "Select Patient" option to the beginning of the patient names array
-    private String[] addDefaultPatientOption(String[] array) {
-        return addDefaultOption(array, "...");
-    }
-
-    // Method to add a default "Select Room" option to the beginning of the Room enum array
-    private Appointment.Room[] addDefaultRoomOption(Appointment.Room[] rooms) {
-        Appointment.Room[] roomsWithDefault = new Appointment.Room[rooms.length + 1];
-        roomsWithDefault[0] = null; // Default option
-        System.arraycopy(rooms, 0, roomsWithDefault, 1, rooms.length);
-        return roomsWithDefault;
-    }*/
-
-
     public int getDoctor() {
         String doctor= (String) doctorComboBox.getSelectedItem();
-        for(Doctor d: doctors){
-            if(d.getFirstName()+" "+d.getLastName() == doctor){
+        for (Doctor d : doctors) {
+            String fullName = d.getFirstName() + " " + d.getLastName();
+            if (fullName.equals(doctor)) {
                 return d.getID();
             }
         }
+        System.out.println("doctor selected :"+doctor);
         return -1;
     }
 
     public int getPatient() {
         String patient= (String) patientComboBox.getSelectedItem();
         for(Patient p: patients){
-            if(p.getFirstName()+" "+p.getLastName() == patient){
+            String fullName=p.getFirstName()+" "+p.getLastName();
+            if(fullName.equals(patient)){
                 return p.getID();
             }
         }
+        System.out.println("patient selected :"+patient +";"+patients.get(0).getFirstName()+" "+patients.get(0).getLastName());
+
         return -1;
     }
 
@@ -282,20 +255,23 @@ public class AddNewAppointment extends JFrame {
     }
 
     public Time getTime() {
-        return (Time) timeSpinner.getValue();
+        Date selectedTime = (Date) timeSpinner.getValue();
+        return new Time(selectedTime.getTime());
     }
 
-
-
     public Appointment.Room getRoom() {
-
-        for(Appointment.Room r : Appointment.Room.values()){
-            if(r.name().equalsIgnoreCase((String) roomComboBox.getSelectedItem())){
-                return r;
+        Object selectedItem = roomComboBox.getSelectedItem();
+        if (selectedItem != null) {
+            String selectedRoomName = selectedItem.toString();
+            for (Appointment.Room r : Appointment.Room.values()) {
+                if (r.name().equalsIgnoreCase(selectedRoomName)) {
+                    return r;
+                }
             }
         }
         return null;
     }
+
 
     public void initAddAppointmentButtonActionListener(ActionListener listener) {
         addAppointmentButton.addActionListener(listener);
