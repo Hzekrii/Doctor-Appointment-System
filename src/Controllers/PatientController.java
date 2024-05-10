@@ -14,9 +14,9 @@ public class PatientController {
         Patient.create(cin, firstName, lastName, email, phone);
     }
 
-    public static void updatePatient(String cin, String firstName, String lastName, String email, String phone) {
-        Patient.update(cin, firstName, lastName, email, phone);
+    public static void updatePatient(int id,String cin, String firstName, String lastName, String email, String phone) {
+        Patient.update(id,cin, firstName, lastName, email, phone);
     }
 
-    public static void deletePatient(String cin) { Patient.delete(cin); }
+    public static void deletePatient(int id) { Patient.delete(id); }
 }

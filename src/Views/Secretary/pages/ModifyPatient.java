@@ -11,26 +11,29 @@ public class ModifyPatient extends JFrame {
     private JPanel Panel;
     private JButton modifyPatientButton;
     private JLabel modifyPatientTitle;
+    private JLabel cinTitle;
     private JLabel firstNameTitle;
     private JLabel lastNameTitle;
     private JLabel emailTitle;
     private JLabel telephoneTitle;
+    private JTextField cinField;
     private JTextField firstNameField;
     private JTextField lastNameField;
     private JTextField emailField;
     private JTextField telephoneField;
 
     private Patients patients;
-    private String cin;
+    private int id;
 
-    public ModifyPatient(Patients p, String cin, String firstName, String lastName, String email, String phone) {
+    public ModifyPatient(Patients p, int id,String cin, String firstName, String lastName, String email, String phone) {
         initComponents();
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // Set close operation
+        cinField.setText(cin);
         firstNameField.setText(firstName);
         lastNameField.setText(lastName);
         emailField.setText(email);
         telephoneField.setText(phone);
-        this.cin = cin;
+        this.id = id;
         this.patients = p;
     }
 
@@ -38,10 +41,12 @@ public class ModifyPatient extends JFrame {
         JPanel jPanel1 = new JPanel();
         Panel = new JPanel();
         modifyPatientTitle = new JLabel();
+        cinTitle=new JLabel();
         firstNameTitle = new JLabel();
         lastNameTitle = new JLabel();
         emailTitle = new JLabel();
         telephoneTitle = new JLabel();
+        cinField=new JTextField();
         firstNameField = new JTextField();
         lastNameField = new JTextField();
         emailField = new JTextField();
@@ -63,6 +68,12 @@ public class ModifyPatient extends JFrame {
         modifyPatientTitle.setForeground(new Color(0, 102, 102));
         modifyPatientTitle.setText("Modify Patient");
         modifyPatientTitle.setHorizontalAlignment(SwingConstants.CENTER);
+
+        cinTitle.setFont(new Font("Segoe UI", Font.BOLD, 14));
+        cinTitle.setText("CIN");
+
+        cinField.setFont(new Font("Segoe UI", 1, 18));
+        cinField.setForeground(new Color(102, 102, 102));
 
         firstNameTitle.setFont(new Font("Segoe UI", Font.BOLD, 14));
         firstNameTitle.setText("First Name");
@@ -93,7 +104,7 @@ public class ModifyPatient extends JFrame {
         modifyPatientButton.setForeground(new Color(255, 255, 255));
         modifyPatientButton.setText("Modify Patient");
         modifyPatientButton.addActionListener(e -> {
-            PatientController.updatePatient(cin, getFirstName(), getLastName(), getEmail(), getTelephone());
+            PatientController.updatePatient(id,getCIN(), getFirstName(), getLastName(), getEmail(), getTelephone());
             patients.refreshTable();
             dispose();
         });
@@ -108,12 +119,14 @@ public class ModifyPatient extends JFrame {
                                         .addComponent(modifyPatientTitle)
                                         .addGroup(PanelLayout.createSequentialGroup()
                                                 .addGroup(PanelLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                                                        .addComponent(cinTitle)
                                                         .addComponent(firstNameTitle)
                                                         .addComponent(lastNameTitle)
                                                         .addComponent(emailTitle)
                                                         .addComponent(telephoneTitle))
                                                 .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
                                                 .addGroup(PanelLayout.createParallelGroup(GroupLayout.Alignment.LEADING, false)
+                                                        .addComponent(cinField)
                                                         .addComponent(firstNameField)
                                                         .addComponent(lastNameField)
                                                         .addComponent(emailField)
@@ -129,6 +142,10 @@ public class ModifyPatient extends JFrame {
                                 .addGap(51, 51, 51)
                                 .addComponent(modifyPatientTitle)
                                 .addGap(40, 40, 40)
+                                .addGroup(PanelLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                                        .addComponent(cinTitle)
+                                        .addComponent(cinField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(PanelLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
                                         .addComponent(firstNameTitle)
                                         .addComponent(firstNameField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
@@ -173,6 +190,9 @@ public class ModifyPatient extends JFrame {
         setVisible(true);
     }
 
+    public String getCIN() {
+        return cinField.getText();
+    }
 
     public String getFirstName() {
         return firstNameField.getText();
