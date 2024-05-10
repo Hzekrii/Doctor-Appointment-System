@@ -3,6 +3,7 @@ package Views.Admin.pages;
 import Controllers.SecretaryController;
 import Models.Secretary;
 import enums.ActionButtonType;
+import utils.XMLExportImport;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -16,6 +17,8 @@ public class Secretaries extends JPanel {
     private final Icon updateIcon = new ImageIcon(getClass().getResource("/assets/icons/edit.png"));
     private final Icon deleteIcon = new ImageIcon(getClass().getResource("/assets/icons/delete.png"));
     private final JButton addSecretaryButton = new JButton("Add New Secretary"); // New button for adding a new secretary
+    private final JButton exportToXMLButton = new JButton("Export table to and XML file");
+    private final JButton importToXMLButton = new JButton("Import an XML file.");
 
     public Secretaries() {
         initComponents();
@@ -90,6 +93,15 @@ public class Secretaries extends JPanel {
             }
         });
 
+        exportToXMLButton.addActionListener(e -> {
+            XMLExportImport.exportToXml(table, "secretaries", "secretary");
+        });
+
+        importToXMLButton.addActionListener(e -> {
+            XMLExportImport.importXMLFile("secretary");
+            refreshTable();
+        });
+
         // Apply styling to the Add Secretary button
         addSecretaryButton.setBackground(new Color(19, 164, 164)); // Set background color
         addSecretaryButton.setForeground(Color.WHITE); // Set text color
@@ -97,22 +109,32 @@ public class Secretaries extends JPanel {
         addSecretaryButton.setFont(new Font("SansSerif", Font.BOLD, 14)); // Set font and size
         addSecretaryButton.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20)); // Set padding
 
+        exportToXMLButton.setBackground(new Color(19, 164, 164)); // Set background color
+        exportToXMLButton.setForeground(Color.WHITE); // Set text color
+        exportToXMLButton.setFocusPainted(false); // Remove focus border
+        exportToXMLButton.setFont(new Font("SansSerif", Font.BOLD, 14)); // Set font and size
+        exportToXMLButton.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20)); // Set padding
+
+        importToXMLButton.setBackground(new Color(19, 164, 164)); // Set background color
+        importToXMLButton.setForeground(Color.WHITE); // Set text color
+        importToXMLButton.setFocusPainted(false); // Remove focus border
+        importToXMLButton.setFont(new Font("SansSerif", Font.BOLD, 14)); // Set font and size
+        importToXMLButton.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20)); // Set padding
+
+        JPanel buttonsContainer = new JPanel();
+        buttonsContainer.setLayout(new FlowLayout());
+        buttonsContainer.add(addSecretaryButton);
+        buttonsContainer.add(exportToXMLButton);
+        buttonsContainer.add(importToXMLButton);
+
         setLayout(new BorderLayout());
-        add(addSecretaryButton, BorderLayout.NORTH); // Add the button to the top of the panel
+        add(buttonsContainer, BorderLayout.NORTH);
         add(panel, BorderLayout.CENTER);
     }
 
     private void showAddSecretaryForm() {
         // Create an instance of the AddSecretaryForm
         AddNewSecretary addSecretaryForm = new AddNewSecretary(this);
-
-        // Create a JFrame to hold the form
-        JFrame frame = new JFrame("Add New Secretary");
-        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        frame.getContentPane().add(addSecretaryForm);
-        frame.pack();
-        frame.setLocationRelativeTo(null); // Center the frame on the screen
-        frame.setVisible(true);
     }
     
     private void setupTable() {
@@ -228,8 +250,10 @@ public class Secretaries extends JPanel {
         }
 
         public boolean stopCellEditing() {
-            isPushed = false;
-            return super.stopCellEditing();
+            System.out.println("Stop cell editing..."); // Add this line
+//            isPushed = false;
+//            return super.stopCellEditing();
+            return true;
         }
 
         protected void fireEditingStopped() {
