@@ -18,5 +18,8 @@ public class PatientController {
         Patient.update(id,cin, firstName, lastName, email, phone);
     }
 
+    public static int getIDByFullName(String firstName, String lastName) {
+        return Patient.getIDByFullName(firstName, lastName);
+    }
     public static void deletePatient(int id) { Patient.delete(id); }
 }

@@ -19,4 +19,8 @@ public class DoctorController {
     }
 
     public static void deleteDoctor(int id) { Doctor.delete(id); }
+
+    public static int getIDByFullName(String firstName, String lastName) {
+        return Doctor.getIDByFullName(firstName, lastName);
+    }
 }

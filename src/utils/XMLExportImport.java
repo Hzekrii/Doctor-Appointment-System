@@ -1,9 +1,12 @@
 package utils;
 
+import Controllers.AppointmentController;
 import Controllers.DoctorController;
 import Controllers.PatientController;
 import Controllers.SecretaryController;
+import Models.Appointment;
 import Models.Doctor;
+import Views.Secretary.pages.Appointments;
 import Views.Secretary.pages.Patients;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -26,7 +29,11 @@ import javax.xml.validation.Validator;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.sql.Time;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class XMLExportImport {
 
@@ -84,7 +91,7 @@ public class XMLExportImport {
         for(int i = 0; i < table.getColumnCount() - 2; i++){
             // Add name element
             Element nameElement = document.createElement(table.getColumnName(i).trim().replace(" ", "_").toLowerCase());
-            nameElement.appendChild(document.createTextNode(table.getValueAt(rowNum, i).toString().trim().replace(" ", "_")));
+            nameElement.appendChild(document.createTextNode(table.getValueAt(rowNum, i).toString().trim()));
             parentElement.appendChild(nameElement);
         }
         return parentElement;
@@ -152,6 +159,28 @@ public class XMLExportImport {
                                 element.getElementsByTagName("email").item(0).getTextContent(),
                                 element.getElementsByTagName("telephone").item(0).getTextContent()
                         );
+                        break;
+                    case "appointment":
+                        try {
+                            String doctorFullName = element.getElementsByTagName("doctor").item(0).getTextContent();
+                            String[] doctorFullNameSplitted = doctorFullName.split(" ");
+                            int doctor_id = DoctorController.getIDByFullName(doctorFullNameSplitted[0], doctorFullNameSplitted[1]);
+
+                            String patientFullName = element.getElementsByTagName("patient").item(0).getTextContent();
+                            String[] patientFullNameSplitted = patientFullName.split(" ");
+                            int patient_id = PatientController.getIDByFullName(patientFullNameSplitted[0], patientFullNameSplitted[1]);
+
+                            AppointmentController.createAppointment(
+                                    doctor_id,
+                                    patient_id,
+                                    new SimpleDateFormat("yyyy-MM-dd").parse(element.getElementsByTagName("date").item(0).getTextContent()),
+                                    new Time(new SimpleDateFormat("HH:mm:ss").parse(element.getElementsByTagName("time").item(0).getTextContent()).getTime()),
+                                    Appointment.AppointmentStatus.valueOf(element.getElementsByTagName("status").item(0).getTextContent()),
+                                    Appointment.Room.valueOf(element.getElementsByTagName("room").item(0).getTextContent())
+                            );
+                        } catch (ParseException e){
+                            e.printStackTrace();
+                        }
                         break;
                 }
             }

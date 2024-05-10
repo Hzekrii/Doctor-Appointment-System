@@ -116,4 +116,25 @@ public class Patient extends Person{
             e.printStackTrace();
         }
     }
+
+    public static int getIDByFullName(String firstName, String lastName) {
+        String query = "SELECT patient_id FROM patients WHERE first_name = ? AND last_name = ?";
+        int patient = 0;
+        try {
+            Connection connection = DBConnection.getConnection();
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setString(1, firstName);
+            statement.setString(2, lastName);
+            ResultSet result = statement.executeQuery();
+            if(result.next()){
+                patient = result.getInt("patient_id");
+            }
+            result.close();
+            statement.close();
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return patient;
+    }
 }
