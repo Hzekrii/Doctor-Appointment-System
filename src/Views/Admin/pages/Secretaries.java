@@ -121,14 +121,14 @@ public class Secretaries extends JPanel {
 
                 },
                 new String [] {
-                        "CIN", "First Name", "Last Name", "Email", "Telephone", "Update", "Delete"
+                        "ID","CIN", "First Name", "Last Name", "Email", "Telephone", "Update", "Delete"
                 }
         ) {
             Class[] types = new Class [] {
-                    String.class, String.class, String.class, String.class, String.class, String.class, Icon.class, Icon.class
+                    Integer.class, String.class, String.class, String.class, String.class, String.class, Icon.class, Icon.class
             };
             boolean[] canEdit = new boolean [] {
-                    false, false, false, false, false, true, true
+                    false,false, false, false, false, false, true, true
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -140,18 +140,21 @@ public class Secretaries extends JPanel {
             }
         });
 
+        table.getColumnModel().getColumn(0).setMinWidth(0);
+        table.getColumnModel().getColumn(0).setMaxWidth(0);
+        table.getColumnModel().getColumn(0).setWidth(0);
         // Set custom renderer for the actions column
-        table.getColumnModel().getColumn(5).setCellRenderer(new ActionRenderer(updateIcon));
-        table.getColumnModel().getColumn(5).setCellEditor(new ButtonEditor(new JCheckBox(), updateIcon, ActionButtonType.UPDATE, this));
-        table.getColumnModel().getColumn(6).setCellRenderer(new ActionRenderer(deleteIcon));
-        table.getColumnModel().getColumn(6).setCellEditor(new ButtonEditor(new JCheckBox(), deleteIcon, ActionButtonType.DELETE, this));
+        table.getColumnModel().getColumn(6).setCellRenderer(new ActionRenderer(updateIcon));
+        table.getColumnModel().getColumn(6).setCellEditor(new ButtonEditor(new JCheckBox(), updateIcon, ActionButtonType.UPDATE, this));
+        table.getColumnModel().getColumn(7).setCellRenderer(new ActionRenderer(deleteIcon));
+        table.getColumnModel().getColumn(7).setCellEditor(new ButtonEditor(new JCheckBox(), deleteIcon, ActionButtonType.DELETE, this));
         spTable.setViewportView(table);
     }
 
     public void populateTable() {
         ArrayList<Secretary> secretaries = SecretaryController.getAllSecretaries();
         for(Secretary s : secretaries){
-            table.addRow(new Object[]{s.getCIN(), s.getFirstName(), s.getLastName(), s.getEmail(), s.getPhone(),""});
+            table.addRow(new Object[]{s.getID(),s.getCIN(), s.getFirstName(), s.getLastName(), s.getEmail(), s.getPhone(),""});
         }
     }
 
@@ -200,17 +203,18 @@ public class Secretaries extends JPanel {
                     String cin = table.getValueAt(selectedRow, 0).toString();
                     if(actionButtonType.equals(ActionButtonType.DELETE)){
                         if(JOptionPane.showConfirmDialog(null, "Are you sure you want to delete this Secretary?", "Delete", JOptionPane.YES_NO_OPTION) == 0){
-                            SecretaryController.deleteSecretary(cin);
+                            SecretaryController.deleteSecretary(getId(table.getValueAt(selectedRow, 0)));
                             refreshTable();
                         }
                     } else if(actionButtonType.equals(ActionButtonType.UPDATE)) {
                         new ModifySecretary(
                                 s,
-                                table.getValueAt(selectedRow, 0).toString(),
+                                getId(table.getValueAt(selectedRow, 0)),
                                 table.getValueAt(selectedRow, 1).toString(),
                                 table.getValueAt(selectedRow, 2).toString(),
                                 table.getValueAt(selectedRow, 3).toString(),
-                                table.getValueAt(selectedRow, 4).toString()
+                                table.getValueAt(selectedRow, 4).toString(),
+                                table.getValueAt(selectedRow, 5).toString()
                         );
                     }
                 }
@@ -235,6 +239,10 @@ public class Secretaries extends JPanel {
         protected void fireEditingStopped() {
             super.fireEditingStopped();
         }
+    }
+
+    private int getId(Object selectedItem) {
+        return (int) selectedItem;
     }
 
     private JPanel panel;

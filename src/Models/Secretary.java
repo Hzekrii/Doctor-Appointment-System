@@ -85,12 +85,12 @@ public class Secretary extends Person{
         }
     }
 
-    public static void delete(String cin) {
-        String query = "DELETE FROM secretaries WHERE cin = ?";
+    public static void delete(int id) {
+        String query = "DELETE FROM secretaries WHERE secretary_id = ?";
         try {
             Connection connection = DBConnection.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(query);
-            preparedStatement.setString(1, cin);
+            preparedStatement.setInt(1, id);
             preparedStatement.executeUpdate();
             preparedStatement.close();
             connection.close();
@@ -99,8 +99,8 @@ public class Secretary extends Person{
         }
     }
 
-    public static void update(String cin, String firstName, String lastName, String email, String phone) {
-        String query = "UPDATE secretaries SET first_name = ?, last_name = ?, email = ?, tele = ? WHERE cin=?";
+    public static void update(int id,String cin, String firstName, String lastName, String email, String phone) {
+        String query = "UPDATE secretaries SET first_name = ?, last_name = ?, email = ?, tele = ?,cin=? WHERE secretary_id = ?";
         try {
             Connection connection = DBConnection.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(query);
@@ -109,6 +109,7 @@ public class Secretary extends Person{
             preparedStatement.setString(3, email);
             preparedStatement.setString(4, phone);
             preparedStatement.setString(5, cin);
+            preparedStatement.setInt(6, id);
             preparedStatement.executeUpdate();
             preparedStatement.close();
             connection.close();
@@ -132,13 +133,13 @@ public class Secretary extends Person{
         }
     }
 
-    public static int getLoginID(String cin){
-        String query = "SELECT login_id FROM secretaries WHERE cin = ?";
+    public static int getLoginID(int id){
+        String query = "SELECT login_id FROM secretaries WHERE secretary_id = ?";
         int login_id = 0;
         try {
             Connection connection = DBConnection.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(query);
-            preparedStatement.setString(1, cin);
+            preparedStatement.setInt(1, id);
             ResultSet resultset = preparedStatement.executeQuery();
             if(resultset.next()){
                 login_id = resultset.getInt("login_id");

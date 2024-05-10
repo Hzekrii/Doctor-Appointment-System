@@ -30,14 +30,14 @@ public class SecretaryController {
         }
     }
 
-    public static void updateSecretary(String cin, String firstName, String lastName, String email, String phone) {
-        Secretary.update(cin, firstName, lastName, email, phone);
+    public static void updateSecretary(int id,String cin, String firstName, String lastName, String email, String phone) {
+        Secretary.update(id,cin, firstName, lastName, email, phone);
     }
 
-    public static void deleteSecretary(String cin) {
-        // Call the model method to delete a secretary by CIN
-        int login_id = Secretary.getLoginID(cin);
-        Secretary.delete(cin);
+    public static void deleteSecretary(int id) {
+        // Call the model method to delete a secretary by ID
+        int login_id = Secretary.getLoginID(id);
+        Secretary.delete(id);
         if(login_id != 0){
             LoginController.deleteLoginCredentials(login_id);
         }
