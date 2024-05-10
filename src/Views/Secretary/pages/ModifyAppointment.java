@@ -21,6 +21,7 @@ public class ModifyAppointment extends JFrame {
     private JComboBox<String> doctorComboBox;
     private JComboBox<String> patientComboBox;
     private JComboBox<Appointment.Room> roomComboBox;
+    private JComboBox<Appointment.AppointmentStatus> statusComboBox;
     private JDateChooser dateChooser;
     private JSpinner timeSpinner; // Replace JTextField with JSpinner for time input
 
@@ -32,17 +33,21 @@ public class ModifyAppointment extends JFrame {
     private JLabel dateLabel;
     private JLabel timeLabel;
     private JLabel roomLabel;
+    private JLabel statusLabel;
+
 
     private ArrayList<Patient> patients;
     private ArrayList<Doctor> doctors;
     private String[] doctorNames;
     private String[] patientNames;
     private Appointment.Room[] rooms;
+    private Appointment.AppointmentStatus[] appStatus;
     private Appointments appointments;
     private int id;
 
     public ModifyAppointment(Appointments a,int id,Doctor d,Patient p,Date date,Time time,Appointment.Room room,Appointment.AppointmentStatus status) {
         rooms= Appointment.Room.values();
+        appStatus=Appointment.AppointmentStatus.values();
         patients= PatientController.getPatients();
         doctors= DoctorController.getDoctors();
         doctorNames=new String[doctors.size()];
@@ -68,6 +73,12 @@ public class ModifyAppointment extends JFrame {
                 break;
             }
         }
+        for (int i = 0; i < appStatus.length; i++) {
+            if (appStatus[i].name().equalsIgnoreCase(status.name())) {
+                statusComboBox.setSelectedIndex(i);
+                break;
+            }
+        }
         dateChooser.setDate(date);
         timeSpinner.setValue(time);
 
@@ -82,9 +93,10 @@ public class ModifyAppointment extends JFrame {
                 Date date = getDate();
                 Time time = getTime();
                 Appointment.Room room = getRoom();
-                if(doctor_id != -1 && patient_id!= -1 && date != null && time != null && room != null){
+                Appointment.AppointmentStatus status1 = getStatus();
+                if(doctor_id != -1 && patient_id!= -1 && date != null && time != null && room != null && status1 != null){
                     // Call the appointmentController to create an appointment
-                    AppointmentController.updateAppointment(id,getPatient(), getDoctor(), getDate(), getTime(), status ,getRoom());
+                    AppointmentController.updateAppointment(id,getPatient(), getDoctor(), getDate(), getTime(), getStatus() ,getRoom());
                     appointments.refreshTable();
                     dispose();
                 }else{
@@ -106,6 +118,7 @@ public class ModifyAppointment extends JFrame {
         dateLabel = new JLabel();
         timeLabel = new JLabel();
         roomLabel = new JLabel();
+        statusLabel = new JLabel();
         int index=0;
         for(Patient patient: patients){
             String fullName= patient.getFirstName()+" "+patient.getLastName();
@@ -120,6 +133,7 @@ public class ModifyAppointment extends JFrame {
         doctorComboBox = new JComboBox<>(doctorNames);
         patientComboBox = new JComboBox<>(patientNames);
         roomComboBox = new JComboBox<>(rooms);
+        statusComboBox = new JComboBox<>(appStatus);
         dateChooser = new JDateChooser();
         timeSpinner = new JSpinner(new SpinnerDateModel()); // Initialize the time spinner
         modifyAppointmentButton = new JButton();
@@ -164,6 +178,9 @@ public class ModifyAppointment extends JFrame {
         roomLabel.setFont(new Font("Segoe UI", Font.BOLD, 14));
         roomLabel.setText("Room");
 
+        statusLabel.setFont(new Font("Segoe UI", Font.BOLD, 14));
+        statusLabel.setText("Status");
+
         doctorComboBox.setPreferredSize(new Dimension(150, 30));
         doctorComboBox.setFont(new Font("Segoe UI", Font.PLAIN, 14));
         doctorComboBox.setBackground(Color.white);
@@ -175,6 +192,10 @@ public class ModifyAppointment extends JFrame {
         roomComboBox.setPreferredSize(new Dimension(150, 30));
         roomComboBox.setFont(new Font("Segoe UI", Font.PLAIN, 14));
         roomComboBox.setBackground(Color.white);
+
+        statusComboBox.setPreferredSize(new Dimension(150, 30));
+        statusComboBox.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+        statusComboBox.setBackground(Color.white);
         
         modifyAppointmentButton.setBackground(new Color(0, 102, 102));
         modifyAppointmentButton.setFont(new Font("Segoe UI", Font.BOLD, 16));
@@ -196,13 +217,15 @@ public class ModifyAppointment extends JFrame {
                                                         .addComponent(dateLabel)
                                                         .addComponent(timeLabel)
                                                         .addComponent(roomLabel))
+                                                        .addComponent(statusLabel)
                                                 .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
                                                 .addGroup(PanelLayout.createParallelGroup(GroupLayout.Alignment.LEADING, false)
                                                         .addComponent(doctorComboBox)
                                                         .addComponent(patientComboBox)
                                                         .addComponent(dateChooser, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE) // Use dateChooser
                                                         .addComponent(timeSpinner) // Use timeSpinner
-                                                        .addComponent(roomComboBox, 0, 300, Short.MAX_VALUE))
+                                                        .addComponent(roomComboBox)
+                                                        .addComponent(statusComboBox, 0, 300, Short.MAX_VALUE))
                                                 .addGap(30, 30, 30))
                                         .addGroup(GroupLayout.Alignment.TRAILING, PanelLayout.createSequentialGroup()
                                                 .addComponent(modifyAppointmentButton, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
@@ -233,6 +256,10 @@ public class ModifyAppointment extends JFrame {
                                 .addGroup(PanelLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
                                         .addComponent(roomLabel)
                                         .addComponent(roomComboBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(PanelLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                                        .addComponent(statusLabel)
+                                        .addComponent(statusComboBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
                                 .addGap(26, 26, 26)
                                 .addComponent(modifyAppointmentButton, GroupLayout.PREFERRED_SIZE, 36, GroupLayout.PREFERRED_SIZE)
                                 .addContainerGap(42, Short.MAX_VALUE))
@@ -303,6 +330,19 @@ public class ModifyAppointment extends JFrame {
             for (Appointment.Room r : Appointment.Room.values()) {
                 if (r.name().equalsIgnoreCase(selectedRoomName)) {
                     return r;
+                }
+            }
+        }
+        return null;
+    }
+
+    public Appointment.AppointmentStatus getStatus() {
+        Object selectedItem = statusComboBox.getSelectedItem();
+        if (selectedItem != null) {
+            String selectedStatus = selectedItem.toString();
+            for (Appointment.AppointmentStatus s : Appointment.AppointmentStatus.values()) {
+                if (s.name().equalsIgnoreCase(selectedStatus)) {
+                    return s;
                 }
             }
         }
