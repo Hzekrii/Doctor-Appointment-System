@@ -1,10 +1,18 @@
 package utils;
 
+import Controllers.DoctorController;
+import Controllers.PatientController;
+import Controllers.SecretaryController;
+import Models.Doctor;
+import Views.Secretary.pages.Patients;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.xml.XMLConstants;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.transform.OutputKeys;
@@ -12,7 +20,13 @@ import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
+import javax.xml.validation.Schema;
+import javax.xml.validation.SchemaFactory;
+import javax.xml.validation.Validator;
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
+import java.util.ArrayList;
 
 public class XMLExportImport {
 
@@ -52,7 +66,7 @@ public class XMLExportImport {
                 transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
 
                 DOMSource source = new DOMSource(document);
-                StreamResult result = new StreamResult(fileToSave);
+                StreamResult result = new StreamResult(fileToSave + ".xml");
                 transformer.transform(source, result);
             }
 
@@ -74,5 +88,73 @@ public class XMLExportImport {
             parentElement.appendChild(nameElement);
         }
         return parentElement;
+    }
+
+    public static void importXMLFile(String nodesTitle){
+        try {
+            // Prompt the user to select a file to import
+            JFileChooser fileChooser = new JFileChooser();
+            int result = fileChooser.showOpenDialog(null);
+            if (result == JFileChooser.APPROVE_OPTION) {
+                File file = fileChooser.getSelectedFile();
+
+                DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+                DocumentBuilder builder = factory.newDocumentBuilder();
+                Document document = builder.parse(file);
+
+                NodeList nodes = document.getElementsByTagName(nodesTitle);
+
+                JOptionPane.showMessageDialog(null, "Import finished with success!");
+                if (nodes.getLength() > 0) {
+                    importDataToDb(nodes, nodesTitle);
+                } else {
+                    JOptionPane.showMessageDialog(null, "No elements found with the specified title.");
+                }
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Import failed!");
+        }
+    }
+
+    public static void importDataToDb(NodeList nodelist, String whichController){
+        int length = nodelist.getLength();
+        for(int i = 0; i < length; i++){
+            Node node = nodelist.item(i);
+            if(node.getNodeType() == Node.ELEMENT_NODE){
+                Element element = (Element) node;
+                switch(whichController){
+                    case "patient":
+                        PatientController.createPatient(
+                                element.getElementsByTagName("cin").item(0).getTextContent(),
+                                element.getElementsByTagName("first_name").item(0).getTextContent(),
+                                element.getElementsByTagName("last_name").item(0).getTextContent(),
+                                element.getElementsByTagName("email").item(0).getTextContent(),
+                                element.getElementsByTagName("telephone").item(0).getTextContent()
+                        );
+                        break;
+                    case "doctor":
+                        DoctorController.createDoctor(
+                                element.getElementsByTagName("cin").item(0).getTextContent(),
+                                element.getElementsByTagName("first_name").item(0).getTextContent(),
+                                element.getElementsByTagName("last_name").item(0).getTextContent(),
+                                element.getElementsByTagName("email").item(0).getTextContent(),
+                                element.getElementsByTagName("telephone").item(0).getTextContent(),
+                                Doctor.DoctorSpecialty.valueOf(element.getElementsByTagName("speciality").item(0).getTextContent()),
+                                Integer.parseInt(element.getElementsByTagName("registration_num").item(0).getTextContent())
+                        );
+                        break;
+                    case "secretary":
+                        SecretaryController.createSecretary(
+                                element.getElementsByTagName("cin").item(0).getTextContent(),
+                                element.getElementsByTagName("first_name").item(0).getTextContent(),
+                                element.getElementsByTagName("last_name").item(0).getTextContent(),
+                                element.getElementsByTagName("email").item(0).getTextContent(),
+                                element.getElementsByTagName("telephone").item(0).getTextContent()
+                        );
+                        break;
+                }
+            }
+        }
     }
 }
