@@ -31,6 +31,11 @@ This project is a Hospital Appointment System implemented in Java using the Swin
 **Step 6:** **Database Configuration** by Create a new database named "hospital_appointment_system" and Import the provided SQL schema (database-tables.sql) into the database.
 
 **Step 7:** **Update Database Connection Settings** by add the resources/config.properties file to the project and Modify the database connection properties (USERNAME, PASSWORD) to match your MySQL server configuration.
+for example:
+```
+username=root
+password=123password
+```
 
 **Step 8:** **Build and Run the Application** by Navigate to the src/Main directory in IntelliJ IDEA.
 
@@ -39,12 +44,7 @@ This project is a Hospital Appointment System implemented in Java using the Swin
         <img src="./Screenshots/1.png" style="max-height: 300px;margin: 10px">
         <img src="./Screenshots/2.png" style="max-height: 300px;margin: 10px">
         <img src="./Screenshots/3.png" style="max-height: 300px;margin: 10px">
-        <div >
-            <img src="./Screenshots/4.png" style="max-height: 300px;margin: 10px">
-            <img src="./Screenshots/5.png" style="max-height: 300px;margin: 10px">
-        </div>
         <img src="./Screenshots/6.png" style="max-height: 300px;margin: 10px">
-        <img src="./Screenshots/7.png" style="max-height: 300px;margin: 10px">
       </div>
 
 # Libraries used in this project
