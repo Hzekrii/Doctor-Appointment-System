@@ -4,10 +4,9 @@ import Controllers.AppointmentController;
 import Controllers.DoctorController;
 import Controllers.PatientController;
 import Controllers.SecretaryController;
-import Models.Appointment;
-import Models.Doctor;
-import Views.Secretary.pages.Appointments;
-import Views.Secretary.pages.Patients;
+import enums.AppointmentStatus;
+import enums.DoctorSpecialty;
+import enums.Room;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -15,7 +14,6 @@ import org.w3c.dom.NodeList;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
-import javax.xml.XMLConstants;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.transform.OutputKeys;
@@ -23,17 +21,10 @@ import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
-import javax.xml.validation.Schema;
-import javax.xml.validation.SchemaFactory;
-import javax.xml.validation.Validator;
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
 import java.sql.Time;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
 
 public class XMLExportImport {
 
@@ -147,7 +138,7 @@ public class XMLExportImport {
                                 element.getElementsByTagName("last_name").item(0).getTextContent(),
                                 element.getElementsByTagName("email").item(0).getTextContent(),
                                 element.getElementsByTagName("telephone").item(0).getTextContent(),
-                                Doctor.DoctorSpecialty.valueOf(element.getElementsByTagName("speciality").item(0).getTextContent()),
+                                DoctorSpecialty.valueOf(element.getElementsByTagName("speciality").item(0).getTextContent()),
                                 Integer.parseInt(element.getElementsByTagName("registration_num").item(0).getTextContent())
                         );
                         break;
@@ -175,8 +166,8 @@ public class XMLExportImport {
                                     patient_id,
                                     new SimpleDateFormat("yyyy-MM-dd").parse(element.getElementsByTagName("date").item(0).getTextContent()),
                                     new Time(new SimpleDateFormat("HH:mm:ss").parse(element.getElementsByTagName("time").item(0).getTextContent()).getTime()),
-                                    Appointment.AppointmentStatus.valueOf(element.getElementsByTagName("status").item(0).getTextContent()),
-                                    Appointment.Room.valueOf(element.getElementsByTagName("room").item(0).getTextContent())
+                                    AppointmentStatus.valueOf(element.getElementsByTagName("status").item(0).getTextContent()),
+                                    Room.valueOf(element.getElementsByTagName("room").item(0).getTextContent())
                             );
                         } catch (ParseException e){
                             e.printStackTrace();

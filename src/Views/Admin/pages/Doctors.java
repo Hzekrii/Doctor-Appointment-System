@@ -7,6 +7,7 @@ import Models.Appointment;
 import Models.Doctor;
 import Views.Secretary.pages.Appointments;
 import enums.ActionButtonType;
+import enums.DoctorSpecialty;
 import utils.XMLExportImport;
 
 import javax.swing.*;
@@ -267,10 +268,10 @@ public class Doctors extends JPanel {
             super.fireEditingStopped();
         }
     }
-    private Doctor.DoctorSpecialty getSpeciality(Object selectedItem) {
+    private DoctorSpecialty getSpeciality(Object selectedItem) {
         if (selectedItem != null) {
             String selectedSpeciality = selectedItem.toString();
-            for (Doctor.DoctorSpecialty s : Doctor.DoctorSpecialty.values()) {
+            for (DoctorSpecialty s : DoctorSpecialty.values()) {
                 if (s.name().equalsIgnoreCase(selectedSpeciality)) {
                     return s;
                 }

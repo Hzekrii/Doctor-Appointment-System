@@ -1,6 +1,8 @@
 package Controllers;
 
 import Models.Appointment;
+import enums.AppointmentStatus;
+import enums.Room;
 
 import java.sql.Time;
 import java.util.ArrayList;
@@ -12,11 +14,11 @@ public class AppointmentController {
 
     public static Appointment getAppointment(int id) { return Appointment.get(id); }
 
-    public static void createAppointment(int patient, int doctor, Date date, Time time, Appointment.AppointmentStatus appointmentStatus, Appointment.Room room) {
+    public static void createAppointment(int patient, int doctor, Date date, Time time, AppointmentStatus appointmentStatus, Room room) {
         Appointment.create(patient, doctor, date, time, appointmentStatus, room);
     }
 
-    public static void updateAppointment(int id, int patient, int doctor, Date date, Time time, Appointment.AppointmentStatus appointmentStatus, Appointment.Room room) {
+    public static void updateAppointment(int id, int patient, int doctor, Date date, Time time, AppointmentStatus appointmentStatus, Room room) {
         Appointment.update(id, patient, doctor, date, time, appointmentStatus, room);
     }
 

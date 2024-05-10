@@ -7,6 +7,8 @@ import Models.Appointment;
 import Models.Doctor;
 import Models.Patient;
 import com.toedter.calendar.JDateChooser;
+import enums.AppointmentStatus;
+import enums.Room;
 
 import javax.swing.*;
 import javax.swing.SpinnerDateModel;
@@ -20,7 +22,7 @@ import java.util.Date;
 public class AddNewAppointment extends JFrame {
     private JComboBox<String> doctorComboBox;
     private JComboBox<String> patientComboBox;
-    private JComboBox<Appointment.Room> roomComboBox;
+    private JComboBox<Room> roomComboBox;
     private JDateChooser dateChooser;
     private JSpinner timeSpinner; // Replace JTextField with JSpinner for time input
 
@@ -37,11 +39,11 @@ public class AddNewAppointment extends JFrame {
     private ArrayList<Doctor> doctors;
     private String[] doctorNames;
     private String[] patientNames;
-    private Appointment.Room[] rooms;
+    private Room[] rooms;
     private Appointments appointments;
 
     public AddNewAppointment(Appointments a) {
-        rooms= Appointment.Room.values();
+        rooms= Room.values();
         patients= PatientController.getPatients();
         doctors= DoctorController.getDoctors();
         doctorNames=new String[doctors.size()];
@@ -57,10 +59,10 @@ public class AddNewAppointment extends JFrame {
                 int patient_id=getPatient();
                 Date date = getDate();
                 Time time = getTime();
-                Appointment.Room room = getRoom();
+                Room room = getRoom();
                 if(doctor_id != -1 && patient_id!= -1 && date != null && time != null && room != null){
                 // Call the appointmentController to create an appointment
-                    AppointmentController.createAppointment(getPatient(), getDoctor(), getDate(), getTime(), Appointment.AppointmentStatus.SCHEDULED ,getRoom());
+                    AppointmentController.createAppointment(getPatient(), getDoctor(), getDate(), getTime(), AppointmentStatus.SCHEDULED ,getRoom());
                     appointments.refreshTable();
                     dispose();
                 }else{
@@ -270,11 +272,11 @@ public class AddNewAppointment extends JFrame {
         return new Time(selectedTime.getTime());
     }
 
-    public Appointment.Room getRoom() {
+    public Room getRoom() {
         Object selectedItem = roomComboBox.getSelectedItem();
         if (selectedItem != null) {
             String selectedRoomName = selectedItem.toString();
-            for (Appointment.Room r : Appointment.Room.values()) {
+            for (Room r : Room.values()) {
                 if (r.name().equalsIgnoreCase(selectedRoomName)) {
                     return r;
                 }

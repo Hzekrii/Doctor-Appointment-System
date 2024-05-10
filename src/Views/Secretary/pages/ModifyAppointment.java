@@ -7,6 +7,8 @@ import Models.Appointment;
 import Models.Doctor;
 import Models.Patient;
 import com.toedter.calendar.JDateChooser;
+import enums.AppointmentStatus;
+import enums.Room;
 
 import javax.swing.*;
 import javax.swing.SpinnerDateModel;
@@ -20,8 +22,8 @@ import java.util.Date;
 public class ModifyAppointment extends JFrame {
     private JComboBox<String> doctorComboBox;
     private JComboBox<String> patientComboBox;
-    private JComboBox<Appointment.Room> roomComboBox;
-    private JComboBox<Appointment.AppointmentStatus> statusComboBox;
+    private JComboBox<Room> roomComboBox;
+    private JComboBox<AppointmentStatus> statusComboBox;
     private JDateChooser dateChooser;
     private JSpinner timeSpinner; // Replace JTextField with JSpinner for time input
 
@@ -40,14 +42,14 @@ public class ModifyAppointment extends JFrame {
     private ArrayList<Doctor> doctors;
     private String[] doctorNames;
     private String[] patientNames;
-    private Appointment.Room[] rooms;
-    private Appointment.AppointmentStatus[] appStatus;
+    private Room[] rooms;
+    private AppointmentStatus[] appStatus;
     private Appointments appointments;
     private int id;
 
-    public ModifyAppointment(Appointments a,int id,Doctor d,Patient p,Date date,Time time,Appointment.Room room,Appointment.AppointmentStatus status) {
-        rooms= Appointment.Room.values();
-        appStatus=Appointment.AppointmentStatus.values();
+    public ModifyAppointment(Appointments a,int id,Doctor d,Patient p,Date date,Time time,Room room,AppointmentStatus status) {
+        rooms= Room.values();
+        appStatus=AppointmentStatus.values();
         patients= PatientController.getPatients();
         doctors= DoctorController.getDoctors();
         doctorNames=new String[doctors.size()];
@@ -92,8 +94,8 @@ public class ModifyAppointment extends JFrame {
                 int patient_id=getPatient();
                 Date date = getDate();
                 Time time = getTime();
-                Appointment.Room room = getRoom();
-                Appointment.AppointmentStatus status1 = getStatus();
+                Room room = getRoom();
+                AppointmentStatus status1 = getStatus();
                 if(doctor_id != -1 && patient_id!= -1 && date != null && time != null && room != null && status1 != null){
                     // Call the appointmentController to create an appointment
                     AppointmentController.updateAppointment(id,getPatient(), getDoctor(), getDate(), getTime(), getStatus() ,getRoom());
@@ -323,11 +325,11 @@ public class ModifyAppointment extends JFrame {
         return new Time(selectedTime.getTime());
     }
 
-    public Appointment.Room getRoom() {
+    public Room getRoom() {
         Object selectedItem = roomComboBox.getSelectedItem();
         if (selectedItem != null) {
             String selectedRoomName = selectedItem.toString();
-            for (Appointment.Room r : Appointment.Room.values()) {
+            for (Room r : Room.values()) {
                 if (r.name().equalsIgnoreCase(selectedRoomName)) {
                     return r;
                 }
@@ -336,11 +338,11 @@ public class ModifyAppointment extends JFrame {
         return null;
     }
 
-    public Appointment.AppointmentStatus getStatus() {
+    public AppointmentStatus getStatus() {
         Object selectedItem = statusComboBox.getSelectedItem();
         if (selectedItem != null) {
             String selectedStatus = selectedItem.toString();
-            for (Appointment.AppointmentStatus s : Appointment.AppointmentStatus.values()) {
+            for (AppointmentStatus s : AppointmentStatus.values()) {
                 if (s.name().equalsIgnoreCase(selectedStatus)) {
                     return s;
                 }

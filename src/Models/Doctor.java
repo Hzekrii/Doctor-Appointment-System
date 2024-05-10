@@ -1,20 +1,13 @@
 package Models;
 
 import Database.DBConnection;
+import enums.DoctorSpecialty;
 
 import javax.print.Doc;
 import java.sql.*;
 import java.util.ArrayList;
 
 public class Doctor extends Person{
-
-    public enum DoctorSpecialty {
-        GENERAL_PRACTITIONER,
-        CARDIOLOGIST,
-        DERMATOLOGIST,
-        NEUROLOGIST,
-        ORTHOPEDIST
-    }
 
     // attributes
     private DoctorSpecialty speciality;

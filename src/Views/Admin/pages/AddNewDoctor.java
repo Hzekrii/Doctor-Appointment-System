@@ -4,6 +4,7 @@ import Controllers.AppointmentController;
 import Controllers.DoctorController;
 import Models.Appointment;
 import Models.Doctor;
+import enums.DoctorSpecialty;
 
 import javax.swing.*;
 import java.awt.*;
@@ -28,16 +29,16 @@ public class AddNewDoctor extends JFrame {
     private JTextField lastNameField;
     private JTextField emailField;
     private JTextField telephoneField;
-    private JComboBox<Doctor.DoctorSpecialty> specialtyComboBox;
+    private JComboBox<DoctorSpecialty> specialtyComboBox;
     private JTextField regNumberField;
-    private Doctor.DoctorSpecialty[] specialties;
+    private DoctorSpecialty[] specialties;
 
     private Doctors doctors;
 
 
 
     public AddNewDoctor(Doctors d) {
-        specialties=Doctor.DoctorSpecialty.values();
+        specialties=DoctorSpecialty.values();
         initComponents();
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         doctors=d;
@@ -45,7 +46,7 @@ public class AddNewDoctor extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // Get data from user input fields
-                Doctor.DoctorSpecialty specialty=getSpecialty();
+                DoctorSpecialty specialty=getSpecialty();
                 if(specialty != null){
                     DoctorController.createDoctor(getCIN(),getFirstName(),getLastName(),getEmail(),getTelephone(),getSpecialty(),getRegistrationNumber());
                     doctors.refreshTable();
@@ -255,11 +256,11 @@ public class AddNewDoctor extends JFrame {
         return telephoneField.getText();
     }
 
-    public Doctor.DoctorSpecialty getSpecialty() {
+    public DoctorSpecialty getSpecialty() {
         Object selectedItem=specialtyComboBox.getSelectedItem();
         if (selectedItem != null) {
             String selectedDoctorSpec = selectedItem.toString();
-            for (Doctor.DoctorSpecialty s : Doctor.DoctorSpecialty.values()) {
+            for (DoctorSpecialty s : DoctorSpecialty.values()) {
                 if (s.name().equalsIgnoreCase(selectedDoctorSpec)) {
                     return s;
                 }

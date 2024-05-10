@@ -8,6 +8,8 @@ import Models.Doctor;
 import Models.Patient;
 
 import enums.ActionButtonType;
+import enums.AppointmentStatus;
+import enums.Room;
 import utils.XMLExportImport;
 
 import javax.swing.*;
@@ -326,10 +328,10 @@ public class Appointments extends JPanel {
         }
     }
 
-    private Appointment.Room getRoom(Object selectedItem) {
+    private Room getRoom(Object selectedItem) {
         if (selectedItem != null) {
             String selectedRoomName = selectedItem.toString();
-            for (Appointment.Room r : Appointment.Room.values()) {
+            for (Room r : Room.values()) {
                 if (r.name().equalsIgnoreCase(selectedRoomName)) {
                     return r;
                 }
@@ -337,10 +339,10 @@ public class Appointments extends JPanel {
         }
         return null;
     }
-    private Appointment.AppointmentStatus getStatus(Object selectedItem) {
+    private AppointmentStatus getStatus(Object selectedItem) {
         if (selectedItem != null) {
             String selectedStatus = selectedItem.toString();
-            for (Appointment.AppointmentStatus s : Appointment.AppointmentStatus.values()) {
+            for (AppointmentStatus s : AppointmentStatus.values()) {
                 if (s.name().equalsIgnoreCase(selectedStatus)) {
                     return s;
                 }

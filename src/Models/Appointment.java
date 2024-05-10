@@ -1,31 +1,15 @@
 package Models;
 
 import Database.DBConnection;
+import enums.AppointmentStatus;
+import enums.DoctorSpecialty;
+import enums.Room;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Date;
 
 public class Appointment {
-
-    public enum AppointmentStatus {
-        SCHEDULED, // The appointment has been scheduled but has not yet occurred.
-        CANCELLED, // The appointment was cancelled by either the patient or the doctor.
-        COMPLETED, //The appointment has been successfully completed.
-    }
-
-    public enum Room {
-        EXAMINATION_ROOM_1, //A standard room used for routine examinations and consultations.
-        EXAMINATION_ROOM_2, //A standard room used for routine examinations and consultations.
-        EXAMINATION_ROOM_3, //A standard room used for routine examinations and consultations.
-        EXAMINATION_ROOM_4, //A standard room used for routine examinations and consultations.
-        EXAMINATION_ROOM_5, //A standard room used for routine examinations and consultations.
-        CONSULTATION_ROOM_1, // A room where doctors and patients discuss medical concerns, treatment plans, and health advice.
-        CONSULTATION_ROOM_2, // A room where doctors and patients discuss medical concerns, treatment plans, and health advice.
-        CONSULTATION_ROOM_3, // A room where doctors and patients discuss medical concerns, treatment plans, and health advice.
-        CONSULTATION_ROOM_4, // A room where doctors and patients discuss medical concerns, treatment plans, and health advice.
-        CONSULTATION_ROOM_5, // A room where doctors and patients discuss medical concerns, treatment plans, and health advice.
-    }
 
     // attributes
     private int id;
@@ -104,7 +88,7 @@ public class Appointment {
                                 resultSet.getString("doctor_last_name"),
                                 resultSet.getString("doctor_email"),
                                 resultSet.getString("doctor_tele"),
-                                Doctor.DoctorSpecialty.valueOf(resultSet.getString("speciality")),
+                                DoctorSpecialty.valueOf(resultSet.getString("speciality")),
                                 resultSet.getInt("registration_num")
                         ),
                         resultSet.getDate("appointment_date"),
@@ -172,7 +156,7 @@ public class Appointment {
                                 resultSet.getString("doctor_last_name"),
                                 resultSet.getString("doctor_email"),
                                 resultSet.getString("doctor_tele"),
-                                Doctor.DoctorSpecialty.valueOf(resultSet.getString("speciality")),
+                                DoctorSpecialty.valueOf(resultSet.getString("speciality")),
                                 resultSet.getInt("registration_num")
                         ),
                         resultSet.getDate("appointment_date"),

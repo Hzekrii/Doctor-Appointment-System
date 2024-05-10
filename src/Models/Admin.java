@@ -37,9 +37,6 @@ public class Admin extends Person{
         return null;
     }
 
-
-    
-
     public static void update(int id, String cin, String firstName, String lastName, String email, String phone) {
         String query = "UPDATE secretaries SET cin=?,first_name = ?, last_name = ?, email = ?, tele = ? WHERE secretary_id=?";
         try {
