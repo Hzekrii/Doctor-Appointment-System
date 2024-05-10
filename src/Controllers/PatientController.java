@@ -1,5 +1,6 @@
 package Controllers;
 
+import Models.Doctor;
 import Models.Patient;
 
 import java.util.ArrayList;
@@ -19,4 +20,8 @@ public class PatientController {
     }
 
     public static void deletePatient(String cin) { Patient.delete(cin); }
+
+    public static int getIDByFullName(String firstName, String lastName) {
+        return Patient.getIDByFullName(firstName, lastName);
+    }
 }
