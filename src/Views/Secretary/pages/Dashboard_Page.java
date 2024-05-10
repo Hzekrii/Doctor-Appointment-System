@@ -1,17 +1,23 @@
 package Views.Secretary.pages;
 
 import Controllers.AppointmentController;
+import Controllers.DoctorController;
 import Controllers.PatientController;
+import Controllers.SecretaryController;
 import Views.Secretary.model.Model_Card;
 
 import javax.swing.*;
 
 public class Dashboard_Page extends javax.swing.JPanel {
 
+    private static String patientsCount;
+    private static String appointmentsCount;
+
     public Dashboard_Page() {
         initComponents();
-        card1.setData(new Model_Card(new ImageIcon(getClass().getResource("/assets/icons/2_secretary.png")), "Total Patients", String.valueOf(PatientController.getPatients().size()), ""));
-        card2.setData(new Model_Card(new ImageIcon(getClass().getResource("/assets/icons/3_secretary.png")), "Total Appointments", String.valueOf(AppointmentController.getAppointments().size()), ""));
+        Dashboard_Page.refreshData();
+        card1.setData(new Model_Card(new ImageIcon(getClass().getResource("/assets/icons/2_secretary.png")), "Total Patients", patientsCount, ""));
+        card2.setData(new Model_Card(new ImageIcon(getClass().getResource("/assets/icons/3_secretary.png")), "Total Appointments", appointmentsCount, ""));
     }
 
     @SuppressWarnings("unchecked")
@@ -53,7 +59,10 @@ public class Dashboard_Page extends javax.swing.JPanel {
                                 .addGap(20, 20, 20))
         );
     }// </editor-fold>//GEN-END:initComponents
-
+    public static void refreshData(){
+        patientsCount = String.valueOf(PatientController.getPatients().size());
+        appointmentsCount = String.valueOf(AppointmentController.getAppointments().size());
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private Views.Secretary.components.Card card1;

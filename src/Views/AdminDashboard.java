@@ -32,15 +32,21 @@ public class AdminDashboard extends JFrame {
             @Override
             public void selected(int index) {
                 if (index == 0) {
+                    Dashboard_Page.refreshData();
                     setForm(home);
+
                 } else if (index == 1) {
                     setForm(secretariesPage);
+                    secretariesPage.refreshTable();
                 } else if (index == 2) {
                     setForm(doctorsPage);
+                    doctorsPage.refreshTable();
                 } else if (index == 3) {
                     setForm(patientsPage);
+                    patientsPage.refreshTable();
                 }else if (index == 4) {
                     setForm(appointmentsPage);
+                    appointmentsPage.refreshTable();
                 } else if (index == 5) {
                     handleLogout();
                 }

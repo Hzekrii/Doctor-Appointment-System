@@ -25,11 +25,14 @@ public class SecretaryDashboard extends JFrame {
             @Override
             public void selected(int index) {
                 if (index == 0) {
+                    Dashboard_Page.refreshData();
                     setForm(home);
                 } else if (index == 1) {
                     setForm(form1);
+                    form1.refreshTable();
                 } else if (index == 2) {
                     setForm(form2);
+                    form2.refreshTable();
                 } else if (index == 3) {
                     handleLogout();
                 }

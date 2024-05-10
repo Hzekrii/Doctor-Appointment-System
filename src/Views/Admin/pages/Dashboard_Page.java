@@ -10,12 +10,19 @@ import javax.swing.ImageIcon;
 
 public class Dashboard_Page extends javax.swing.JPanel {
 
+    private static String secretariesCount;
+    private static String doctorsCount;
+    private static String patientsCount;
+    private static String appointmentsCount;
+
+
     public Dashboard_Page() {
         initComponents();
-        card1.setData(new Model_Card(new ImageIcon(getClass().getResource("/assets/icons/2_admin.png")), "Total Secretaries", String.valueOf(SecretaryController.getAllSecretaries().size()), ""));
-        card2.setData(new Model_Card(new ImageIcon(getClass().getResource("/assets/icons/3_admin.png")), "Total Doctors", String.valueOf(DoctorController.getDoctors().size()), ""));
-        card3.setData(new Model_Card(new ImageIcon(getClass().getResource("/assets/icons/2_secretary.png")), "Total Patients", String.valueOf(PatientController.getPatients().size()), ""));
-        card4.setData(new Model_Card(new ImageIcon(getClass().getResource("/assets/icons/3_secretary.png")), "Total Appointmnets", String.valueOf(AppointmentController.getAppointments().size()), ""));
+        Dashboard_Page.refreshData();
+        card1.setData(new Model_Card(new ImageIcon(getClass().getResource("/assets/icons/2_admin.png")), "Total Secretaries", secretariesCount, ""));
+        card2.setData(new Model_Card(new ImageIcon(getClass().getResource("/assets/icons/3_admin.png")), "Total Doctors", doctorsCount, ""));
+        card3.setData(new Model_Card(new ImageIcon(getClass().getResource("/assets/icons/2_secretary.png")), "Total Patients", patientsCount, ""));
+        card4.setData(new Model_Card(new ImageIcon(getClass().getResource("/assets/icons/3_secretary.png")), "Total Appointmnets", appointmentsCount, ""));
     }
 
     @SuppressWarnings("unchecked")
@@ -65,6 +72,13 @@ public class Dashboard_Page extends javax.swing.JPanel {
                                 .addGap(20, 20, 20))
         );
     }// </editor-fold>//GEN-END:initComponents
+
+    public static void refreshData(){
+        secretariesCount = String.valueOf(SecretaryController.getAllSecretaries().size());
+        doctorsCount = String.valueOf(DoctorController.getDoctors().size());
+        patientsCount = String.valueOf(PatientController.getPatients().size());
+        appointmentsCount = String.valueOf(AppointmentController.getAppointments().size());
+    }
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
